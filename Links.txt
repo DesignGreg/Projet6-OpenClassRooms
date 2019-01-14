@@ -6,3 +6,13 @@ https://www.creativebloq.com/html5/build-tile-based-html5-game-31410992
 
 - Modifier Rect Canvas
 https://stackoverflow.com/questions/27173307/how-do-you-colour-rectangles-different-colours-using-ctx-fill
+
+---
+
+Bonjour, j’ai aussi utilisé canevas pour le projet, tu as deux solution pour sauvegarder l’évolution de la partie, tu peux définir chaque case par un objet en lui attribuant des propriétés (ce qu’elle contient en gros, case vide, obstacles, armes, etc...) ensuite tu utilises le Canvas pour dessiner le contenu de la case en fonction de ce qu’elle contient. Sinon l’autre solution et d’attribuer une valeur numérique pour chaque case (ex : 1 = joueur 1, 10= obstacle) et utiliser cette valeur pour dessiner sur le canvas. La première solution est à mon avis la plus simple et la meilleure.
+
+--- Objects comme cases
+https://simonsarris.com/making-html5-canvas-useful/
+
+--- Nested Loop
+https://stackoverflow.com/questions/35754204/create-nested-empty-array-using-for-loop-javascript

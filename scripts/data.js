@@ -1,21 +1,39 @@
 $(function() {
     
-    
 // PLATEAU
 const canvas = document.getElementById('board');
 const ctx = canvas.getContext('2d');
-
+let board = [];
+    
+// CASE VIDE
+function Square(x, y, w, h) {
+    ctx.strokeStyle = 'black';
+    ctx.strokeRect(x, y, w, h);
+}
+    
+// GENERATE TABLE
 function generateTable(col, raw) {
     for(let i = 0; i <= col; i++) {
+        let col = [];
+        board.push(col);
         for(let j = 0; j <= raw; j++) {
             ctx.beginPath();
-            ctx.strokeRect(j * 80, i * 80, 80, 80);
-            ctx.closePath();
-        }
-    }
+            var square = new Square(j * 80, i * 80, 80, 80);
+            col.push(square);
+            ctx.closePath();   
+        }      
+    } 
+    console.log(board);
 }
 generateTable(10,10);
-
+    
+// OBSTACLE
+function Obstacle(name, sprite) {
+    this.name = name;
+    this.sprite = sprite;
+}
+    
+let lava = new Obstacle("Lave", "assets/lave.png");
 
 
 // JOUEURS
@@ -25,10 +43,8 @@ function Player(name, sprite, life) {
     this.life = life;
 }
 
-let player1 = new Player("Joueur 1", "images/joueur1.png", 100);
-let player2 = new Player("Joueur 2", "images/joueur2.png", 100);
-
-
+let player1 = new Player("Joueur 1", "assets/joueur1.png", 100);
+let player2 = new Player("Joueur 2", "assets/joueur2.png", 100);
 
 // ARMES
 function Weapon(name, sprite, damage) {
