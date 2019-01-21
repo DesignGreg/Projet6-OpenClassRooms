@@ -16,3 +16,8 @@ https://simonsarris.com/making-html5-canvas-useful/
 
 --- Nested Loop
 https://stackoverflow.com/questions/35754204/create-nested-empty-array-using-for-loop-javascript
+
+--- Spawn objects
+https://codepen.io/johnjelinek/pen/tDvJK?editors=1010
+
+https://codepen.io/Deftwun/pen/YXMGbN
