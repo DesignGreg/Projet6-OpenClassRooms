@@ -1,65 +1,86 @@
-// OBJET PLATEAU
-function Board(width, height) {
-    this.width = width;
-    this.height = height;
-    this.chartBoard = [];
+$(document).ready(function () {
 
-    // Création du plateau logique
-    for (var i = 0; i < this.width; i++) {
-        const row = [];
-        this.chartBoard.push(row);
-        for (var j = 0; j < this.height; j++) {
-            const col = {};
-            row.push(col);
+    // OBJET PLATEAU
+    function Board(width, height) {
+        this.width = width;
+        this.height = height;
+        this.chartBoard = [];
+
+        // Création du plateau logique
+        for (var i = 0; i < this.width; i++) {
+            const row = [];
+            this.chartBoard.push(row);
+            for (var j = 0; j < this.height; j++) {
+                const col = {};
+                row.push(col);
+            }
         }
     }
-}
-// INIT OBJET PLATEAU
-let board = new Board(10, 10);
-console.log(board);
+    // INIT OBJET PLATEAU
+    let board = new Board(10, 10);
+    console.log(board);
 
-// OBJET JOUEUR
-function Player(name, sprite, life) {
-    this.name = name;
-    this.sprite = sprite;
-    this.life = life;
-}
-
-let player1 = new Player("Joueur 1", "assets/joueur1.png", 100);
-let player2 = new Player("Joueur 2", "assets/joueur2.png", 100);
-
-// OBJET ARME
-function Weapon(name, sprite, damage) {
-    this.name = name;
-    this.sprite = sprite;
-    this.damage = damage;
-}
-
-let dagger = new Weapon("Dague", "assets/dague.png", 5);
-let sword = new Weapon("Epée", "assets/epee.png", 10);
-let axe = new Weapon("Hache", "assets/hache.png", 15);
-let flail = new Weapon("Fléau", "assets/fleau.png", 20);
-
-// OBJET OBSTACLE
-function Obstacle(name, sprite) {
-    this.name = name;
-    this.sprite = sprite;
-}
-
-let lava = new Obstacle("Lave", "assets/lave.png");
-
-
-// POSITIONNER UNE PIECE
-Board.prototype.setPiece = function (piece, x, y) {
-    if (x >= this.width || y >= this.height) {
-        throw new Error('Pièce hors limite');
+    // OBJET JOUEUR
+    function Player(name, sprite, life) {
+        this.name = name;
+        this.sprite = sprite;
+        this.life = life;
     }
-    
-    
-    this.chartBoard[y][x] = piece;
-};
-let u = board.setPiece(player1, 2, 3);
-console.log(u);
+
+    let player1 = new Player("Joueur 1", "assets/joueur1.png", 100);
+    let player2 = new Player("Joueur 2", "assets/joueur2.png", 100);
+
+    // OBJET ARME
+    function Weapon(name, sprite, damage) {
+        this.name = name;
+        this.sprite = sprite;
+        this.damage = damage;
+    }
+
+    let dagger = new Weapon("Dague", "assets/dague.png", 5);
+    let sword = new Weapon("Epée", "assets/epee.png", 10);
+    let axe = new Weapon("Hache", "assets/hache.png", 15);
+    let flail = new Weapon("Fléau", "assets/fleau.png", 20);
+
+    // OBJET OBSTACLE
+    function Obstacle(name, sprite) {
+        this.name = name;
+        this.sprite = sprite;
+    }
+
+    let lava = new Obstacle("Lave", "assets/lave.png");
+
+
+    // POSITIONNER UNE PIECE
+    Board.prototype.setPiece = function (piece, x, y) {
+        if (x >= this.width || y >= this.height) {
+            throw new Error('Pièce hors limite');
+        }
+
+
+        this.chartBoard[y][x] = piece;
+    };
+    board.setPiece(player1, 2, 3);
+    board.setPiece(player2, 4, 8);
+
+
+
+
+    // DESSINER TABLEAU SUR LE CANVAS
+    const ctx = $('#board').get(0).getContext('2d');
+
+    Board.prototype.drawBoard = function () {
+        for (var i = 0; i < this.width; i++) {
+            for (var j = 0; j < this.height; j++) {
+                ctx.beginPath();
+                ctx.strokeStyle = 'black';
+                ctx.strokeRect(j * 80, i * 80, 80, 80);
+                ctx.closePath();
+            }
+        }
+    };
+
+    board.drawBoard();
 
 
 
@@ -67,11 +88,19 @@ console.log(u);
 
 
 
-Board.prototype.test = test;
 
-function test() {
-    console.log(this);
-}
+
+    Board.prototype.test = test;
+
+    function test() {
+        console.log(this);
+    }
+
+});
+
+
+
+
 
 // Liste des classes pour le projet
 // 1 - Plateau (plateau logique)
@@ -89,24 +118,6 @@ function test() {
 // 3 - Arme
 // 4 - Obstacle
 // 5 - Plateau graphique
-
-
-// DESSINER TABLEAU SUR LE CANVAS
-const canvas = document.getElementById('board');
-const ctx = canvas.getContext('2d');
-
-Board.prototype.drawBoard = function () {
-    for (var i = 0; i < this.width; i++) {
-        for (var j = 0; j < this.height; j++) {
-            ctx.beginPath();
-            ctx.strokeStyle = 'black';
-            ctx.strokeRect(j * 80, i * 80, 80, 80);
-            ctx.closePath();
-        }
-    }
-};
-
-board.drawBoard();
 
 
 
