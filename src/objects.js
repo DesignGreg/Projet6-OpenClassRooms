@@ -78,7 +78,6 @@
 Board.prototype.setObstacles = function() {
     for (let lava of lavaArray) {
         
-        console.log(lava);
         const obstacle = board.setPiece(lava);
     }
 };
@@ -92,6 +91,18 @@ Board.prototype.setPlayers = function() {
 
 };
 board.setPlayers();
+
+Board.prototype.setWeapons = function() {
+    let numWeapons = 4;
+    let randomWeapon;
+    let spawnWeapon;
+    
+    for (let i = 0; i < numWeapons; i++) {
+        randomWeapon = Math.floor(Math.random() * weapons.length);
+        spawnWeapon = board.setPiece(weapons[randomWeapon]);
+    }     
+};
+board.setWeapons();
 
 
 //    const piece = board.setPiece(lava);
