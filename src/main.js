@@ -1,2 +1,7 @@
-require('./data.js');
-require('./functions.js');
+$(document).ready(function () {
+
+require('./board.js');
+require('./objects.js');
+require('./game.js');
+
+});
