@@ -8,6 +8,16 @@
     }
     // INIT OBJET OBSTACLE
     const lava = new Obstacle("Lave", "assets/lave.png");
+    const lava1 = new Obstacle("Lave1", "assets/lave.png");
+    const lava2 = new Obstacle("Lave2", "assets/lave.png");
+    const lava3 = new Obstacle("Lave3", "assets/lave.png");
+    const lava4 = new Obstacle("Lave4", "assets/lave.png");
+    const lava5 = new Obstacle("Lave5", "assets/lave.png");
+    const lava6 = new Obstacle("Lave6", "assets/lave.png");
+    const lava7 = new Obstacle("Lave7", "assets/lave.png");
+    const lava8 = new Obstacle("Lave8", "assets/lave.png");
+    const lava9 = new Obstacle("Lave9", "assets/lave.png");
+    const lavaArray = [lava, lava1, lava2, lava3, lava4, lava5, lava6, lava7, lava8, lava9];
 
 
 
@@ -22,6 +32,7 @@
     const sword = new Weapon("Epée", "assets/epee.png", 10);
     const axe = new Weapon("Hache", "assets/hache.png", 15);
     const flail = new Weapon("Fléau", "assets/fleau.png", 20);
+    const weapons = [dagger, sword, axe, flail];
 
 
 
@@ -50,10 +61,47 @@
             throw new Error('Pièce hors limite');
         }
         
-        this.chartBoard[randomY][randomX] = piece;
+        if (piece instanceof Obstacle) {
+            this.chartBoard[randomY][randomX] = piece;
+
+        } else if (piece instanceof Player) {
+            this.chartBoard[randomY][randomX] = piece;
+            
+        } else if (piece instanceof Weapon) {
+            this.chartBoard[randomY][randomX] = piece;
+        } else {
+            throw new Error('Pièce non valide');
+        } 
     };
-    const piece1 = board.setPiece(player1);
-    const piece2 = board.setPiece(player2);
+
+
+Board.prototype.setObstacles = function() {
+    for (let lava of lavaArray) {
+        
+        console.log(lava);
+        const obstacle = board.setPiece(lava);
+    }
+};
+board.setObstacles();
+
+
+Board.prototype.setPlayers = function() {
+    
+    const piece10 = board.setPiece(player1);
+    const piece11 = board.setPiece(player2);
+
+};
+board.setPlayers();
+
+
+//    const piece = board.setPiece(lava);
+//    const piece1 = board.setPiece(lava1);
+
+
+//    const piece222 = board.setPiece(weapons[1]);
+
+    
+
 
 
 
