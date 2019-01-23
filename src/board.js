@@ -1,52 +1,53 @@
-    // OBJET PLATEAU
-    function Board(width, height) {
-        this.width = width;
-        this.height = height;
-        this.chartBoard = [];
+// OBJET PLATEAU
+function Board(width, height) {
+    this.width = width;
+    this.height = height;
+    this.chartBoard = [];
 
-        // Création du plateau logique
-        for (var i = 0; i < this.width; i++) {
-            const row = [];
-            this.chartBoard.push(row);
-            for (var j = 0; j < this.height; j++) {
-                const col = {};
-                row.push(col);
-            }
+    // Création du plateau logique
+    for (var i = 0; i < this.width; i++) {
+        const row = [];
+        this.chartBoard.push(row);
+        for (var j = 0; j < this.height; j++) {
+            const col = {};
+            row.push(col);
         }
     }
-    // INIT OBJET PLATEAU
-    let board = new Board(10, 10);
-    console.log(board);
+}
+// INIT OBJET PLATEAU
+let board = new Board(10, 10);
+console.log(board);
 
 
-    // DESSINER TABLEAU SUR LE CANVAS
-    const ctx = $('#board').get(0).getContext('2d');
+// DESSINER TABLEAU SUR LE CANVAS
+const ctx = $('#board').get(0).getContext('2d');
 
-    Board.prototype.drawBoard = function () {
-        for (var i = 0; i < this.width; i++) {
-            for (var j = 0; j < this.height; j++) {
-                ctx.beginPath();
-                ctx.strokeStyle = 'black';
-                ctx.strokeRect(j * 80, i * 80, 80, 80);
-                ctx.closePath();
-            }
+Board.prototype.drawBoard = function () {
+    for (var i = 0; i < this.width; i++) {
+        for (var j = 0; j < this.height; j++) {
+            ctx.beginPath();
+            ctx.strokeStyle = 'black';
+            ctx.strokeRect(j * 80, i * 80, 80, 80);
+            ctx.closePath();
         }
-    };
-
-    board.drawBoard();
-    
-
-
-    Board.prototype.test = test;
-
-    function test() {
-        console.log(this);
     }
+};
+
+board.drawBoard();
 
 
 
-    // EXPORT
-    export {Board, board, ctx, drawBoard};
+Board.prototype.test = test;
+
+function test() {
+    console.log(this);
+}
+
+
+
+// EXPORT
+export {Board, board, ctx, drawBoard};
+
 
 // Liste des classes pour le projet
 // 1 - Plateau (plateau logique)

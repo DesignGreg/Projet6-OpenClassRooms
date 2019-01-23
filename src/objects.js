@@ -37,7 +37,7 @@ const dagger = new Weapon("Dague", "assets/dague.png", 5);
 const sword = new Weapon("Epée", "assets/epee.png", 10);
 const axe = new Weapon("Hache", "assets/hache.png", 15);
 const flail = new Weapon("Fléau", "assets/fleau.png", 20);
-const weapons = [dagger, sword, axe, flail];
+const weaponArray = [dagger, sword, axe, flail];
 
 
 
@@ -53,87 +53,12 @@ const player2 = new Player("Joueur 2", "assets/joueur2.png", 100);
 
 
 
-// POSITIONNER UNE PIECE
-Board.prototype.setPiece = function (piece) {
-
-    let randomX = Math.floor(Math.random() * board.width);
-    let randomY = Math.floor(Math.random() * board.height);
-
-    if (randomX >= this.width || randomY >= this.height) {
-        throw new Error('Pièce hors limite');
-    }
-
-    if (piece instanceof Obstacle) {
-
-        if (!(this.chartBoard[randomY][randomX] instanceof Obstacle)) {
-            this.chartBoard[randomY][randomX] = piece;
-        }
-
-    } else if (piece instanceof Weapon) {
-
-        if (!(this.chartBoard[randomY][randomX] instanceof Obstacle) && (!(this.chartBoard[randomY][randomX] instanceof Weapon))) {
-            this.chartBoard[randomY][randomX] = piece;
-        }
-
-    } else if (piece instanceof Player) {
-
-        if  (!(this.chartBoard[randomY][randomX] instanceof Obstacle) &&
-            (!(this.chartBoard[randomY][randomX] instanceof Weapon) &&
-            (!(this.chartBoard[randomY][randomX] instanceof Player) &&
-            (!(this.chartBoard[randomY][randomX + 1] instanceof Player)) &&
-            (!(this.chartBoard[randomY][randomX - 1] instanceof Player)) &&
-            (!(this.chartBoard[randomY + 1][randomX] instanceof Player)) &&
-            (!(this.chartBoard[randomY - 1][randomX] instanceof Player))))) {
-            
-            console.log('good');
-            this.chartBoard[randomY][randomX] = piece;
-        }
-
-    } else {
-        throw new Error('Pièce non valide');
-    }
-};
+// EXPORT
+export {Obstacle, lavaArray, Weapon, weaponArray, Player, player1, player2};
 
 
-// PLACER OBSTACLES
-Board.prototype.setObstacles = function () {
-    for (let lava of lavaArray) {
-
-        const obstacle = board.setPiece(lava);
-    }
-};
-board.setObstacles();
-//
-//
-// PLACER ARMES
-Board.prototype.setWeapons = function () {
-    let numWeapons = 4;
-    let randomWeapon;
-    let spawnWeapon;
-
-    for (let i = 0; i < numWeapons; i++) {
-        randomWeapon = Math.floor(Math.random() * weapons.length);
-        spawnWeapon = board.setPiece(weapons[randomWeapon]);
-    }
-};
-board.setWeapons();
 
 
-// PLACER JOUEURS
-Board.prototype.setPlayers = function () {
-
-    const piece1 = board.setPiece(player1);
-    const piece2 = board.setPiece(player2);
-
-};
-board.setPlayers();
-
-
-const piece = board.setPiece(lava);
-const piece1 = board.setPiece(lava1);
-
-
-const piece222 = board.setPiece(weapons[1]);
 
 
 
