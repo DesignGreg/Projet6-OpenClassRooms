@@ -27,7 +27,7 @@ Board.prototype.drawBoard = function () {
         for (var j = 0; j < this.height; j++) {
             ctx.beginPath();
             ctx.strokeStyle = 'black';
-            ctx.strokeRect(j * 80, i * 80, 80, 80);
+            ctx.strokeRect(j * 64, i * 64, 64, 64);
             ctx.closePath();
         }
     }

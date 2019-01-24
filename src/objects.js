@@ -50,11 +50,12 @@ function Player(name, sprite, life) {
 // INIT OBJET JOUEUR
 const player1 = new Player("Joueur 1", "assets/joueur1.png", 100);
 const player2 = new Player("Joueur 2", "assets/joueur2.png", 100);
+const playerArray = [player1, player2];
 
 
 
 // EXPORT
-export {Obstacle, lavaArray, Weapon, weaponArray, Player, player1, player2};
+export {Obstacle, lavaArray, Weapon, weaponArray, Player, playerArray};
 
 
 

@@ -11,8 +11,7 @@ import {
     Weapon,
     weaponArray,
     Player,
-    player1,
-    player2
+    playerArray
 } from "./objects.js";
 
 // POSITIONNER UNE PIECE
@@ -20,6 +19,9 @@ Board.prototype.setPiece = function (piece) {
 
     let randomX = Math.floor(Math.random() * board.width);
     let randomY = Math.floor(Math.random() * board.height);
+    
+    let drawX = randomX * 64;
+    let drawY = randomY * 64;
 
     if (randomX >= this.width || randomY >= this.height) {
         throw new Error('Pièce hors limite');
@@ -29,6 +31,12 @@ Board.prototype.setPiece = function (piece) {
 
         if (!(this.chartBoard[randomY][randomX] instanceof Obstacle)) {
             this.chartBoard[randomY][randomX] = piece;
+            ctx.fillRect(drawX, drawY,64,64);
+//            $(function() {
+//                
+////                let image = "assets/lave.png";
+////                ctx.drawImage(image, 64, 64);
+//            });
         }
 
     } else if (piece instanceof Weapon) {
@@ -38,17 +46,17 @@ Board.prototype.setPiece = function (piece) {
         }
 
     } else if (piece instanceof Player) {
-
-        if (!(this.chartBoard[randomY][randomX] instanceof Obstacle) &&
-            (!(this.chartBoard[randomY][randomX] instanceof Weapon) &&
+        
+            if  (!(this.chartBoard[randomY][randomX] instanceof Obstacle) &&
+                (!(this.chartBoard[randomY][randomX] instanceof Weapon) &&
                 (!(this.chartBoard[randomY][randomX] instanceof Player) &&
-                    (!(this.chartBoard[randomY][randomX + 1] instanceof Player)) &&
-                    (!(this.chartBoard[randomY][randomX - 1] instanceof Player)) &&
-                    (!(this.chartBoard[randomY + 1][randomX] instanceof Player)) &&
-                    (!(this.chartBoard[randomY - 1][randomX] instanceof Player))))) {
-
-            this.chartBoard[randomY][randomX] = piece;
-        }
+                ((!(this.chartBoard[randomY][randomX + 1] instanceof Player)) || (typeof this.chartBoard[randomY][randomX + 1] === undefined)) &&
+                ((!(this.chartBoard[randomY][randomX - 1] instanceof Player)) || (typeof this.chartBoard[randomY][randomX - 1] === undefined)) &&
+                ((!(this.chartBoard[randomY + 1][randomX] instanceof Player)) || (typeof this.chartBoard[randomY + 1][randomX] === undefined)) &&
+                ((!(this.chartBoard[randomY - 1][randomX] instanceof Player)) || (typeof this.chartBoard[randomY - 1][randomX] === undefined))))) {
+                
+                this.chartBoard[randomY][randomX] = piece;
+            }
 
     } else {
         throw new Error('Pièce non valide');
@@ -82,9 +90,10 @@ board.setWeapons();
 
 // PLACER JOUEURS
 Board.prototype.setPlayers = function () {
-
-    const piece1 = board.setPiece(player1);
-    const piece2 = board.setPiece(player2);
-
+    
+    for (let player of playerArray) {
+        
+        const spawnPlayer = board.setPiece(player);
+    }
 };
 board.setPlayers();
