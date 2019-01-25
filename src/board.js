@@ -1,3 +1,7 @@
+// DESSINER TABLEAU SUR LE CANVAS
+const ctx = $('#board').get(0).getContext('2d');
+
+
 // OBJET PLATEAU
 function Board(width, height) {
     this.width = width;
@@ -14,14 +18,8 @@ function Board(width, height) {
         }
     }
 }
-// INIT OBJET PLATEAU
-let board = new Board(10, 10);
-console.log(board);
 
-
-// DESSINER TABLEAU SUR LE CANVAS
-const ctx = $('#board').get(0).getContext('2d');
-
+// DESSIN DU PLATEAU
 Board.prototype.drawBoard = function () {
     for (var i = 0; i < this.width; i++) {
         for (var j = 0; j < this.height; j++) {
@@ -33,9 +31,6 @@ Board.prototype.drawBoard = function () {
     }
 };
 
-board.drawBoard();
-
-
 
 Board.prototype.test = test;
 
@@ -44,9 +39,8 @@ function test() {
 }
 
 
-
 // EXPORT
-export {Board, board, ctx, drawBoard};
+export {Board, ctx, drawBoard};
 
 
 // Liste des classes pour le projet
