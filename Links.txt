@@ -21,3 +21,8 @@ https://stackoverflow.com/questions/35754204/create-nested-empty-array-using-for
 https://codepen.io/johnjelinek/pen/tDvJK?editors=1010
 
 https://codepen.io/Deftwun/pen/YXMGbN
+
+
+
+ImageData
+https://stackoverflow.com/questions/10754661/javascript-getting-imagedata-without-canvas

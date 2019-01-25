@@ -22,6 +22,7 @@ Board.prototype.setPiece = function (piece) {
     
     let drawX = randomX * 64;
     let drawY = randomY * 64;
+    
 
     if (randomX >= this.width || randomY >= this.height) {
         throw new Error('Pièce hors limite');
@@ -31,18 +32,17 @@ Board.prototype.setPiece = function (piece) {
 
         if (!(this.chartBoard[randomY][randomX] instanceof Obstacle)) {
             this.chartBoard[randomY][randomX] = piece;
-            ctx.fillRect(drawX, drawY,64,64);
-//            $(function() {
-//                
-////                let image = "assets/lave.png";
-////                ctx.drawImage(image, 64, 64);
-//            });
+//            ctx.fillRect(drawX, drawY,64,64);
+              let image = piece.sprite;
+              ctx.drawImage(image, drawX, drawY);
         }
 
     } else if (piece instanceof Weapon) {
 
         if (!(this.chartBoard[randomY][randomX] instanceof Obstacle) && (!(this.chartBoard[randomY][randomX] instanceof Weapon))) {
             this.chartBoard[randomY][randomX] = piece;
+            ctx.fillStyle = "red";
+            ctx.fillRect(drawX, drawY,64,64);
         }
 
     } else if (piece instanceof Player) {
@@ -56,6 +56,8 @@ Board.prototype.setPiece = function (piece) {
                 ((!(this.chartBoard[randomY - 1][randomX] instanceof Player)) || (typeof this.chartBoard[randomY - 1][randomX] === undefined))))) {
                 
                 this.chartBoard[randomY][randomX] = piece;
+                ctx.fillStyle = "blue";
+                ctx.fillRect(drawX, drawY,64,64);
             }
 
     } else {
