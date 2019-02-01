@@ -1,22 +1,3 @@
-// OBJET OBSTACLE
-function Obstacle(name) {
-    this.name = name;
-}
-
-// OBJET ARME
-function Weapon(name, damage) {
-    this.name = name;
-    this.damage = damage;
-}
-
-// OBJET JOUEUR
-function Player(name, life) {
-    this.name = name;
-    this.life = life;
-}
-
-
-
 // OBJET PLATEAU
 function Board(width, height) {
     this.width = width;

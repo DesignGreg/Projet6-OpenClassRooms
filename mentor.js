@@ -55,7 +55,7 @@ function isPositionInArray (position, array) {
   let toReturn = false
   array.forEach((elem) => {
     if (elem.x === position.x && elem.y === position.y) {
-      toReturn = false
+      toReturn = true
     }
   })
   return toReturn
