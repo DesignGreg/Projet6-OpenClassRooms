@@ -1,7 +1,8 @@
 'use strict'
 
+const test = require('tape');
 
-$(document).ready(function () {
+// $(document).ready(function () {
 
 
     // OBJET OBSTACLE
@@ -20,7 +21,6 @@ $(document).ready(function () {
         this.name = name;
         this.life = life;
     }
-
 
 
     // OBJET PLATEAU
@@ -49,9 +49,6 @@ $(document).ready(function () {
 
     Board.prototype.generateGame = function () {
 
-        console.log(this.chartBoard);
-
-
         // GENERER INSTANCES
         const lava = new Obstacle("Lave");
         const lava1 = new Obstacle("Lave1");
@@ -68,8 +65,11 @@ $(document).ready(function () {
         const sword = new Weapon("Epée", 10);
         const axe = new Weapon("Hache", 15);
         const flail = new Weapon("Fléau", 20);
+        const weaponArray = [dagger, sword, axe, flail];
 
-        const pieceToSetArray = [lava, lava1, lava2, lava3, lava4, lava5, lava6, lava7, lava8, lava9, dagger, sword, axe, flail];
+        const pieceToSetArray = [lava, lava1, lava2, lava3, lava4, lava5, lava6, lava7, lava8, lava9];
+
+        // let randomWeapon = this.getRamdomWeapons(weaponArray, pieceToSetArray);
 
         // GENERER INSTANCES
         const player1 = new Player("Joueur 1", 100);
@@ -83,7 +83,17 @@ $(document).ready(function () {
         console.log(this.chartBoard);
     };
 
-//     GENERER UNE POSITION POUR UNE PIECE
+    // CHOISIR ALEATOIREMENT 4 ARMES
+    Board.prototype.getRandomWeapons = function (array, toArray) {
+        const maxWeapons = 4; 
+        
+        for (let i = 0; i <= maxWeapons; i++) {
+            let randomWeapon = Math.floor(Math.random() * array.lenght);
+            return toArray.push(array[i]);
+        }
+    } 
+
+    // GENERER UNE POSITION POUR UNE PIECE
     Board.prototype.generatePieceLocation = function (forbiddenPosition) {
         let location;
         do {
@@ -148,7 +158,6 @@ $(document).ready(function () {
             this.chartBoard[ y ][ x - 1 ] instanceof Player ) {
             return false
         }
-        
         return true
     }
 
@@ -163,7 +172,46 @@ $(document).ready(function () {
     // CREER INSTANCE DE BOARD
     const board = new Board(10, 10);
 
+// });
+
+// TEST
+
+test('generateRandomLocation - valeur entre 1 et 10 (array.length)', (assert) => {
+    assert.plan(1);
+    // Tester 9 cas, voir si ça retourne True ou False
+    let board2 = new Board(10,10);
+
     
+
+    const value = generateRandomLocation()
+
+    
+
+    assert.ok()
+});
+
+test('isLocationCorrectForPlayer - joueur placé correctement', (assert) => {
+    assert.plan(1);
 
 
 });
+
+test('isPositionInArray - position dans tableau', (assert) => {
+    assert.plan(1)
+    const array = [ { x: 1, y: 2 }]
+    const position = { x: 1, y: 2 }
+  
+    const isInArray = isPositionInArray(position, array)
+  
+    assert.ok(isInArray, 'La position devrait être dans le tableau')
+  })
+  
+  test('isPositionInArray - position absente', (assert) => {
+    assert.plan(1)
+    const array = [ { x: 1, y: 2 }]
+    const position = { x: 1, y: 3 }
+  
+    const isInArray = isPositionInArray(position, array)
+  
+    assert.notOk(isInArray, 'La position devrait être absente du tableau')
+  })
