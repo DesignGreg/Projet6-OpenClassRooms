@@ -27,10 +27,10 @@ const test = require('tape');
     function Board(width, height) {
         this.width = width;
         this.height = height;
-        this.forbiddenPosition = []
+        this.forbiddenPosition = [];
         
-        this.resetBoard()
-        this.generateGame()
+        this.resetBoard();
+        this.generateGame();
     }
 
     Board.prototype.resetBoard = function () {
@@ -97,29 +97,29 @@ const test = require('tape');
     Board.prototype.generatePieceLocation = function (forbiddenPosition) {
         let location;
         do {
-            location = this.generateRandomLocation()
+            location = this.generateRandomLocation();
         }
         while (this.isPositionInArray(location, forbiddenPosition));
 
-        return location
+        return location;
     };
     
     // GENERER UNE POSITION POUR UN JOUEUR
     Board.prototype.generatePlayerLocation = function (forbiddenPosition) {
         let location;
         do {
-            location = this.generateRandomLocation()
+            location = this.generateRandomLocation();
         }
         while (this.isPositionInArray(location, forbiddenPosition) && !this.isLocationCorrectForPlayer(location));
 
-        return location
+        return location;
     };
 
     Board.prototype.generateRandomLocation = function () {
         return {
             x: Math.floor(Math.random() * this.width),
             y: Math.floor(Math.random() * this.height)
-        }
+        };
     };
 
     // POSITIONNER UNE PIECE
@@ -136,7 +136,7 @@ const test = require('tape');
     // PLACER OBSTACLES ET ARMES
     Board.prototype.setObstaclesWeapons = function (piecesToSetArray) {
         for (let piece of piecesToSetArray) {
-            const location = this.generatePieceLocation(this.forbiddenPosition)
+            const location = this.generatePieceLocation(this.forbiddenPosition);
             this.setPiece(piece, location);   
         }
     };
@@ -144,29 +144,29 @@ const test = require('tape');
     // PLACER JOUEURS
     Board.prototype.setPlayers = function (playerArray) {
         for (let player of playerArray) {
-            const location = this.generatePlayerLocation(this.forbiddenPosition)
+            const location = this.generatePlayerLocation(this.forbiddenPosition);
             this.setPiece(player, location);
         }
     };
 
     Board.prototype.isLocationCorrectForPlayer = function (location) {
-        const { x, y } = location
+        const { x, y } = location;
 
         if (this.chartBoard[ y ][ x + 1 ] instanceof Player || 
             this.chartBoard[ y + 1 ][ x ] instanceof Player ||
             this.chartBoard[ y - 1 ][ x ] instanceof Player ||
             this.chartBoard[ y ][ x - 1 ] instanceof Player ) {
-            return false
+            return false;
         }
-        return true
-    }
+        return true;
+    };
 
 
     Board.prototype.isPositionInArray = function (position, array) {
         return array.some((elem) => {
-          return (elem.x === position.x && elem.y === position.y)
-        })
-      }
+          return (elem.x === position.x && elem.y === position.y);
+        });
+      };
       
 
     // CREER INSTANCE DE BOARD
@@ -178,16 +178,15 @@ const test = require('tape');
 
 test('generateRandomLocation - valeur entre 1 et 10 (array.length)', (assert) => {
     assert.plan(1);
-    // Tester 9 cas, voir si ça retourne True ou False
-    let board2 = new Board(10,10);
-
     
-
-    const value = generateRandomLocation()
-
+    if (Object.keys[0] > 0 && Object.keys[0] >= 10 && Object.keys[1] > 0 && Object.keys[1] < 10) {
+        const test = true;
+        return true;
+    }
     
-
-    assert.ok()
+    const result = generateRandomLocation();
+    
+    assert.ok(test, 'La valeur est bien comprise entre 1 et 10');
 });
 
 test('isLocationCorrectForPlayer - joueur placé correctement', (assert) => {
