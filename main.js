@@ -2,7 +2,7 @@
 
 const test = require('tape');
 
-// $(document).ready(function () {
+//$(document).ready(function () {
 
 
     // OBJET OBSTACLE
@@ -20,6 +20,11 @@ const test = require('tape');
     function Player(name, life) {
         this.name = name;
         this.life = life;
+        
+        this.weapon = {
+            name : Weapon.name,
+            damage : Weapon.damage
+        };
     }
 
 
@@ -28,7 +33,7 @@ const test = require('tape');
         this.width = width;
         this.height = height;
         this.forbiddenPosition = [];
-        
+
         this.resetBoard();
         this.generateGame();
     }
@@ -45,7 +50,8 @@ const test = require('tape');
                 row.push(col);
             }
         }
-    }
+    };
+
 
     Board.prototype.generateGame = function () {
 
@@ -69,7 +75,7 @@ const test = require('tape');
 
         const pieceToSetArray = [lava, lava1, lava2, lava3, lava4, lava5, lava6, lava7, lava8, lava9];
 
-        // let randomWeapon = this.getRamdomWeapons(weaponArray, pieceToSetArray);
+        //        let randomWeapon = this.getRamdomWeapons(weaponArray, pieceToSetArray);
 
         // GENERER INSTANCES
         const player1 = new Player("Joueur 1", 100);
@@ -85,13 +91,13 @@ const test = require('tape');
 
     // CHOISIR ALEATOIREMENT 4 ARMES
     Board.prototype.getRandomWeapons = function (array, toArray) {
-        const maxWeapons = 4; 
-        
+        const maxWeapons = 4;
+
         for (let i = 0; i <= maxWeapons; i++) {
             let randomWeapon = Math.floor(Math.random() * array.lenght);
             return toArray.push(array[i]);
         }
-    } 
+    };
 
     // GENERER UNE POSITION POUR UNE PIECE
     Board.prototype.generatePieceLocation = function (forbiddenPosition) {
@@ -103,7 +109,7 @@ const test = require('tape');
 
         return location;
     };
-    
+
     // GENERER UNE POSITION POUR UN JOUEUR
     Board.prototype.generatePlayerLocation = function (forbiddenPosition) {
         let location;
@@ -123,7 +129,7 @@ const test = require('tape');
     };
 
     // POSITIONNER UNE PIECE
-    Board.prototype.setPiece = function (piece, location) {        
+    Board.prototype.setPiece = function (piece, location) {
         if (location.x >= this.width || location.y >= this.height) {
             throw new Error('Pièce hors limite');
         } else {
@@ -137,7 +143,7 @@ const test = require('tape');
     Board.prototype.setObstaclesWeapons = function (piecesToSetArray) {
         for (let piece of piecesToSetArray) {
             const location = this.generatePieceLocation(this.forbiddenPosition);
-            this.setPiece(piece, location);   
+            this.setPiece(piece, location);
         }
     };
 
@@ -150,12 +156,15 @@ const test = require('tape');
     };
 
     Board.prototype.isLocationCorrectForPlayer = function (location) {
-        const { x, y } = location;
+        const {
+            x,
+            y
+        } = location;
 
-        if (this.chartBoard[ y ][ x + 1 ] instanceof Player || 
-            this.chartBoard[ y + 1 ][ x ] instanceof Player ||
-            this.chartBoard[ y - 1 ][ x ] instanceof Player ||
-            this.chartBoard[ y ][ x - 1 ] instanceof Player ) {
+        if (this.chartBoard[y][x + 1] instanceof Player ||
+            this.chartBoard[y + 1][x] instanceof Player ||
+            this.chartBoard[y - 1][x] instanceof Player ||
+            this.chartBoard[y][x - 1] instanceof Player) {
             return false;
         }
         return true;
@@ -164,53 +173,80 @@ const test = require('tape');
 
     Board.prototype.isPositionInArray = function (position, array) {
         return array.some((elem) => {
-          return (elem.x === position.x && elem.y === position.y);
+            return (elem.x === position.x && elem.y === position.y);
         });
-      };
-      
+    };
+
 
     // CREER INSTANCE DE BOARD
     const board = new Board(10, 10);
 
-// });
+//    const boardTest = new Board(10, 10);
 
-// TEST
+//});
+
+ TEST
 
 test('generateRandomLocation - valeur entre 1 et 10 (array.length)', (assert) => {
     assert.plan(1);
-    
+
     if (Object.keys[0] > 0 && Object.keys[0] >= 10 && Object.keys[1] > 0 && Object.keys[1] < 10) {
         const test = true;
         return true;
     }
-    
+
     const result = generateRandomLocation();
-    
+
     assert.ok(test, 'La valeur est bien comprise entre 1 et 10');
 });
 
-test('isLocationCorrectForPlayer - joueur placé correctement', (assert) => {
+test('setPlayers - joueur placé correctement', (assert) => {
     assert.plan(1);
-
-
+    
+    // Test 1 : la pièce Player1 est bien sur le plateau
+    
+    // Test 2/3/4/5 : La pièce Player1 n'a pas de voisin Player2 sur la case adjacente précisée
+    
+    // Test 6/7/8/9 : la pièce Player1 est bien positionnée sans erreur quand elle se situe en bordure du plateau
 });
+
+
+test('generatePieceLocation - nouvelle boucle randomLocation() tant que isPositionInArray() = true', (assert) => {
+    assert.plan(1);
+    
+    
+    
+});
+
 
 test('isPositionInArray - position dans tableau', (assert) => {
     assert.plan(1)
-    const array = [ { x: 1, y: 2 }]
-    const position = { x: 1, y: 2 }
-  
+    const array = [{
+        x: 1,
+        y: 2
+    }]
+    const position = {
+        x: 1,
+        y: 2
+    }
+
     const isInArray = isPositionInArray(position, array)
-  
+
     assert.ok(isInArray, 'La position devrait être dans le tableau')
-  })
-  
-  test('isPositionInArray - position absente', (assert) => {
+})
+
+test('isPositionInArray - position absente', (assert) => {
     assert.plan(1)
-    const array = [ { x: 1, y: 2 }]
-    const position = { x: 1, y: 3 }
-  
+    const array = [{
+        x: 1,
+        y: 2
+    }]
+    const position = {
+        x: 1,
+        y: 3
+    }
+
     const isInArray = isPositionInArray(position, array)
-  
+
     assert.notOk(isInArray, 'La position devrait être absente du tableau')
-  })
+})
