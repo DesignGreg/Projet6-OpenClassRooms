@@ -1,6 +1,6 @@
 'use strict'
 
-const test = require('tape');
+// const test = require('tape');
 
 //$(document).ready(function () {
 
@@ -68,6 +68,7 @@ Board.prototype.generateGame = function () {
     const lava7 = new Obstacle("Lave7");
     const lava8 = new Obstacle("Lave8");
     const lava9 = new Obstacle("Lave9");
+    const obstacleArray = [lava, lava1, lava2, lava3, lava4, lava5, lava6, lava7, lava8, lava9];
 
     const dagger = new Weapon("Dague", 5);
     const sword = new Weapon("Epée", 10);
@@ -75,9 +76,9 @@ Board.prototype.generateGame = function () {
     const flail = new Weapon("Fléau", 20);
     const weaponArray = [dagger, sword, axe, flail];
 
-    const pieceToSetArray = [lava, lava1, lava2, lava3, lava4, lava5, lava6, lava7, lava8, lava9];
+    this.getRandomWeapons(4, weaponArray);
 
-    //        let randomWeapon = this.getRamdomWeapons(weaponArray, pieceToSetArray);
+    let pieceToSetArray = obstacleArray.concat(weaponArray);
 
     // GENERER INSTANCES
     const player1 = new Player("Joueur 1", 100);
@@ -92,14 +93,18 @@ Board.prototype.generateGame = function () {
 };
 
 // CHOISIR ALEATOIREMENT 4 ARMES
-Board.prototype.getRandomWeapons = function (array, toArray) {
-    const maxWeapons = 4;
+Board.prototype.getRandomWeapons = function (maxWeapons, array) {
+    const randomWeaponsArray = [];
 
     for (let i = 0; i <= maxWeapons; i++) {
-        let randomWeapon = Math.floor(Math.random() * array.lenght);
-        return toArray.push(array[i]);
+        let randomWeapon = Math.floor(Math.random() * array.length);
+        randomWeaponsArray.push(array[i]);
     }
+    return randomWeaponsArray;
 };
+
+// fusionner 2 tableaux (pas fonction)
+
 
 // GENERER UNE POSITION POUR UNE PIECE
 Board.prototype.generatePieceLocation = function (forbiddenPosition) {
@@ -256,7 +261,6 @@ Board.prototype.switchWeapon = function () {
 
 };
 
-
 //    const boardTest = new Board(10, 10);
 
 //});
@@ -264,16 +268,18 @@ Board.prototype.switchWeapon = function () {
 // TEST
 
 test('generateRandomLocation - valeur entre 1 et 10 (array.length)', (assert) => {
-    assert.plan(1);
+    assert.plan(6);
 
-    if (Object.keys[0] > 0 && Object.keys[0] >= 10 && Object.keys[1] > 0 && Object.keys[1] < 10) {
-        const test = true;
-        return test;
-    }
+    const board = new Board(10, 20)
 
-    const result = Board.prototype.generateRandomLocation();
+    const result = board.generateRandomLocation()
 
-    assert.ok(test, 'La valeur est bien comprise entre 1 et 10');
+    assert.ok(result.x, 'La valeur est bien comprise entre 1 et 10');
+    assert.ok(result.y, 'La valeur est bien comprise entre 1 et 10');
+    assert.ok(result.x >= 0, 'La valeur est bien comprise entre 1 et 10');
+    assert.ok(result.x < 10, 'La valeur est bien comprise entre 1 et 10');
+    assert.ok(result.y >= 0, 'La valeur est bien comprise entre 1 et 10');
+    assert.ok(result.y < 20, 'La valeur est bien comprise entre 1 et 10');
 });
 
 test('setPlayers - joueur placé correctement', (assert) => {
@@ -330,5 +336,8 @@ test('isPositionInArray - position absente', (assert) => {
 
     const isInArray = Board.prototype.isPositionInArray(position, array);
 
+    assert.ok()
+    assert.notOk()
+    assert.equal(variable, 'valeur', 'texte d')
     assert.notOk(isInArray, 'La position devrait etre absente du tableau');
 });
