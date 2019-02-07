@@ -2,9 +2,7 @@
 
 'use strict'
 
- const test = require('tape');
-
-//$(document).ready(function () {
+$(document).ready(function () {
 
 // ETAPE 1
 
@@ -263,25 +261,35 @@ Board.prototype.switchWeapon = function () {
 
 };
 
-//});
+});
+
+module.exports = {
+    Obstacle: Obstacle,
+    Weapon: Weapon,
+    Player: Player,
+    Board: Board
+};
+
+
+
 
 // TEST
 
-test('generateRandomLocation - valeur entre 1 et 10 (array.length)', (assert) => {
-    assert.plan(6);
-    
-    const boardTest = new Board(10, 10);
-    
-
-    const result = boardTest.generateRandomLocation()
-
-    assert.ok(result.x, 'La valeur est bien comprise entre 1 et 10');
-    assert.ok(result.y, 'La valeur est bien comprise entre 1 et 10');
-    assert.ok(result.x >= 0, 'La valeur est bien comprise entre 1 et 10');
-    assert.ok(result.x < 10, 'La valeur est bien comprise entre 1 et 10');
-    assert.ok(result.y >= 0, 'La valeur est bien comprise entre 1 et 10');
-    assert.ok(result.y < 10, 'La valeur est bien comprise entre 1 et 10');
-});
+//test('generateRandomLocation - valeur entre 1 et 10 (array.length)', (assert) => {
+//    assert.plan(6);
+//    
+//    const boardTest = new Board(10, 10);
+//    
+//
+//    const result = boardTest.generateRandomLocation()
+//
+//    assert.ok(result.x, 'La valeur est bien comprise entre 1 et 10');
+//    assert.ok(result.y, 'La valeur est bien comprise entre 1 et 10');
+//    assert.ok(result.x >= 0, 'La valeur est bien comprise entre 1 et 10');
+//    assert.ok(result.x < 10, 'La valeur est bien comprise entre 1 et 10');
+//    assert.ok(result.y >= 0, 'La valeur est bien comprise entre 1 et 10');
+//    assert.ok(result.y < 10, 'La valeur est bien comprise entre 1 et 10');
+//});
 
 
 //     Test 2/3/4/5 : La pièce Player1 n'a pas de voisin Player2 sur la case adjacente précisée
@@ -297,35 +305,35 @@ test('generateRandomLocation - valeur entre 1 et 10 (array.length)', (assert) =>
 //});
 
 //
-test('isPositionInArray - position dans tableau', (assert) => {
-    assert.plan(1);
-    
-    const array = [{
-        x: 1,
-        y: 2
-    }];
-    const position = {
-        x: 1,
-        y: 2
-    };
-
-    const isInArray = Board.prototype.isPositionInArray(position, array);
-
-    assert.ok(isInArray, 'La position devrait etre dans le tableau');
-});
-
-test('isPositionInArray - position absente', (assert) => {
-    assert.plan(1);
-    const array = [{
-        x: 1,
-        y: 2
-    }];
-    const position = {
-        x: 1,
-        y: 3
-    };
-
-    const isInArray = Board.prototype.isPositionInArray(position, array);
-
-    assert.notOk(isInArray, 'La position devrait etre absente du tableau');
-});
+//test('isPositionInArray - position dans tableau', (assert) => {
+//    assert.plan(1);
+//    
+//    const array = [{
+//        x: 1,
+//        y: 2
+//    }];
+//    const position = {
+//        x: 1,
+//        y: 2
+//    };
+//
+//    const isInArray = Board.prototype.isPositionInArray(position, array);
+//
+//    assert.ok(isInArray, 'La position devrait etre dans le tableau');
+//});
+//
+//test('isPositionInArray - position absente', (assert) => {
+//    assert.plan(1);
+//    const array = [{
+//        x: 1,
+//        y: 2
+//    }];
+//    const position = {
+//        x: 1,
+//        y: 3
+//    };
+//
+//    const isInArray = Board.prototype.isPositionInArray(position, array);
+//
+//    assert.notOk(isInArray, 'La position devrait etre absente du tableau');
+//});
