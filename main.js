@@ -1,5 +1,3 @@
-/* jshint esversion: 6 */
-
 'use strict'
 
 //$(document).ready(function () {
@@ -19,14 +17,11 @@ function Weapon(name, damage) {
 }
 
 // OBJET JOUEUR
-function Player(name, life) {
+function Player(name, life, weapon) {
     this.name = name;
     this.life = life;
 
-    this.weapon = {
-        name: Weapon.name,
-        damage: Weapon.damage
-    };
+    this.weapon = weapon;
 }
 
 
@@ -81,8 +76,8 @@ Board.prototype.generateGame = function () {
     let pieceToSetArray = obstacleArray.concat(weaponArray);
 
     // GENERER INSTANCES
-    const player1 = new Player("Joueur 1", 100);
-    const player2 = new Player("Joueur 2", 100);
+    const player1 = new Player("Joueur 1", 100, dagger);
+    const player2 = new Player("Joueur 2", 100, dagger);
     const playerArray = [player1, player2];
 
 
