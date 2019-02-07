@@ -1,6 +1,8 @@
+/* jshint esversion: 6 */
+
 'use strict'
 
-// const test = require('tape');
+ const test = require('tape');
 
 //$(document).ready(function () {
 
@@ -261,39 +263,27 @@ Board.prototype.switchWeapon = function () {
 
 };
 
-//    const boardTest = new Board(10, 10);
-
 //});
 
 // TEST
 
 test('generateRandomLocation - valeur entre 1 et 10 (array.length)', (assert) => {
     assert.plan(6);
+    
+    const boardTest = new Board(10, 10);
+    
 
-    const board = new Board(10, 20)
-
-    const result = board.generateRandomLocation()
+    const result = boardTest.generateRandomLocation()
 
     assert.ok(result.x, 'La valeur est bien comprise entre 1 et 10');
     assert.ok(result.y, 'La valeur est bien comprise entre 1 et 10');
     assert.ok(result.x >= 0, 'La valeur est bien comprise entre 1 et 10');
     assert.ok(result.x < 10, 'La valeur est bien comprise entre 1 et 10');
     assert.ok(result.y >= 0, 'La valeur est bien comprise entre 1 et 10');
-    assert.ok(result.y < 20, 'La valeur est bien comprise entre 1 et 10');
+    assert.ok(result.y < 10, 'La valeur est bien comprise entre 1 et 10');
 });
 
-test('setPlayers - joueur placé correctement', (assert) => {
-    assert.plan(1);
 
-    const player = Player.player1;
-
-    if (Board.prototype.forbiddenPosition.includes(player instanceof Player)) {
-        let test = true;
-        return test;
-    }
-
-    assert.ok(test - 'Le player1 est bien sur le plateau');
-});
 //     Test 2/3/4/5 : La pièce Player1 n'a pas de voisin Player2 sur la case adjacente précisée
 
 //     Test 6/7/8/9 : la pièce Player1 est bien positionnée sans erreur quand elle se situe en bordure du plateau
@@ -309,6 +299,7 @@ test('setPlayers - joueur placé correctement', (assert) => {
 //
 test('isPositionInArray - position dans tableau', (assert) => {
     assert.plan(1);
+    
     const array = [{
         x: 1,
         y: 2
@@ -336,8 +327,5 @@ test('isPositionInArray - position absente', (assert) => {
 
     const isInArray = Board.prototype.isPositionInArray(position, array);
 
-    assert.ok()
-    assert.notOk()
-    assert.equal(variable, 'valeur', 'texte d')
     assert.notOk(isInArray, 'La position devrait etre absente du tableau');
 });
