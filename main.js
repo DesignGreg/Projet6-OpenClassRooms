@@ -2,7 +2,7 @@
 
 'use strict'
 
-$(document).ready(function () {
+//$(document).ready(function () {
 
 // ETAPE 1
 
@@ -169,9 +169,13 @@ Board.prototype.isLocationCorrectForPlayer = function (location) {
     } = location;
 
     if (this.chartBoard[y][x + 1] instanceof Player ||
+        this.chartBoard[y][x + 1] === undefined ||
         this.chartBoard[y + 1][x] instanceof Player ||
+        this.chartBoard[y + 1][x] === undefined ||
         this.chartBoard[y - 1][x] instanceof Player ||
-        this.chartBoard[y][x - 1] instanceof Player) {
+        this.chartBoard[y - 1][x] === undefined ||
+        this.chartBoard[y][x - 1] instanceof Player ||
+        this.chartBoard[y][x - 1] === undefined) {
         return false;
     }
     return true;
@@ -261,7 +265,7 @@ Board.prototype.switchWeapon = function () {
 
 };
 
-});
+//});
 
 module.exports = {
     Obstacle: Obstacle,
