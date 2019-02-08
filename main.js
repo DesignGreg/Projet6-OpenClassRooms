@@ -69,6 +69,44 @@ Board.prototype.resetBoard = function () {
     }
 };
 
+//Board.prototype.addImageProperty = function () {
+//    
+//    lava.image = './assets/Lave.png';
+//    lava1.image = './assets/Lave.png';
+//    lava2.image = './assets/Lave.png';
+//    lava3.image = './assets/Lave.png';
+//    lava4.image = './assets/Lave.png';
+//    lava5.image = './assets/Lave.png';
+//    lava6.image = './assets/Lave.png';
+//    lava7.image = './assets/Lave.png';
+//    lava8.image = './assets/Lave.png';
+//    lava9.image = './assets/Lave.png';
+//    
+//    dagger.image = './assets/dague.png';
+//    sword.image = './assets/epee.png';
+//    axe.image = './assets/hache.png';
+//    flail.image = './assets/fleau.png';
+//    
+//    player1.image = './assets/Joueur1.png';
+//    player2.image = './assets/Joueur2.png';
+//    
+//};
+
+Board.prototype.loadImages = function (location, path) {
+    
+    const drawX = [location.x] * 64;
+    const drawY = [location.y] * 64;
+    
+    const image = new Image();
+    image.onload = function () {
+        ctx.drawImage(image, drawX, drawY);
+    };
+    image.src = path;
+    
+};
+
+
+
 
 Board.prototype.generateGame = function () {
 
@@ -106,9 +144,6 @@ Board.prototype.generateGame = function () {
     
     // APPEL FONCTIONS AFFICHAGE
     this.drawBoard();
-    
-    
-    
     
     console.log(this.chartBoard);
 };
@@ -163,6 +198,8 @@ Board.prototype.setPiece = function (piece, location) {
     } else {
         this.chartBoard[location.y][location.x] = piece;
         this.forbiddenPosition.push(location);
+        
+        this.loadImages(location, './assets/joueur1.png');
     }
 };
 
