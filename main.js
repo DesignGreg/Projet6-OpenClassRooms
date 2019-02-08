@@ -4,6 +4,26 @@
 
 // ETAPE 1
 
+/* AFFICHAGE */
+
+// CONTEXTE DU CANVAS
+const ctx = $('#board').get(0).getContext('2d');
+
+// DESSIN DU TABLEAU
+Board.prototype.drawBoard = function () {
+    for (var i = 0; i < this.width; i++) {
+        for (var j = 0; j < this.height; j++) {
+            ctx.beginPath();
+            ctx.strokeStyle = 'black';
+            ctx.strokeRect(j * 64, i * 64, 64, 64);
+            ctx.closePath();
+        }
+    }
+};
+
+
+
+/* LOGIQUE DU JEU */
 
 // OBJET OBSTACLE
 function Obstacle(name) {
@@ -82,8 +102,14 @@ Board.prototype.generateGame = function () {
 
 
     this.setObstaclesWeapons(pieceToSetArray);
-
     this.setPlayers(playerArray);
+    
+    // APPEL FONCTIONS AFFICHAGE
+    this.drawBoard();
+    
+    
+    
+    
     console.log(this.chartBoard);
 };
 
@@ -262,12 +288,12 @@ Board.prototype.switchWeapon = function () {
 
 //});
 
-module.exports = {
-    Obstacle: Obstacle,
-    Weapon: Weapon,
-    Player: Player,
-    Board: Board
-};
+//module.exports = {
+//    Obstacle: Obstacle,
+//    Weapon: Weapon,
+//    Player: Player,
+//    Board: Board
+//};
 
 
 
