@@ -92,6 +92,27 @@ Board.prototype.resetBoard = function () {
 //    
 //};
 
+// ERR CAN'T GET FILE
+//Board.prototype.giveImageSize = function (location) {
+//    return {
+//        drawX : location.x * 64,
+//        drawY : location.y * 64
+//    };
+//};
+//
+//Board.prototype.loadImages = function (path) {
+//    
+//    let size = this.giveImageSize(location);
+//    
+//    const image = new Image();
+//    image.onload = function () {
+//        ctx.drawImage(image, size.drawX, size.drawY);
+//    };
+//    image.src = path;
+//    
+//};
+
+
 Board.prototype.loadImages = function (location, path) {
     
     const drawX = [location.x] * 64;
@@ -198,8 +219,6 @@ Board.prototype.setPiece = function (piece, location) {
     } else {
         this.chartBoard[location.y][location.x] = piece;
         this.forbiddenPosition.push(location);
-        
-        this.loadImages(location, './assets/joueur1.png');
     }
 };
 
@@ -208,6 +227,27 @@ Board.prototype.setPiece = function (piece, location) {
 Board.prototype.setObstaclesWeapons = function (piecesToSetArray) {
     for (let piece of piecesToSetArray) {
         const location = this.generatePieceLocation(this.forbiddenPosition);
+        
+        
+        // Appel de l'image correspondante à l'obstacle ou arme
+        switch (piece) {
+            case piecesToSetArray[10]:
+                this.loadImages(location, './assets/dague.png'); 
+                break;
+            case piecesToSetArray[11]:
+                this.loadImages(location, './assets/epee.png'); 
+                break;
+            case piecesToSetArray[12]:
+                this.loadImages(location, './assets/hache.png'); 
+                break;
+            case piecesToSetArray[13]:
+                this.loadImages(location, './assets/fleau.png'); 
+                break;
+            default:
+                this.loadImages(location, './assets/lave64.png');
+        }
+        
+        
         this.setPiece(piece, location);
     }
 };
@@ -216,6 +256,18 @@ Board.prototype.setObstaclesWeapons = function (piecesToSetArray) {
 Board.prototype.setPlayers = function (playerArray) {
     for (let player of playerArray) {
         const location = this.generatePlayerLocation(this.forbiddenPosition);
+
+        // Appel de l'image correspondante au joueur
+        switch (player) {
+            case playerArray[0]:
+                this.loadImages(location, './assets/joueur1.png'); 
+                break;
+            case playerArray[1]:
+                this.loadImages(location, './assets/joueur2.png'); 
+                break;
+        }
+    
+        
         this.setPiece(player, location);
     }
 };
