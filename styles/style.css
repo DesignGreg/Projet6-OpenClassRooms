@@ -1,23 +1,65 @@
+@media screen and (min-width: 1200px) {
+    #board {
+        width: 640px !important;
+    }
+}
+
+
 * {
     padding: 0;
     border: 0;
 }
 
+
 body{
-    background-color: #181818;
+    background-image: url(../assets/fallenangel.jpg);
+    background-position: center;
+    background-size: cover;
+    background-attachment: fixed;
+    background-repeat: no-repeat;
 }
+
 
 #board {
     display: block;
     background-color: white;
     margin: 0 auto;
-    margin-top: 100px;
+    margin-top: 50px;
+    width: 100%;
+    border: 2px solid white;
 }
 
-.pave {
-    background-image: url(images/Pave.jpg);
+
+.title-container--text {
+    color: white;
+    text-shadow: 1px 2px 2px rgba(0, 0, 0, 0.7);
+    padding-top: 10px;
 }
 
-.lave {
-    background-image: url(images/Lave.png);
+
+.title-container--button {
+    text-align: center;
+    padding-top: 30px;
+}
+
+
+.canvas-side {
+    text-align: center;
+}
+
+
+.canvas-side--title {
+    margin-top: 50px;
+    color: white;
+    text-shadow: 1px 2px 2px rgba(0, 0, 0, 0.7);
+}
+
+.canvas-side--health {
+    margin-top: 60px;
+    color: white;
+    font-size: 20px;
+}
+.canvas-side--weapon {
+    color: white;
+    font-size: 20px;
 }

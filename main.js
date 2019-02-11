@@ -13,8 +13,8 @@ const ctx = $('#board').get(0).getContext('2d');
 Board.prototype.drawBoard = function () {
     for (var i = 0; i < this.width; i++) {
         for (var j = 0; j < this.height; j++) {
-            ctx.beginPath();
             ctx.strokeStyle = 'rgba(0, 0, 0, 0.7)';
+            ctx.beginPath();
             ctx.strokeRect(j * 64, i * 64, 64, 64);
             ctx.closePath();
         }
