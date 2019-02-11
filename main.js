@@ -127,8 +127,6 @@ Board.prototype.loadImages = function (location, path) {
 };
 
 
-
-
 Board.prototype.generateGame = function () {
 
     // GENERER INSTANCES
@@ -150,9 +148,10 @@ Board.prototype.generateGame = function () {
     const flail = new Weapon("Fléau", 20);
     const weaponArray = [dagger, sword, axe, flail];
 
-    this.getRandomWeapons(4, weaponArray);
+    let randomWeapons = this.getRandomWeapons(4, weaponArray);
 
-    let pieceToSetArray = obstacleArray.concat(weaponArray);
+    let pieceToSetArray = obstacleArray.concat(randomWeapons);
+    console.log(randomWeapons);
 
     // GENERER INSTANCES
     const player1 = new Player("Joueur 1", 100, dagger);
@@ -173,9 +172,9 @@ Board.prototype.generateGame = function () {
 Board.prototype.getRandomWeapons = function (maxWeapons, array) {
     const randomWeaponsArray = [];
 
-    for (let i = 0; i <= maxWeapons; i++) {
+    for (let i = 0; i < maxWeapons; i++) {
         let randomWeapon = Math.floor(Math.random() * array.length);
-        randomWeaponsArray.push(array[i]);
+        randomWeaponsArray.push(array[randomWeapon]);
     }
     return randomWeaponsArray;
 };
@@ -247,7 +246,6 @@ Board.prototype.setObstaclesWeapons = function (piecesToSetArray) {
                 this.loadImages(location, './assets/lave64.png');
         }
         
-        
         this.setPiece(piece, location);
     }
 };
@@ -267,7 +265,6 @@ Board.prototype.setPlayers = function (playerArray) {
                 break;
         }
     
-        
         this.setPiece(player, location);
     }
 };
