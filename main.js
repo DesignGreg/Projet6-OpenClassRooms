@@ -69,49 +69,6 @@ Board.prototype.resetBoard = function () {
     }
 };
 
-//Board.prototype.addImageProperty = function () {
-//    
-//    lava.image = './assets/Lave.png';
-//    lava1.image = './assets/Lave.png';
-//    lava2.image = './assets/Lave.png';
-//    lava3.image = './assets/Lave.png';
-//    lava4.image = './assets/Lave.png';
-//    lava5.image = './assets/Lave.png';
-//    lava6.image = './assets/Lave.png';
-//    lava7.image = './assets/Lave.png';
-//    lava8.image = './assets/Lave.png';
-//    lava9.image = './assets/Lave.png';
-//    
-//    dagger.image = './assets/dague.png';
-//    sword.image = './assets/epee.png';
-//    axe.image = './assets/hache.png';
-//    flail.image = './assets/fleau.png';
-//    
-//    player1.image = './assets/Joueur1.png';
-//    player2.image = './assets/Joueur2.png';
-//    
-//};
-
-// ERR CAN'T GET FILE
-//Board.prototype.giveImageSize = function (location) {
-//    return {
-//        drawX : location.x * 64,
-//        drawY : location.y * 64
-//    };
-//};
-//
-//Board.prototype.loadImages = function (path) {
-//    
-//    let size = this.giveImageSize(location);
-//    
-//    const image = new Image();
-//    image.onload = function () {
-//        ctx.drawImage(image, size.drawX, size.drawY);
-//    };
-//    image.src = path;
-//    
-//};
-
 
 Board.prototype.loadObstaclesImages = function (location, path) {
     
