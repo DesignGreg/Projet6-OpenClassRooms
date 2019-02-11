@@ -14,7 +14,7 @@ Board.prototype.drawBoard = function () {
     for (var i = 0; i < this.width; i++) {
         for (var j = 0; j < this.height; j++) {
             ctx.beginPath();
-            ctx.strokeStyle = 'black';
+            ctx.strokeStyle = 'rgba(0, 0, 0, 0.7)';
             ctx.strokeRect(j * 64, i * 64, 64, 64);
             ctx.closePath();
         }
@@ -241,26 +241,21 @@ Board.prototype.setObstaclesWeapons = function (piecesToSetArray) {
     for (let piece of piecesToSetArray) {
         const location = this.generatePieceLocation(this.forbiddenPosition);
         
-        console.log(piece);
+        
         // Appel de l'image correspondante à l'obstacle ou arme
-        switch (piece) {
-//            case piecesToSetArray[12]:
-//                this.loadObstaclesImages(location, './assets/dague.png');
-//                console.log('5');
-//                break;
-//            case piecesToSetArray.includes('Epée'):
-//                this.loadObstaclesImages(location, './assets/epee.png'); 
-//                break;
-//            case piecesToSetArray.includes('Hache'):
-//                this.loadObstaclesImages(location, './assets/hache.png'); 
-//                break;
-//            case piecesToSetArray.includes('Fléau'):
-//                this.loadObstaclesImages(location, './assets/fleau.png'); 
-//                break;
-            default:
-                this.loadObstaclesImages(location, './assets/lave64.png');
+        if (piece instanceof Weapon && piece.name === "Dague") {
+            this.loadWeaponsPlayersImages(location, './assets/dague.png');
+        } else if (piece instanceof Weapon && piece.name === "Epée") {
+            this.loadWeaponsPlayersImages(location, './assets/epee.png');
+        } else if (piece instanceof Weapon && piece.name === "Hache") {
+            this.loadWeaponsPlayersImages(location, './assets/hache.png');    
+        } else if (piece instanceof Weapon && piece.name === "Fléau") {
+            this.loadWeaponsPlayersImages(location, './assets/fleau.png');
+        } else {
+            this.loadObstaclesImages(location, './assets/lave64.png');
         }
         
+     
         this.setPiece(piece, location);
     }
 };
