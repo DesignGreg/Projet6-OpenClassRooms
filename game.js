@@ -23,16 +23,25 @@ $(document).ready(function () {
     }
 
 
-    // OBJET PLATEAU
-    function Board(width, height) {
+    // OBJET BOARD - LOGIQUE
+    function Game(width, height, display) {
         this.width = width;
         this.height = height;
+        this.display = display;
+        
         this.forbiddenPosition = [];
         this.chartBoard = this.resetBoard();
         this.generateGame();
-        
+    }
+    
+    // OBJET BOARD - AFFICHAGE
+    function Board() {
 
     }
+    // Comment réutiliser limites de board (10,10);
+    
+
+    
 
 
     $('#start').click(function () {
@@ -46,8 +55,8 @@ $(document).ready(function () {
 
         // DESSIN DU TABLEAU
         Board.prototype.drawBoard = function () {
-            for (var i = 0; i < this.width; i++) {
-                for (var j = 0; j < this.height; j++) {
+            for (var i = 0; i < 10; i++) {
+                for (var j = 0; j < 10; j++) {
                     ctx.strokeStyle = 'rgba(0, 0, 0, 0.7)';
                     ctx.beginPath();
                     ctx.strokeRect(j * 64, i * 64, 64, 64);
@@ -88,12 +97,13 @@ $(document).ready(function () {
         $('.canvas-side__right').css('visibility', 'visible');
         $('.canvas-side__left').addClass('animated slideInLeft');
         $('.canvas-side__right').addClass('animated slideInRight');
+        $('#start').css('visibility', 'hidden');
         
 
         // ETAPE 1
         /* LOGIQUE DU JEU */
 
-        Board.prototype.resetBoard = function () {
+        Game.prototype.resetBoard = function () {
             const chartBoard = [];
 
             // Création du plateau logique
@@ -109,7 +119,7 @@ $(document).ready(function () {
         };
 
 
-        Board.prototype.generateGame = function () {
+        Game.prototype.generateGame = function () {
 
             // GENERER INSTANCES
             const lava = new Obstacle("Lave");
@@ -144,12 +154,12 @@ $(document).ready(function () {
             this.setPlayers(playerArray);
 
             // APPEL FONCTIONS AFFICHAGE
-            this.drawBoard();
+            Board.prototype.drawBoard();
 
         };
 
         // CHOISIR ALEATOIREMENT 4 ARMES
-        Board.prototype.getRandomWeapons = function (maxWeapons, array) {
+        Game.prototype.getRandomWeapons = function (maxWeapons, array) {
             const randomWeaponsArray = [];
 
             for (let i = 0; i < maxWeapons; i++) {
@@ -160,7 +170,7 @@ $(document).ready(function () {
         };
 
         // GENERER UNE POSITION POUR UNE PIECE
-        Board.prototype.generatePieceLocation = function (forbiddenPosition) {
+        Game.prototype.generatePieceLocation = function (forbiddenPosition) {
             let location;
             do {
                 location = this.generateRandomLocation();
@@ -171,7 +181,7 @@ $(document).ready(function () {
         };
 
         // GENERER UNE POSITION POUR UN JOUEUR
-        Board.prototype.generatePlayerLocation = function (forbiddenPosition) {
+        Game.prototype.generatePlayerLocation = function (forbiddenPosition) {
             let location;
             do {
                 location = this.generateRandomLocation();
@@ -181,7 +191,7 @@ $(document).ready(function () {
             return location;
         };
 
-        Board.prototype.generateRandomLocation = function () {
+        Game.prototype.generateRandomLocation = function () {
             return {
                 x: Math.floor(Math.random() * this.width),
                 y: Math.floor(Math.random() * this.height)
@@ -189,7 +199,7 @@ $(document).ready(function () {
         };
 
         // POSITIONNER UNE PIECE
-        Board.prototype.setPiece = function (piece, location) {
+        Game.prototype.setPiece = function (piece, location) {
             if (location.x >= this.width || location.y >= this.height) {
                 throw new Error('Pièce hors limite');
             } else {
@@ -200,22 +210,22 @@ $(document).ready(function () {
 
 
         // PLACER OBSTACLES ET ARMES
-        Board.prototype.setObstaclesWeapons = function (piecesToSetArray) {
+        Game.prototype.setObstaclesWeapons = function (piecesToSetArray) {
             for (let piece of piecesToSetArray) {
                 const location = this.generatePieceLocation(this.forbiddenPosition);
 
 
                 // Appel de l'image correspondante à l'obstacle ou arme
                 if (piece instanceof Weapon && piece.name === "Dague") {
-                    this.loadWeaponsPlayersImages(location, './assets/dague.png');
+                    Board.prototype.loadWeaponsPlayersImages(location, './assets/dague.png');
                 } else if (piece instanceof Weapon && piece.name === "Epée") {
-                    this.loadWeaponsPlayersImages(location, './assets/epee.png');
+                    Board.prototype.loadWeaponsPlayersImages(location, './assets/epee.png');
                 } else if (piece instanceof Weapon && piece.name === "Hache") {
-                    this.loadWeaponsPlayersImages(location, './assets/hache.png');
+                    Board.prototype.loadWeaponsPlayersImages(location, './assets/hache.png');
                 } else if (piece instanceof Weapon && piece.name === "Fléau") {
-                    this.loadWeaponsPlayersImages(location, './assets/fleau.png');
+                    Board.prototype.loadWeaponsPlayersImages(location, './assets/fleau.png');
                 } else {
-                    this.loadObstaclesImages(location, './assets/lave64.png');
+                    Board.prototype.loadObstaclesImages(location, './assets/lave64.png');
                 }
 
 
@@ -224,17 +234,17 @@ $(document).ready(function () {
         };
 
         // PLACER JOUEURS
-        Board.prototype.setPlayers = function (playerArray) {
+        Game.prototype.setPlayers = function (playerArray) {
             for (let player of playerArray) {
                 const location = this.generatePlayerLocation(this.forbiddenPosition);
 
                 // Appel de l'image correspondante au joueur
                 switch (player) {
                     case playerArray[0]:
-                        this.loadWeaponsPlayersImages(location, './assets/joueur1.png');
+                        Board.prototype.loadWeaponsPlayersImages(location, './assets/joueur1.png');
                         break;
                     case playerArray[1]:
-                        this.loadWeaponsPlayersImages(location, './assets/joueur2.png');
+                        Board.prototype.loadWeaponsPlayersImages(location, './assets/joueur2.png');
                         break;
                 }
 
@@ -242,13 +252,11 @@ $(document).ready(function () {
             }
         };
 
-        Board.prototype.isLocationCorrectForPlayer = function (location) {
+        Game.prototype.isLocationCorrectForPlayer = function (location) {
             const {
                 x,
                 y
             } = location;
-            console.log(location);
-            
             
             if (location.y === 0) {
                 if (this.chartBoard[y][x + 1] instanceof Player ||
@@ -283,18 +291,10 @@ $(document).ready(function () {
                 }
             }
                 return true;
-
-//            if (this.chartBoard[y][x + 1] instanceof Player ||
-//                this.chartBoard[y + 1][x] instanceof Player ||
-//                this.chartBoard[y - 1][x] instanceof Player ||
-//                this.chartBoard[y][x - 1] instanceof Player) {
-//                return false;
-//            }
-//            return true;
         };
 
 
-        Board.prototype.isPositionInArray = function (position, array) {
+        Game.prototype.isPositionInArray = function (position, array) {
             return array.some((elem) => {
                 return (elem.x === position.x && elem.y === position.y);
             });
@@ -302,7 +302,8 @@ $(document).ready(function () {
 
 
         // CREER INSTANCE DE BOARD
-        const board = new Board(10, 10);
+        const game = new Game(10, 10, Game);
+        console.log(game); 
 
     });
 
@@ -318,7 +319,7 @@ $(document).ready(function () {
 
     // Rajouter attribut this.turn = 1 à l'objet Board
 
-    Board.prototype.switchTurn = function () {
+    Game.prototype.switchTurn = function () {
 
         $(document).on('keypress', function (e) {
             if (e.which == 13 || Board.turn === 1) {
@@ -336,7 +337,7 @@ $(document).ready(function () {
 
     };
 
-    Board.prototype.showMovement = function (activePlayer) {
+    Game.prototype.showMovement = function (activePlayer) {
         // checkAvailableSquares
 
         // highlightSquare
@@ -344,18 +345,18 @@ $(document).ready(function () {
 
     };
 
-    Board.prototype.checkAvailableSquares = function (activePlayer) {
+    Game.prototype.checkAvailableSquares = function (activePlayer) {
         // 3 Ifs imbriqués (case +1, case +2, case +3) - 2 boucles (-3 à 3) x et y
         // Vérifier cases perpendiculaires au joueur actif
         // stoppe si obstacle ou joueur sur le chemin (par direction)
         // renvoie tableau coordonnées autorisées
     };
 
-    Board.prototype.highlightSquare = function () {
+    Game.prototype.highlightSquare = function () {
         // surbrillance des cases disnibles
     };
 
-    Board.prototype.movePlayer = function (activePlayer) { // autre classe, graphique
+    Game.prototype.movePlayer = function (activePlayer) { // autre classe, graphique
         $(document).on('keypress', function (e) {
             if (e.which == 37) {
                 //reprendre coordonnées player actif, x-1 (gauche)
@@ -372,11 +373,11 @@ $(document).ready(function () {
         });
     };
 
-    Board.prototype.walkOnWeapon = function () {
+    Game.prototype.walkOnWeapon = function () {
         // Est-ce que objet player et weapon sur même case ?
     };
 
-    Board.prototype.switchWeapon = function () {
+    Game.prototype.switchWeapon = function () {
         // walkOnWeapon
         // Changer l'arme du joueur (mise à jour de l'instance)
 

@@ -1,5 +1,5 @@
 const test = require('tape');
-const engine = require('./main.js');
+const engine = require('./game.js');
 
 
 //test('generateRandomLocation - valeur entre 1 et 10 (array.length)', (assert) => {
@@ -22,7 +22,7 @@ const engine = require('./main.js');
 test('isLocationCorrectForPlayer - return bien true si autre joueur en y/x+1', (assert) => {
     assert.plan(1);
     
-    const boardTest = new engine.Board(10,10);
+    const gameTest = new engine.Game(10,10);
     
     const location = {
         x: 2,
@@ -34,8 +34,8 @@ test('isLocationCorrectForPlayer - return bien true si autre joueur en y/x+1', (
         y: 2
     };
     
-    const player1 = boardTest.setPiece(engine.player1, occupiedLocation);
-    const startAgain = boardTest.isLocationCorrectForPlayer(location);
+    const player1 = gameTest.setPiece(engine.player1, occupiedLocation);
+    const startAgain = gameTest.isLocationCorrectForPlayer(location);
     
     assert.ok(startAgain, 'Tant que l\'emplacement es pris, la boucle recommence');
 });
@@ -43,7 +43,7 @@ test('isLocationCorrectForPlayer - return bien true si autre joueur en y/x+1', (
 test('isLocationCorrectForPlayer - return bien true si autre joueur en y+1/x', (assert) => {
    assert.plan(1);
    
-   const boardTest = new engine.Board(10, 10);
+   const gameTest = new engine.Game(10, 10);
    
    const location = {
        x: 2,
@@ -53,7 +53,7 @@ test('isLocationCorrectForPlayer - return bien true si autre joueur en y+1/x', (
 //    boardTest.chartBoard = [2][3];
    
    
-   const startAgain = boardTest.isLocationCorrectForPlayer(location);
+   const startAgain = gameTest.isLocationCorrectForPlayer(location);
 
    
    assert.ok(startAgain, 'Tant que l\'emplacement es pris, la boucle recommence');
@@ -62,7 +62,7 @@ test('isLocationCorrectForPlayer - return bien true si autre joueur en y+1/x', (
 test('isLocationCorrectForPlayer - return bien true si autre joueur en y-1/x', (assert) => {
    assert.plan(1);
    
-   const boardTest = new engine.Board(10, 10);
+   const gameTest = new engine.Game(10, 10);
    
    const location = {
        x: 2,
@@ -72,7 +72,7 @@ test('isLocationCorrectForPlayer - return bien true si autre joueur en y-1/x', (
 //    boardTest.chartBoard = [2][3];
    
    
-   const startAgain = boardTest.isLocationCorrectForPlayer(location);
+   const startAgain = gameTest.isLocationCorrectForPlayer(location);
 
    
    assert.ok(startAgain, 'Tant que l\'emplacement es pris, la boucle recommence');
@@ -81,7 +81,7 @@ test('isLocationCorrectForPlayer - return bien true si autre joueur en y-1/x', (
 test('isLocationCorrectForPlayer - return bien true si autre joueur en y/x-1', (assert) => {
    assert.plan(1);
    
-   const boardTest = new engine.Board(10, 10);
+   const gameTest = new engine.Game(10, 10);
    
    const location = {
        x: 2,
@@ -91,7 +91,7 @@ test('isLocationCorrectForPlayer - return bien true si autre joueur en y/x-1', (
 //    boardTest.chartBoard = [2][3];
    
    
-   const startAgain = boardTest.isLocationCorrectForPlayer(location);
+   const startAgain = gameTest.isLocationCorrectForPlayer(location);
 
    
    assert.ok(startAgain, 'Tant que l\'emplacement es pris, la boucle recommence');
@@ -104,7 +104,7 @@ test('isLocationCorrectForPlayer - return bien true si autre joueur en y/x-1', (
 test('generatePieceLocation - nouvelle boucle randomLocation() tant que isPositionInArray() = true', (assert) => {
    assert.plan(1);
    
-   const boardTest = new engine.Board(10, 10);
+   const gameTest = new engine.Game(10, 10);
    
    const location = {
        x: 1,
@@ -130,7 +130,7 @@ test('isPositionInArray - position dans tableau', (assert) => {
        y: 2
    };
 
-   const isInArray = engine.Board.prototype.isPositionInArray(position, array);
+   const isInArray = engine.Game.prototype.isPositionInArray(position, array);
 
    assert.ok(isInArray, 'La position devrait etre dans le tableau');
 });
@@ -146,7 +146,7 @@ test('isPositionInArray - position absente', (assert) => {
        y: 3
    };
 
-   const isInArray = engine.Board.prototype.isPositionInArray(position, array);
+   const isInArray = engine.Game.prototype.isPositionInArray(position, array);
 
    assert.notOk(isInArray, 'La position devrait etre absente du tableau');
 });
