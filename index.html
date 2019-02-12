@@ -12,6 +12,7 @@
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.0/animate.css">
     <link rel="stylesheet" href="./styles/style.css">
 
     <title>Angels Warriors</title>
@@ -25,13 +26,13 @@
                     <h1 class="title-container--text text-center">ANGELS WARRIORS</h1>
                 </div>
                 <div class="title-container--button">
-                    <button type="button" class="button--start btn btn-dark btn-lg">Start New Game</button>
+                    <button type="button" id="start" class="button--start btn btn-dark btn-lg">Start New Game</button>
                 </div>
             </div>
         </div>
 
         <div class="row">
-            <div class="canvas-side col-sm-2 col-md-3 col-lg-3 col-xl-3">
+            <div class="canvas-side canvas-side__left col-sm-2 col-md-3 col-lg-3 col-xl-3">
                 
                 <!-- image à gauche titre -->
                 
@@ -46,7 +47,7 @@
                 <canvas id="board" width="640" height="640"></canvas>
             </div>
 
-            <div class="canvas-side col-sm-2 col-md-3 col-lg-3 col-xl-3">
+            <div class="canvas-side canvas-side__right col-sm-2 col-md-3 col-lg-3 col-xl-3">
                 <h2 class="canvas-side--title">Player2</h2>
                 
                 <p class="canvas-side--health">100</p>

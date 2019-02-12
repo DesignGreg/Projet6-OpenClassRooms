@@ -1,345 +1,355 @@
 'use strict'
 
-//$(document).ready(function () {
+$(document).ready(function () {
 
-// ETAPE 1
 
-/* AFFICHAGE */
-
-// CONTEXTE DU CANVAS
-const ctx = $('#board').get(0).getContext('2d');
-
-// DESSIN DU TABLEAU
-Board.prototype.drawBoard = function () {
-    for (var i = 0; i < this.width; i++) {
-        for (var j = 0; j < this.height; j++) {
-            ctx.strokeStyle = 'rgba(0, 0, 0, 0.7)';
-            ctx.beginPath();
-            ctx.strokeRect(j * 64, i * 64, 64, 64);
-            ctx.closePath();
-        }
+    // OBJET OBSTACLE
+    function Obstacle(name) {
+        this.name = name;
     }
-};
 
-
-
-/* LOGIQUE DU JEU */
-
-// OBJET OBSTACLE
-function Obstacle(name) {
-    this.name = name;
-}
-
-// OBJET ARME
-function Weapon(name, damage) {
-    this.name = name;
-    this.damage = damage;
-}
-
-// OBJET JOUEUR
-function Player(name, life, weapon) {
-    this.name = name;
-    this.life = life;
-
-    this.weapon = weapon;
-}
-
-
-// OBJET PLATEAU
-function Board(width, height) {
-    this.width = width;
-    this.height = height;
-    this.forbiddenPosition = [];
-
-    this.resetBoard();
-    this.generateGame();
-}
-
-Board.prototype.resetBoard = function () {
-    this.chartBoard = [];
-
-    // Création du plateau logique
-    for (let i = 0; i < this.width; i++) {
-        const row = [];
-        this.chartBoard.push(row);
-        for (let j = 0; j < this.height; j++) {
-            const col = {};
-            row.push(col);
-        }
+    // OBJET ARME
+    function Weapon(name, damage) {
+        this.name = name;
+        this.damage = damage;
     }
-};
 
+    // OBJET JOUEUR
+    function Player(name, life, weapon) {
+        this.name = name;
+        this.life = life;
 
-Board.prototype.loadObstaclesImages = function (location, path) {
-    
-    const drawX = [location.x] * 64;
-    const drawY = [location.y] * 64;
-    
-    const image = new Image();
-    image.onload = function () {
-        ctx.drawImage(image, drawX, drawY);
-    };
-    image.src = path;
-    
-};
-
-
-Board.prototype.loadWeaponsPlayersImages = function (location, path) {
-    
-    const drawX = [location.x] * 64;
-    const drawY = [location.y] * 64;
-    
-    const image = new Image();
-    image.onload = function () {
-        ctx.drawImage(image, (drawX + (image.width/2)), (drawY + (image.height/2)));
-    };
-    image.src = path;
-    
-};
-
-
-Board.prototype.generateGame = function () {
-
-    // GENERER INSTANCES
-    const lava = new Obstacle("Lave");
-    const lava1 = new Obstacle("Lave1");
-    const lava2 = new Obstacle("Lave2");
-    const lava3 = new Obstacle("Lave3");
-    const lava4 = new Obstacle("Lave4");
-    const lava5 = new Obstacle("Lave5");
-    const lava6 = new Obstacle("Lave6");
-    const lava7 = new Obstacle("Lave7");
-    const lava8 = new Obstacle("Lave8");
-    const lava9 = new Obstacle("Lave9");
-    const obstacleArray = [lava, lava1, lava2, lava3, lava4, lava5, lava6, lava7, lava8, lava9];
-
-    const dagger = new Weapon("Dague", 5);
-    const sword = new Weapon("Epée", 10);
-    const axe = new Weapon("Hache", 15);
-    const flail = new Weapon("Fléau", 20);
-    const weaponArray = [dagger, sword, axe, flail];
-
-    let randomWeapons = this.getRandomWeapons(4, weaponArray);
-
-    let pieceToSetArray = obstacleArray.concat(randomWeapons);
-    console.log(pieceToSetArray);
-
-    // GENERER INSTANCES
-    const player1 = new Player("Joueur 1", 100, dagger);
-    const player2 = new Player("Joueur 2", 100, dagger);
-    const playerArray = [player1, player2];
-
-
-    this.setObstaclesWeapons(pieceToSetArray);
-    this.setPlayers(playerArray);
-    
-    // APPEL FONCTIONS AFFICHAGE
-    this.drawBoard();
-    
-    console.log(this.chartBoard);
-};
-
-// CHOISIR ALEATOIREMENT 4 ARMES
-Board.prototype.getRandomWeapons = function (maxWeapons, array) {
-    const randomWeaponsArray = [];
-
-    for (let i = 0; i < maxWeapons; i++) {
-        let randomWeapon = Math.floor(Math.random() * array.length);
-        randomWeaponsArray.push(array[randomWeapon]);
+        this.weapon = weapon;
     }
-    return randomWeaponsArray;
-};
-
-// fusionner 2 tableaux (pas fonction)
 
 
-// GENERER UNE POSITION POUR UNE PIECE
-Board.prototype.generatePieceLocation = function (forbiddenPosition) {
-    let location;
-    do {
-        location = this.generateRandomLocation();
+    // OBJET PLATEAU
+    function Board(width, height) {
+        this.width = width;
+        this.height = height;
+        this.forbiddenPosition = [];
+
+        this.resetBoard();
+        this.generateGame();
     }
-    while (this.isPositionInArray(location, forbiddenPosition));
-
-    return location;
-};
-
-// GENERER UNE POSITION POUR UN JOUEUR
-Board.prototype.generatePlayerLocation = function (forbiddenPosition) {
-    let location;
-    do {
-        location = this.generateRandomLocation();
-    }
-    while (this.isPositionInArray(location, forbiddenPosition) && !this.isLocationCorrectForPlayer(location));
-
-    return location;
-};
-
-Board.prototype.generateRandomLocation = function () {
-    return {
-        x: Math.floor(Math.random() * this.width),
-        y: Math.floor(Math.random() * this.height)
-    };
-};
-
-// POSITIONNER UNE PIECE
-Board.prototype.setPiece = function (piece, location) {
-    if (location.x >= this.width || location.y >= this.height) {
-        throw new Error('Pièce hors limite');
-    } else {
-        this.chartBoard[location.y][location.x] = piece;
-        this.forbiddenPosition.push(location);
-    }
-};
 
 
-// PLACER OBSTACLES ET ARMES
-Board.prototype.setObstaclesWeapons = function (piecesToSetArray) {
-    for (let piece of piecesToSetArray) {
-        const location = this.generatePieceLocation(this.forbiddenPosition);
+    $('#start').click(function () {
+
+
+        // ETAPE 1
+        /* AFFICHAGE */
+
+        // CONTEXTE DU CANVAS
+        const ctx = $('#board').get(0).getContext('2d');
+
+        // DESSIN DU TABLEAU
+        Board.prototype.drawBoard = function () {
+            for (var i = 0; i < this.width; i++) {
+                for (var j = 0; j < this.height; j++) {
+                    ctx.strokeStyle = 'rgba(0, 0, 0, 0.7)';
+                    ctx.beginPath();
+                    ctx.strokeRect(j * 64, i * 64, 64, 64);
+                    ctx.closePath();
+                }
+            }
+        };
+
+        Board.prototype.loadObstaclesImages = function (location, path) {
+
+            const drawX = [location.x] * 64;
+            const drawY = [location.y] * 64;
+
+            const image = new Image();
+            image.onload = function () {
+                ctx.drawImage(image, drawX, drawY);
+            };
+            image.src = path;
+
+        };
+
+
+        Board.prototype.loadWeaponsPlayersImages = function (location, path) {
+
+            const drawX = [location.x] * 64;
+            const drawY = [location.y] * 64;
+
+            const image = new Image();
+            image.onload = function () {
+                ctx.drawImage(image, (drawX + (image.width / 2)), (drawY + (image.height / 2)));
+            };
+            image.src = path;
+
+        };
         
+        $('.canvas').css('visibility', 'visible');
+        $('.canvas-side__left').css('visibility', 'visible');
+        $('.canvas-side__right').css('visibility', 'visible');
+        $('.canvas-side__left').addClass('animated slideInLeft');
+        $('.canvas-side__right').addClass('animated slideInRight');
         
-        // Appel de l'image correspondante à l'obstacle ou arme
-        if (piece instanceof Weapon && piece.name === "Dague") {
-            this.loadWeaponsPlayersImages(location, './assets/dague.png');
-        } else if (piece instanceof Weapon && piece.name === "Epée") {
-            this.loadWeaponsPlayersImages(location, './assets/epee.png');
-        } else if (piece instanceof Weapon && piece.name === "Hache") {
-            this.loadWeaponsPlayersImages(location, './assets/hache.png');    
-        } else if (piece instanceof Weapon && piece.name === "Fléau") {
-            this.loadWeaponsPlayersImages(location, './assets/fleau.png');
-        } else {
-            this.loadObstaclesImages(location, './assets/lave64.png');
-        }
-        
-     
-        this.setPiece(piece, location);
-    }
-};
 
-// PLACER JOUEURS
-Board.prototype.setPlayers = function (playerArray) {
-    for (let player of playerArray) {
-        const location = this.generatePlayerLocation(this.forbiddenPosition);
+        // ETAPE 1
+        /* LOGIQUE DU JEU */
 
-        // Appel de l'image correspondante au joueur
-        switch (player) {
-            case playerArray[0]:
-                this.loadWeaponsPlayersImages(location, './assets/joueur1.png'); 
-                break;
-            case playerArray[1]:
-                this.loadWeaponsPlayersImages(location, './assets/joueur2.png'); 
-                break;
-        }
-    
-        this.setPiece(player, location);
-    }
-};
+        Board.prototype.resetBoard = function () {
+            this.chartBoard = [];
 
-Board.prototype.isLocationCorrectForPlayer = function (location) {
-    const {
-        x,
-        y
-    } = location;
-
-    if (this.chartBoard[y][x + 1] instanceof Player ||
-        this.chartBoard[y][x + 1] === undefined ||
-        this.chartBoard[y + 1][x] instanceof Player ||
-        this.chartBoard[y + 1][x] === undefined ||
-        this.chartBoard[y - 1][x] instanceof Player ||
-        this.chartBoard[y - 1][x] === undefined ||
-        this.chartBoard[y][x - 1] instanceof Player ||
-        this.chartBoard[y][x - 1] === undefined) {
-        return false;
-    }
-    return true;
-};
+            // Création du plateau logique
+            for (let i = 0; i < this.width; i++) {
+                const row = [];
+                this.chartBoard.push(row);
+                for (let j = 0; j < this.height; j++) {
+                    const col = {};
+                    row.push(col);
+                }
+            }
+        };
 
 
-Board.prototype.isPositionInArray = function (position, array) {
-    return array.some((elem) => {
-        return (elem.x === position.x && elem.y === position.y);
-    });
-};
+        Board.prototype.generateGame = function () {
+
+            // GENERER INSTANCES
+            const lava = new Obstacle("Lave");
+            const lava1 = new Obstacle("Lave1");
+            const lava2 = new Obstacle("Lave2");
+            const lava3 = new Obstacle("Lave3");
+            const lava4 = new Obstacle("Lave4");
+            const lava5 = new Obstacle("Lave5");
+            const lava6 = new Obstacle("Lave6");
+            const lava7 = new Obstacle("Lave7");
+            const lava8 = new Obstacle("Lave8");
+            const lava9 = new Obstacle("Lave9");
+            const obstacleArray = [lava, lava1, lava2, lava3, lava4, lava5, lava6, lava7, lava8, lava9];
+
+            const dagger = new Weapon("Dague", 5);
+            const sword = new Weapon("Epée", 10);
+            const axe = new Weapon("Hache", 15);
+            const flail = new Weapon("Fléau", 20);
+            const weaponArray = [dagger, sword, axe, flail];
+
+            let randomWeapons = this.getRandomWeapons(4, weaponArray);
+
+            let pieceToSetArray = obstacleArray.concat(randomWeapons);
+            console.log(pieceToSetArray);
+
+            // GENERER INSTANCES
+            const player1 = new Player("Joueur 1", 100, dagger);
+            const player2 = new Player("Joueur 2", 100, dagger);
+            const playerArray = [player1, player2];
 
 
-// CREER INSTANCE DE BOARD
-const board = new Board(10, 10);
+            this.setObstaclesWeapons(pieceToSetArray);
+            this.setPlayers(playerArray);
+
+            // APPEL FONCTIONS AFFICHAGE
+            this.drawBoard();
+
+            console.log(this.chartBoard);
+        };
+
+        // CHOISIR ALEATOIREMENT 4 ARMES
+        Board.prototype.getRandomWeapons = function (maxWeapons, array) {
+            const randomWeaponsArray = [];
+
+            for (let i = 0; i < maxWeapons; i++) {
+                let randomWeapon = Math.floor(Math.random() * array.length);
+                randomWeaponsArray.push(array[randomWeapon]);
+            }
+            return randomWeaponsArray;
+        };
+
+        // GENERER UNE POSITION POUR UNE PIECE
+        Board.prototype.generatePieceLocation = function (forbiddenPosition) {
+            let location;
+            do {
+                location = this.generateRandomLocation();
+            }
+            while (this.isPositionInArray(location, forbiddenPosition));
+
+            return location;
+        };
+
+        // GENERER UNE POSITION POUR UN JOUEUR
+        Board.prototype.generatePlayerLocation = function (forbiddenPosition) {
+            let location;
+            do {
+                location = this.generateRandomLocation();
+            }
+            while (this.isPositionInArray(location, forbiddenPosition) && !this.isLocationCorrectForPlayer(location));
+
+            return location;
+        };
+
+        Board.prototype.generateRandomLocation = function () {
+            return {
+                x: Math.floor(Math.random() * this.width),
+                y: Math.floor(Math.random() * this.height)
+            };
+        };
+
+        // POSITIONNER UNE PIECE
+        Board.prototype.setPiece = function (piece, location) {
+            if (location.x >= this.width || location.y >= this.height) {
+                throw new Error('Pièce hors limite');
+            } else {
+                this.chartBoard[location.y][location.x] = piece;
+                this.forbiddenPosition.push(location);
+            }
+        };
 
 
+        // PLACER OBSTACLES ET ARMES
+        Board.prototype.setObstaclesWeapons = function (piecesToSetArray) {
+            for (let piece of piecesToSetArray) {
+                const location = this.generatePieceLocation(this.forbiddenPosition);
 
-// GRAPHISME ETAPE 1
+
+                // Appel de l'image correspondante à l'obstacle ou arme
+                if (piece instanceof Weapon && piece.name === "Dague") {
+                    this.loadWeaponsPlayersImages(location, './assets/dague.png');
+                } else if (piece instanceof Weapon && piece.name === "Epée") {
+                    this.loadWeaponsPlayersImages(location, './assets/epee.png');
+                } else if (piece instanceof Weapon && piece.name === "Hache") {
+                    this.loadWeaponsPlayersImages(location, './assets/hache.png');
+                } else if (piece instanceof Weapon && piece.name === "Fléau") {
+                    this.loadWeaponsPlayersImages(location, './assets/fleau.png');
+                } else {
+                    this.loadObstaclesImages(location, './assets/lave64.png');
+                }
 
 
+                this.setPiece(piece, location);
+            }
+        };
 
-// ETAPE 2
+        // PLACER JOUEURS
+        Board.prototype.setPlayers = function (playerArray) {
+            for (let player of playerArray) {
+                const location = this.generatePlayerLocation(this.forbiddenPosition);
 
-// Rajouter attribut this.turn = 1 à l'objet Board
+                // Appel de l'image correspondante au joueur
+                switch (player) {
+                    case playerArray[0]:
+                        this.loadWeaponsPlayersImages(location, './assets/joueur1.png');
+                        break;
+                    case playerArray[1]:
+                        this.loadWeaponsPlayersImages(location, './assets/joueur2.png');
+                        break;
+                }
 
-Board.prototype.switchTurn = function () {
+                this.setPiece(player, location);
+            }
+        };
 
-    $(document).on('keypress', function (e) {
-        if (e.which == 13 || Board.turn === 1) {
-            // Changer de joueur, player1 false
-            let activePlayer = 2;
-            e.stopPropagation();
-        }
-        if (e.which == 13 || Board.turn === 2) {
-            // Changer de joueur player1 true
-            let activePlayer = 1;
-            e.stopPropagation();
-        }
-        return activePlayer;
+        Board.prototype.isLocationCorrectForPlayer = function (location) {
+            const {
+                x,
+                y
+            } = location;
+
+            if (this.chartBoard[y][x + 1] instanceof Player ||
+                this.chartBoard[y][x + 1] === undefined ||
+                this.chartBoard[y + 1][x] instanceof Player ||
+                this.chartBoard[y + 1][x] === undefined ||
+                this.chartBoard[y - 1][x] instanceof Player ||
+                this.chartBoard[y - 1][x] === undefined ||
+                this.chartBoard[y][x - 1] instanceof Player ||
+                this.chartBoard[y][x - 1] === undefined) {
+                return false;
+            }
+            return true;
+        };
+
+
+        Board.prototype.isPositionInArray = function (position, array) {
+            return array.some((elem) => {
+                return (elem.x === position.x && elem.y === position.y);
+            });
+        };
+
+
+        // CREER INSTANCE DE BOARD
+        const board = new Board(10, 10);
+
     });
 
-};
 
-Board.prototype.showMovement = function (activePlayer) {
-    // checkAvailableSquares
-    
-    // highlightSquare
-    
-    
-};
 
-Board.prototype.checkAvailableSquares = function (activePlayer) {
-    // 3 Ifs imbriqués (case +1, case +2, case +3)
-    // Vérifier cases perpendiculaires au joueur actif
-    // stoppe si obstacle ou joueur sur le chemin (par direction)
-};
 
-Board.prototype.highlightSquare = function () {
-    // surbrillance des cases disponibles
-};
 
-Board.prototype.movePlayer = function (activePlayer) {
-    $(document).on('keypress', function(e) {
-        if (e.which == 37) {
-            //reprendre coordonnées player actif, x-1 (gauche)
-        }
-        if (e.which == 38) {
-            //reprendre coordonnées player actif, y+1 (haut)
-        }
-        if (e.which == 39) {
-            //reprendre coordonnées player actif, x+1 (droite)
-        }
-        if (e.which == 40) {
-            //reprendre coordonnées player actif, y-1 (bas)
-        }
-    });
-};
 
-Board.prototype.walkOnWeapon = function () {
-    // Est-ce que objet player et weapon sur même case ?
-};
 
-Board.prototype.switchWeapon = function () {
-    // walkOnWeapon
-    // Changer l'arme du joueur (mise à jour de l'instance)
 
-};
 
-//});
+    // ETAPE 2
+
+    // Rajouter attribut this.turn = 1 à l'objet Board
+
+    Board.prototype.switchTurn = function () {
+
+        $(document).on('keypress', function (e) {
+            if (e.which == 13 || Board.turn === 1) {
+                // Changer de joueur, player1 false
+                let activePlayer = 2;
+                e.stopPropagation();
+            }
+            if (e.which == 13 || Board.turn === 2) {
+                // Changer de joueur player1 true
+                let activePlayer = 1;
+                e.stopPropagation();
+            }
+            return activePlayer;
+        });
+
+    };
+
+    Board.prototype.showMovement = function (activePlayer) {
+        // checkAvailableSquares
+
+        // highlightSquare
+
+
+    };
+
+    Board.prototype.checkAvailableSquares = function (activePlayer) {
+        // 3 Ifs imbriqués (case +1, case +2, case +3)
+        // Vérifier cases perpendiculaires au joueur actif
+        // stoppe si obstacle ou joueur sur le chemin (par direction)
+    };
+
+    Board.prototype.highlightSquare = function () {
+        // surbrillance des cases disponibles
+    };
+
+    Board.prototype.movePlayer = function (activePlayer) {
+        $(document).on('keypress', function (e) {
+            if (e.which == 37) {
+                //reprendre coordonnées player actif, x-1 (gauche)
+            }
+            if (e.which == 38) {
+                //reprendre coordonnées player actif, y+1 (haut)
+            }
+            if (e.which == 39) {
+                //reprendre coordonnées player actif, x+1 (droite)
+            }
+            if (e.which == 40) {
+                //reprendre coordonnées player actif, y-1 (bas)
+            }
+        });
+    };
+
+    Board.prototype.walkOnWeapon = function () {
+        // Est-ce que objet player et weapon sur même case ?
+    };
+
+    Board.prototype.switchWeapon = function () {
+        // walkOnWeapon
+        // Changer l'arme du joueur (mise à jour de l'instance)
+
+    };
+
+});
 
 //module.exports = {
 //    Obstacle: Obstacle,
