@@ -28,9 +28,10 @@ $(document).ready(function () {
         this.width = width;
         this.height = height;
         this.forbiddenPosition = [];
-
-        this.resetBoard();
+        this.chartBoard = this.resetBoard();
         this.generateGame();
+        
+
     }
 
 
@@ -57,8 +58,8 @@ $(document).ready(function () {
 
         Board.prototype.loadObstaclesImages = function (location, path) {
 
-            const drawX = [location.x] * 64;
-            const drawY = [location.y] * 64;
+            const drawX = location.x * 64;
+            const drawY = location.y * 64;
 
             const image = new Image();
             image.onload = function () {
@@ -93,17 +94,18 @@ $(document).ready(function () {
         /* LOGIQUE DU JEU */
 
         Board.prototype.resetBoard = function () {
-            this.chartBoard = [];
+            const chartBoard = [];
 
             // Création du plateau logique
             for (let i = 0; i < this.width; i++) {
                 const row = [];
-                this.chartBoard.push(row);
+                chartBoard.push(row);
                 for (let j = 0; j < this.height; j++) {
                     const col = {};
                     row.push(col);
                 }
             }
+            return chartBoard;
         };
 
 
@@ -131,7 +133,6 @@ $(document).ready(function () {
             let randomWeapons = this.getRandomWeapons(4, weaponArray);
 
             let pieceToSetArray = obstacleArray.concat(randomWeapons);
-            console.log(pieceToSetArray);
 
             // GENERER INSTANCES
             const player1 = new Player("Joueur 1", 100, dagger);
@@ -145,7 +146,6 @@ $(document).ready(function () {
             // APPEL FONCTIONS AFFICHAGE
             this.drawBoard();
 
-            console.log(this.chartBoard);
         };
 
         // CHOISIR ALEATOIREMENT 4 ARMES
@@ -176,7 +176,7 @@ $(document).ready(function () {
             do {
                 location = this.generateRandomLocation();
             }
-            while (this.isPositionInArray(location, forbiddenPosition) && !this.isLocationCorrectForPlayer(location));
+            while (this.isPositionInArray(location, forbiddenPosition) || !this.isLocationCorrectForPlayer(location));
 
             return location;
         };
@@ -247,18 +247,50 @@ $(document).ready(function () {
                 x,
                 y
             } = location;
-
-            if (this.chartBoard[y][x + 1] instanceof Player ||
-                this.chartBoard[y][x + 1] === undefined ||
+            console.log(location);
+            
+            
+            if (location.y === 0) {
+                if (this.chartBoard[y][x + 1] instanceof Player ||
                 this.chartBoard[y + 1][x] instanceof Player ||
-                this.chartBoard[y + 1][x] === undefined ||
-                this.chartBoard[y - 1][x] instanceof Player ||
-                this.chartBoard[y - 1][x] === undefined ||
-                this.chartBoard[y][x - 1] instanceof Player ||
-                this.chartBoard[y][x - 1] === undefined) {
+                this.chartBoard[y][x - 1] instanceof Player) {
                 return false;
+                }
+            }else if (location.y === 9) {
+                if (this.chartBoard[y][x + 1] instanceof Player ||
+                this.chartBoard[y - 1][x] instanceof Player ||
+                this.chartBoard[y][x - 1] instanceof Player) {
+                return false;
+                }
+            }else if (location.x === 0) {
+                if (this.chartBoard[y][x + 1] instanceof Player ||
+                this.chartBoard[y + 1][x] instanceof Player ||
+                this.chartBoard[y - 1][x] instanceof Player) {
+                return false;
+                }
+            }else if (location.x === 9) {
+                if (this.chartBoard[y + 1][x] instanceof Player ||
+                this.chartBoard[y - 1][x] instanceof Player ||
+                this.chartBoard[y][x - 1] instanceof Player) {
+                return false;
+                }
+            }else {
+                if (this.chartBoard[y][x + 1] instanceof Player ||
+                this.chartBoard[y + 1][x] instanceof Player ||
+                this.chartBoard[y - 1][x] instanceof Player ||
+                this.chartBoard[y][x - 1] instanceof Player) {
+                return false;
+                }
             }
-            return true;
+                return true;
+
+//            if (this.chartBoard[y][x + 1] instanceof Player ||
+//                this.chartBoard[y + 1][x] instanceof Player ||
+//                this.chartBoard[y - 1][x] instanceof Player ||
+//                this.chartBoard[y][x - 1] instanceof Player) {
+//                return false;
+//            }
+//            return true;
         };
 
 
@@ -313,16 +345,17 @@ $(document).ready(function () {
     };
 
     Board.prototype.checkAvailableSquares = function (activePlayer) {
-        // 3 Ifs imbriqués (case +1, case +2, case +3)
+        // 3 Ifs imbriqués (case +1, case +2, case +3) - 2 boucles (-3 à 3) x et y
         // Vérifier cases perpendiculaires au joueur actif
         // stoppe si obstacle ou joueur sur le chemin (par direction)
+        // renvoie tableau coordonnées autorisées
     };
 
     Board.prototype.highlightSquare = function () {
-        // surbrillance des cases disponibles
+        // surbrillance des cases disnibles
     };
 
-    Board.prototype.movePlayer = function (activePlayer) {
+    Board.prototype.movePlayer = function (activePlayer) { // autre classe, graphique
         $(document).on('keypress', function (e) {
             if (e.which == 37) {
                 //reprendre coordonnées player actif, x-1 (gauche)
