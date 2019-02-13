@@ -15,9 +15,9 @@ $(document).ready(function () {
     }
 
     // OBJET JOUEUR
-    function Player(name, life, weapon) {
+    function Player(name, health, weapon) {
         this.name = name;
-        this.life = life;
+        this.health = health;
 
         this.weapon = weapon;
     }
@@ -94,16 +94,19 @@ $(document).ready(function () {
         };
         
         
-        // INTERACTION AVEC LE DOM
-        Board.prototype.addOnDom = function () {
+        Board.prototype.addOnDom = function (player1, player2) {
             $('.canvas').css('visibility', 'visible');
+            
             $('.canvas-side__left').css('visibility', 'visible');
             $('.canvas-side__right').css('visibility', 'visible');
             $('.canvas-side__left').addClass('animated slideInLeft');
             $('.canvas-side__right').addClass('animated slideInRight');
             $('#start').css('visibility', 'hidden');
         
-            $( ".canvas-side__left" ).html("<h2 class='canvas-side--title'>" + player1.name + "</h2>");
+            $(".canvas-side__left").html("<h2 class='canvas-side--title'>" + player1.name + "</h2><p class='canvas-side--health'>" + player1.health + "</p><p class='canvas-side--health'>" + player1.weapon.name + "</p>");
+            
+            $(".canvas-side__right").html("<h2 class='canvas-side--title'>" + player2.name + "</h2><p class='canvas-side--health'>" + player2.health + "</p><p class='canvas-side--health'>" + player2.weapon.name + "</p>");
+            
         };
         
         
@@ -165,7 +168,7 @@ $(document).ready(function () {
 
             // APPEL FONCTIONS AFFICHAGE
             Board.prototype.drawBoard();
-            Board.prototype.addOnDom();
+            Board.prototype.addOnDom(player1, player2);
 
         };
 
