@@ -36,11 +36,12 @@ $(document).ready(function () {
     
     // OBJET BOARD - AFFICHAGE
     function Board() {
-
+        Game.call(this);
     }
-    // Comment réutiliser limites de board (10,10);
     
-
+    // CHAINE DE PROTOTYPES
+    Game.prototype = Object.create(Board.prototype);
+    Board.prototype.constructor = Board;
     
 
 
@@ -55,8 +56,8 @@ $(document).ready(function () {
 
         // DESSIN DU TABLEAU
         Board.prototype.drawBoard = function () {
-            for (var i = 0; i < 10; i++) {
-                for (var j = 0; j < 10; j++) {
+            for (var i = 0; i < board.width; i++) {
+                for (var j = 0; j < board.height; j++) {
                     ctx.strokeStyle = 'rgba(0, 0, 0, 0.7)';
                     ctx.beginPath();
                     ctx.strokeRect(j * 64, i * 64, 64, 64);
@@ -92,12 +93,21 @@ $(document).ready(function () {
 
         };
         
-        $('.canvas').css('visibility', 'visible');
-        $('.canvas-side__left').css('visibility', 'visible');
-        $('.canvas-side__right').css('visibility', 'visible');
-        $('.canvas-side__left').addClass('animated slideInLeft');
-        $('.canvas-side__right').addClass('animated slideInRight');
-        $('#start').css('visibility', 'hidden');
+        
+        // INTERACTION AVEC LE DOM
+        Board.prototype.addOnDom = function () {
+            $('.canvas').css('visibility', 'visible');
+            $('.canvas-side__left').css('visibility', 'visible');
+            $('.canvas-side__right').css('visibility', 'visible');
+            $('.canvas-side__left').addClass('animated slideInLeft');
+            $('.canvas-side__right').addClass('animated slideInRight');
+            $('#start').css('visibility', 'hidden');
+        
+            $( ".canvas-side__left" ).html("<h2 class='canvas-side--title'>" + player1.name + "</h2>");
+        };
+        
+        
+        
         
 
         // ETAPE 1
@@ -155,6 +165,7 @@ $(document).ready(function () {
 
             // APPEL FONCTIONS AFFICHAGE
             Board.prototype.drawBoard();
+            Board.prototype.addOnDom();
 
         };
 
@@ -306,16 +317,19 @@ $(document).ready(function () {
         console.log(game); 
 
     });
+    // FIN FONCTION START
 
+    
 
-
-
+    // ETAPE 2
+    // AFFICHAGE
 
 
 
 
 
     // ETAPE 2
+    // LOGIQUE DU JEU
 
     // Rajouter attribut this.turn = 1 à l'objet Board
 
