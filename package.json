@@ -1,22 +1,33 @@
 {
-  "name": "projet6",
-  "version": "1.0.0",
-  "description": "Projet 6 formation OCR",
-  "main": "main.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/DesignGreg/Projet6-OpenClassRooms.git"
-  },
-  "author": "Grégory",
-  "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/DesignGreg/Projet6-OpenClassRooms/issues"
-  },
-  "homepage": "https://github.com/DesignGreg/Projet6-OpenClassRooms#readme",
-  "devDependencies": {
-    "tape": "^4.9.2"
-  }
+    "name": "projet6",
+    "version": "1.0.0",
+    "description": "Projet 6 formation OCR",
+    "main": "main.js",
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1",
+        "build": "webpack"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/DesignGreg/Projet6-OpenClassRooms.git"
+    },
+    "author": "Grégory",
+    "license": "ISC",
+    "bugs": {
+        "url": "https://github.com/DesignGreg/Projet6-OpenClassRooms/issues"
+    },
+    "homepage": "https://github.com/DesignGreg/Projet6-OpenClassRooms#readme",
+    "devDependencies": {
+        "bootstrap": "^4.3.1",
+        "esm": "^3.2.4",
+        "jquery": "^3.3.1",
+        "jsdom": "^13.2.0",
+        "popper.js": "^1.14.7",
+        "tape": "^4.9.2",
+        "webpack": "^4.29.3",
+        "webpack-cli": "^3.2.3"
+    },
+    "dependencies": {
+        "sinon": "^7.2.3"
+    }
 }

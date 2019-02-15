@@ -10,8 +10,19 @@
     border: 0;
 }
 
+html {
+    max-width: 100%;
+    max-height: 100%;
+    overflow-x: hidden;
+    overflow-y: hidden;
+}
 
 body{
+    max-width: 100%;
+    max-height: 100%;
+    overflow-x: hidden;
+    overflow-y: hidden;
+    
     background-image: url(../assets/fallenangel.jpg);
     background-position: center;
     background-size: cover;
@@ -30,7 +41,7 @@ body{
 }
 
 
-.canvas {
+#board {
     visibility: hidden;
 }
 
@@ -46,6 +57,22 @@ body{
     padding-top: 30px;
 }
 
+.canvas-text {
+    margin-top: 80px;
+    color: white;
+    text-align: center;
+    text-shadow: 1px 1px 1px black;
+}
+
+.canvas-text--title {
+text-decoration: underline;
+}
+
+.canvas-text--info {
+    margin-top: 20px;
+    font-size: 18px;
+    
+}
 
 .canvas-side {
     text-align: center;
