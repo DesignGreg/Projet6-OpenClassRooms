@@ -3,19 +3,70 @@
 'use strict'
 
 const $ = require("jquery");
-window.$ = $;
 
-import {Obstacle, Weapon, Player, Game, Board,} from "./data.js";
+const Game = require('./game.js');
+const Weapon = require('./weapon.js');
+const Player = require('./player.js');
+const Obstacle = require('./obstacle.js');
+
+module.exports = Board;
 
 // ETAPE 1
 
 // CONTEXTE DU CANVAS
 const ctx = $('#board').get(0).getContext('2d');
 
+function Board (width, height) {
+    this.width = width;
+    this.height = height;
+    this.game = new Game(this.width, this.height);
+
+    this.chartBoard = this.game.getChartBoard();
+
+    for (let i = 0; i < this.chartBoard.length; i++) {
+        for (let j = 0; j < this.chartBoard[i].length; j++) {
+            const piece = this.chartBoard[i][j];
+            const location = {
+                x: j,
+                y: i
+            };
+//            let joueurNum = 0;
+
+            if (piece instanceof Weapon) {
+                if (piece.name === "Dague") {
+                    this.loadWeaponsPlayersImages(location, '../assets/dague.png');
+                } else if (piece.name === "Epée") {
+                    this.loadWeaponsPlayersImages(location, '../assets/epee.png');
+                } else if (piece.name === "Hache") {
+                    this.loadWeaponsPlayersImages(location, '../assets/hache.png');
+                } else if (piece.name === "Fléau") {
+                    this.loadWeaponsPlayersImages(location, '../assets/fleau.png');
+                }
+            } else if (piece instanceof Obstacle) {
+                this.loadObstaclesImages(location, '../assets/lave64.png');
+            } else if (piece instanceof Player) {
+                if (piece.name === "Joueur 1") {
+                    this.loadWeaponsPlayersImages(location, '../assets/joueur1.png');
+                } else {
+                    this.loadWeaponsPlayersImages(location, '../assets/joueur2.png');
+                }
+//                joueurNum++;
+//                this.loadWeaponsPlayersImages(location, `../assets/joueur${joueurNum}.png`);
+            }
+        }
+    }
+    this.hideStartButton();
+    this.hideRules();
+    this.displayCanvas();
+    this.displayInfoPlayers(this.game.getPlayer1(), this.game.getPlayer2());
+    this.drawBoard();
+}
+
+
 // DESSIN DU TABLEAU
 Board.prototype.drawBoard = function () {
-    for (var i = 0; i < board.width; i++) {
-        for (var j = 0; j < board.height; j++) {
+    for (var i = 0; i < 10; i++) {
+        for (var j = 0; j < 10; j++) {
             ctx.strokeStyle = 'rgba(0, 0, 0, 0.7)';
             ctx.beginPath();
             ctx.strokeRect(j * 64, i * 64, 64, 64);
@@ -51,28 +102,51 @@ Board.prototype.loadWeaponsPlayersImages = function (location, path) {
 
 };
 
-
-Board.prototype.addOnDom = function (player1, player2) {
-    
+Board.prototype.hideRules = function () {
     $('.canvas-text').css('display', 'none');
-    
+};
+
+Board.prototype.displayCanvas = function () {
     $('#board').css('visibility', 'visible');
     $('#board').addClass('animated slideInUp');
+};
 
+Board.prototype.displayInfoPlayers = function (player1, player2) {
     $('.canvas-side__left').css('visibility', 'visible');
     $('.canvas-side__right').css('visibility', 'visible');
     $('.canvas-side__left').addClass('animated slideInLeft');
     $('.canvas-side__right').addClass('animated slideInRight');
-
-    $('#start').css('visibility', 'hidden');
-
+    
     $(".canvas-side__left").html("<h2 class='canvas-side--title'>" + player1.name + "</h2><p class='canvas-side--health'>" + player1.health + "</p><p class='canvas-side--health'>" + player1.weapon.name + "</p>");
 
     $(".canvas-side__right").html("<h2 class='canvas-side--title'>" + player2.name + "</h2><p class='canvas-side--health'>" + player2.health + "</p><p class='canvas-side--health'>" + player2.weapon.name + "</p>");
+};
 
+Board.prototype.hideStartButton = function () {
+    $('#start').css('visibility', 'hidden');
+};
+
+    // A LA FIN DE LA PARTIE
+Board.prototype.showStartButton = function () {
+    $('#start').css('visibility', 'visible');
+};
+
+
+
+    // ETAPE 2
+
+Board.prototype.showMovement = function (activePlayer) {
+    // checkAvailableSquares et surbrillance cases visibles
+};
+
+Board.prototype.movePlayerImages = function () {
+    
+};
+
+Board.prototype.switchWeaponImages = function () {
+    
 };
 
 
 
 // ETAPE 2
-
