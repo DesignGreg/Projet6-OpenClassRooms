@@ -205,15 +205,24 @@ Game.prototype.getPlayer2 = function () {
 };
 
 
+const $ = require("jquery");
+const game = new Game(10,10);
 
+
+$(document).on('keypress', function (e) {
+    if (e.which == 13) {
+        Game.prototype.switchTurn(game.getPlayer1(), game.getPlayer2());
+        e.stopPropagation();
+    }
+});
     // ETAPE 2
 
+
 let turnNumber = 0;
-let activeplayer = player1;
+
 
 Game.prototype.doTurn = function (activePlayer) {
 
-    console.log(activePlayer);
 //    this.checkAvailableSquares();
     
 };
@@ -222,20 +231,21 @@ Game.prototype.doTurn = function (activePlayer) {
 
     // Rajouter attribut this.turn = 1 à l'objet Game
 Game.prototype.switchTurn = function (player1, player2) {
-    let activePlayer;
     turnNumber++;
 
     console.log(turnNumber);
+    console.log(player1);
+    console.log(player2);
     
     if (turnNumber % 2 === 0) {
-        activePlayer = player1;
+//        activePlayer = player1;
         this.doTurn();
-        return activePlayer;    
+//        return activePlayer;    
         
     } else if (turnNumber % 2 === 1) {
-        activePlayer = player2;
+//        activePlayer = player2;
         this.doTurn();
-        return activePlayer;
+//        return activePlayer;
     }
 };
 
@@ -246,14 +256,7 @@ Game.prototype.checkAvailableSquares = function (activePlayer, location) {
             y
     } = location;
     
-    
-    
-    
-    
-    
     // Itération sur tout chartBoard pour trouver instanceOf joueur1 ? Comment identifier le joueur actif dans le tableau.
-    
-    
     
     // 3 Ifs imbriqués (case +1, case +2, case +3) - 2 boucles (-3 à 3) x et y
     // Vérifier cases perpendiculaires au joueur actif
