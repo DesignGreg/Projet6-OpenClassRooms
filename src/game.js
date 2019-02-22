@@ -204,21 +204,25 @@ Game.prototype.getPlayer2 = function () {
     return this.player2;
 };
 
-
-const $ = require("jquery");
 const game = new Game(10,10);
 
 
-$(document).on('keypress', function (e) {
-    if (e.which == 13) {
-        Game.prototype.switchTurn(game.getPlayer1(), game.getPlayer2());
-        e.stopPropagation();
-    }
-});
     // ETAPE 2
 
 
+// POUR LE FICHIER CONTROL.JS
+const $ = require("jquery");
+
+$(document).on('keypress', function (e) {
+    if (e.which == 13) {
+        Game.prototype.incrementTurn();
+        e.stopPropagation();
+    }
+});
+
+
 let turnNumber = 0;
+
 
 
 Game.prototype.doTurn = function (activePlayer) {
@@ -228,26 +232,31 @@ Game.prototype.doTurn = function (activePlayer) {
 };
 
 
+Game.prototype.incrementTurn = function () {
+    turnNumber++;
+    this.switchTurn(turnNumber, game.getPlayer1(), game.getPlayer2());
+    return turnNumber;
+};
 
     // Rajouter attribut this.turn = 1 à l'objet Game
-Game.prototype.switchTurn = function (player1, player2) {
-    turnNumber++;
-
+Game.prototype.switchTurn = function (turnNumber, player1, player2) {
+    let activePlayer;
     console.log(turnNumber);
-    console.log(player1);
-    console.log(player2);
     
     if (turnNumber % 2 === 0) {
-//        activePlayer = player1;
+        activePlayer = player1;
+        console.log(activePlayer);
         this.doTurn();
-//        return activePlayer;    
+        return activePlayer;    
         
     } else if (turnNumber % 2 === 1) {
-//        activePlayer = player2;
+        activePlayer = player2;
+        console.log(activePlayer);
         this.doTurn();
-//        return activePlayer;
-    }
+        return activePlayer;
+    } 
 };
+
 
 
 Game.prototype.checkAvailableSquares = function (activePlayer, location) {
