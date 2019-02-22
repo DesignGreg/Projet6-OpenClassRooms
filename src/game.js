@@ -220,14 +220,34 @@ $(document).on('keypress', function (e) {
     }
 });
 
+$(document).on('keydown', function (e) {
+    if (e.which == 37) {
+        Game.prototype.movePlayerLeft(activePlayer);
+        e.stopPropagation();
+    }
+    if (e.which == 38) {
+        Game.prototype.movePlayerUp(activePlayer);
+        e.stopPropagation();
+    }
+    if (e.which == 39) {
+        Game.prototype.movePlayerRight(activePlayer);
+        e.stopPropagation();
+    }
+    if (e.which == 40) {
+        Game.prototype.movePlayerDown(activePlayer);
+        e.stopPropagation();
+    }
+});
+
 
 let turnNumber = 0;
+let activePlayer;
 
 
 
 Game.prototype.doTurn = function (activePlayer) {
 
-//    this.checkAvailableSquares();
+    this.checkAvailableSquares(activePlayer);
     
 };
 
@@ -240,14 +260,13 @@ Game.prototype.incrementTurn = function () {
 
     // Rajouter attribut this.turn = 1 à l'objet Game
 Game.prototype.switchTurn = function (turnNumber, player1, player2) {
-    let activePlayer;
     console.log(turnNumber);
     
     if (turnNumber % 2 === 0) {
         activePlayer = player1;
         console.log(activePlayer);
         this.doTurn();
-        return activePlayer;    
+        return activePlayer;
         
     } else if (turnNumber % 2 === 1) {
         activePlayer = player2;
@@ -259,54 +278,59 @@ Game.prototype.switchTurn = function (turnNumber, player1, player2) {
 
 
 
-Game.prototype.checkAvailableSquares = function (activePlayer, location) {
-    const {
-            x,
-            y
-    } = location;
+Game.prototype.checkAvailableSquares = function (activePlayer) {
+
+    let availableSquareX = [];
+    let availableSquareY = [];
+    const x = activePlayer.location.x;
+    const y = activePlayer.location.y;
     
-    // Itération sur tout chartBoard pour trouver instanceOf joueur1 ? Comment identifier le joueur actif dans le tableau.
+    while (x <= activePlayer.location.x + 3 && x >= activePlayer.location.x - 3) {
+        if (!(x instanceof Player || x instanceof Obstacle)) {
+            availableSquareX.push(x);
+        } else {break;}
+    }
     
-    // 3 Ifs imbriqués (case +1, case +2, case +3) - 2 boucles (-3 à 3) x et y
-    // Vérifier cases perpendiculaires au joueur actif
-    // stoppe si obstacle ou joueur sur le chemin (par direction)
-    // renvoie tableau coordonnées autorisées
+    while (y <= activePlayer.location.y + 3 && y >= activePlayer.location.y - 3) {
+        if (!(y instanceof Player || y instanceof Obstacle)) {
+            availableSquareY.push(y);
+        } else {break;}
+    }
+    
+    console.log(availableSquareX);
+    console.log(availableSquareY);
+//    return {availableSquareX, availableSquareY};
+
 };
 
 
-Game.prototype.movePlayerLeft = function (piece, activePlayer, location) {
-    const {
-        x,
-        y
-    } = location;
+Game.prototype.movePlayerLeft = function (activePlayer) {
+
+    activePlayer.location.x -= 1;
     
-    this.chartBoard[location.y][location.x -1] = piece;
-    
-    
+    console.log(activePlayer.location);
+
     // déplace joueur au sein du tableau de coordonnées autorisées
 };
 
-Game.prototype.movePlayerUp = function (activePlayer, location) {
-    const {
-        x,
-        y
-    } = location;
+Game.prototype.movePlayerUp = function (activePlayer) {
+    
+    activePlayer.location.y -= 1;
+
     // déplace joueur au sein du tableau de coordonnées autorisées
 };
 
-Game.prototype.movePlayerRight = function (activePlayer, location) {
-    const {
-        x,
-        y
-    } = location;
+Game.prototype.movePlayerRight = function (activePlayer) {
+    
+    activePlayer.location.x += 1;
+
     // déplace joueur au sein du tableau de coordonnées autorisées
 };
 
-Game.prototype.movePlayerDown = function (activePlayer, location) {
-    const {
-        x,
-        y
-    } = location;
+Game.prototype.movePlayerDown = function (activePlayer) {
+    
+    activePlayer.location.y += 1;
+
     // déplace joueur au sein du tableau de coordonnées autorisées
 };
 

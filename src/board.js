@@ -139,11 +139,17 @@ Board.prototype.showMovement = function (activePlayer) {
     // checkAvailableSquares et surbrillance cases visibles
 };
 
-Board.prototype.movePlayerImages = function () {
+// Canvas, cleartRect(), les images sont des pixels, pas de déplacement possible. Il faut effacer et redessiner.
+
+Board.prototype.clearPreviousImage = function () {
     
 };
 
-Board.prototype.switchWeaponImages = function () {
+Board.prototype.addMovedPlayerImage = function () {
+    
+};
+
+Board.prototype.addNewWeaponImage = function () {
     
 };
 

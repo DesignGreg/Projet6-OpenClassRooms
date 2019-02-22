@@ -21,24 +21,19 @@ const Obstacle = require('./obstacle.js');
 //$(document).on('keypress', function (e) {
 //    if (e.which == 37) {
 //        Game.prototype.movePlayerLeft(activePlayer, location);
-//        
-//        //reprendre coordonnées player actif, x-1 (gauche)
-//        // si 3 pression sur la touche, endMovement()
+//        e.stopPropagation();
 //    }
 //    if (e.which == 38) {
 //        Game.prototype.movePlayerUp(activePlayer, location);
-//        //reprendre coordonnées player actif, y+1 (haut)
-//        // si 3 pression sur la touche, endMovement()
+//        e.stopPropagation();
 //    }
 //    if (e.which == 39) {
 //        Game.prototype.movePlayerRight(activePlayer, location);
-//        //reprendre coordonnées player actif, x+1 (droite)
-//        // si 3 pression sur la touche, endMovement()
+//        e.stopPropagation();
 //    }
 //    if (e.which == 40) {
 //        Game.prototype.movePlayerDown(activePlayer, location);
-//        //reprendre coordonnées player actif, y-1 (bas)
-//        // si 3 pression sur la touche, endMovement()
+//        e.stopPropagation();
 //    }
 //});
 //}
