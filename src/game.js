@@ -265,71 +265,97 @@ Game.prototype.switchTurn = function (turnNumber, player1, player2) {
     if (turnNumber % 2 === 0) {
         activePlayer = player1;
         console.log(activePlayer);
-        this.doTurn();
+        this.checkAvailableSquaresX(activePlayer);
+        this.checkAvailableSquaresY(activePlayer);
         return activePlayer;
         
     } else if (turnNumber % 2 === 1) {
         activePlayer = player2;
         console.log(activePlayer);
-        this.doTurn();
+        this.checkAvailableSquaresX(activePlayer);
+        this.checkAvailableSquaresY(activePlayer);
         return activePlayer;
     } 
 };
 
 
 
-Game.prototype.checkAvailableSquares = function (activePlayer) {
+Game.prototype.checkAvailableSquaresX = function (activePlayer) {
 
     let availableSquareX = [];
-    let availableSquareY = [];
-    const x = activePlayer.location.x;
-    const y = activePlayer.location.y;
+    const plusX3 = activePlayer.location.x + 3;
+    const minusX3 = activePlayer.location.x - 3;
     
-    while (x <= activePlayer.location.x + 3 && x >= activePlayer.location.x - 3) {
+    for (let x = activePlayer.location.x; x >= minusX3; x--) {
         if (!(x instanceof Player || x instanceof Obstacle)) {
-            availableSquareX.push(x);
-        } else {break;}
+            availableSquareX.unshift([x, activePlayer.location.y]);
+        }
     }
     
-    while (y <= activePlayer.location.y + 3 && y >= activePlayer.location.y - 3) {
-        if (!(y instanceof Player || y instanceof Obstacle)) {
-            availableSquareY.push(y);
-        } else {break;}
+    for (let x = activePlayer.location.x; x <= plusX3; x++) {
+        if (!(x instanceof Player || x instanceof Obstacle)) {
+            availableSquareX.push([x, activePlayer.location.y]);
+        }
     }
     
+    availableSquareX.splice(3,2);
     console.log(availableSquareX);
-    console.log(availableSquareY);
-//    return {availableSquareX, availableSquareY};
+    return availableSquareX;
+};
 
+Game.prototype.checkAvailableSquaresY = function (activePlayer) {
+
+    let availableSquareY = [];
+    const plusY3 = activePlayer.location.y + 3;
+    const minusY3 = activePlayer.location.y - 3;
+    
+    for (let y = activePlayer.location.y; y >= minusY3; y--) {
+        if (!(y instanceof Player || y instanceof Obstacle)) {
+            availableSquareY.unshift([y, activePlayer.location.x]);
+        }
+    }
+    
+    for (let y = activePlayer.location.y; y <= plusY3; y++) {
+        if (!(y instanceof Player || y instanceof Obstacle)) {
+            availableSquareY.push([y, activePlayer.location.x]);
+        }
+    }
+    
+    availableSquareY.splice(3,2);
+    console.log(availableSquareY);
+    return availableSquareY;
 };
 
 
 Game.prototype.movePlayerLeft = function (activePlayer) {
 
-    activePlayer.location.x -= 1;
-    
+    const newLocation = activePlayer.location.x -= 1;
     console.log(activePlayer.location);
+    return newLocation;
 
     // déplace joueur au sein du tableau de coordonnées autorisées
 };
 
 Game.prototype.movePlayerUp = function (activePlayer) {
     
-    activePlayer.location.y -= 1;
+    const newLocation = activePlayer.location.y -= 1;
+    return newLocation;
 
     // déplace joueur au sein du tableau de coordonnées autorisées
 };
 
 Game.prototype.movePlayerRight = function (activePlayer) {
     
-    activePlayer.location.x += 1;
+    const newLocation = activePlayer.location.x += 1;
+    return newLocation;
 
     // déplace joueur au sein du tableau de coordonnées autorisées
 };
 
 Game.prototype.movePlayerDown = function (activePlayer) {
     
-    activePlayer.location.y += 1;
+    const newLocation = activePlayer.location.y += 1;
+    return newLocation;
 
     // déplace joueur au sein du tableau de coordonnées autorisées
 };
