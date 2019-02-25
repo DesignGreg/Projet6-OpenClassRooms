@@ -14,11 +14,17 @@ function Game(width, height) {
     this.width = width;
     this.height = height;
 
+    this.turnNumber = 0;
+
+    this.availableSquareX = [];
+    this.availableSquareY = [];
+
     this.forbiddenPosition = [];
 
     this.chartBoard = this.resetBoard();
 
     this.generateGame();
+    this.activePlayer = this.player1;
 }
 
 
@@ -120,6 +126,7 @@ Game.prototype.setPiece = function (piece, location) {
     } else {
         if (piece instanceof Player) {
             piece.setLocation(location);
+            console.log(location);
         }
         this.chartBoard[location.y][location.x] = piece;
         this.forbiddenPosition.push(location);
@@ -139,7 +146,6 @@ Game.prototype.setObstaclesWeapons = function (piecesToSetArray) {
 Game.prototype.setPlayers = function (playerArray) {
     for (let player of playerArray) {
         const location = this.generatePlayerLocation(this.forbiddenPosition);
-
         this.setPiece(player, location);
     }
 };
@@ -204,49 +210,21 @@ Game.prototype.getPlayer2 = function () {
     return this.player2;
 };
 
-const game = new Game(10,10);
-
 
     // ETAPE 2
 
 
-// POUR LE FICHIER CONTROL.JS
-const $ = require("jquery");
-
-$(document).on('keypress', function (e) {
-    if (e.which == 13) {
-        Game.prototype.incrementTurn();
-        e.stopPropagation();
-    }
-});
-
-$(document).on('keydown', function (e) {
-    if (e.which == 37) {
-        Game.prototype.movePlayerLeft(availableSquareX, activePlayer);
-        e.stopPropagation();
-    }
-    if (e.which == 38) {
-        Game.prototype.movePlayerUp(availableSquareY, activePlayer);
-        e.stopPropagation();
-    }
-    if (e.which == 39) {
-        Game.prototype.movePlayerRight(availableSquareX, activePlayer);
-        e.stopPropagation();
-    }
-    if (e.which == 40) {
-        Game.prototype.movePlayerDown(availableSquareY, activePlayer);
-        e.stopPropagation();
-    }
-});
-
-
-let turnNumber = 0;
-let activePlayer;
-let availableSquareX = [];
-let availableSquareY = [];
 
 
 
+// Ne fonctionne pas dans l'objet Game
+
+
+// Sinon l'appel de la fonction fait que les coordonnées disponibles sont calculées en fonction du mouvement
+
+
+
+// Peut-être inutile
 Game.prototype.doTurn = function (activePlayer) {
 
     this.checkAvailableSquares(activePlayer);
@@ -254,32 +232,25 @@ Game.prototype.doTurn = function (activePlayer) {
 };
 
 
-Game.prototype.incrementTurn = function () {
-    turnNumber++;
-    this.switchTurn(turnNumber, game.getPlayer1(), game.getPlayer2());
-    return turnNumber;
-};
-
-    // Rajouter attribut this.turn = 1 à l'objet Game
-Game.prototype.switchTurn = function (turnNumber, player1, player2) {
-    console.log(turnNumber);
+Game.prototype.switchTurn = function () {
     
-    if (turnNumber % 2 === 0) {
-        activePlayer = player1;
+    if (this.turnNumber % 2 === 0) {
+        activePlayer = this.player1;
         console.log(activePlayer);
         this.checkAvailableSquaresX(availableSquareX, activePlayer);
         this.checkAvailableSquaresY(availableSquareY, activePlayer);
         return activePlayer;
         
-    } else if (turnNumber % 2 === 1) {
-        activePlayer = player2;
+    } else if (this.turnNumber % 2 === 1) {
+        activePlayer = this.player2;
         console.log(activePlayer);
         this.checkAvailableSquaresX(availableSquareX, activePlayer);
         this.checkAvailableSquaresY(availableSquareY, activePlayer);
         return activePlayer;
     } 
-};
 
+    this.turnNumber++;
+};
 
 
 Game.prototype.checkAvailableSquaresX = function (availableSquareX, activePlayer) {
@@ -304,6 +275,7 @@ Game.prototype.checkAvailableSquaresX = function (availableSquareX, activePlayer
     return availableSquareX;
 };
 
+
 Game.prototype.checkAvailableSquaresY = function (availableSquareY, activePlayer) {
 
     const plusY3 = activePlayer.location.y + 3;
@@ -326,6 +298,7 @@ Game.prototype.checkAvailableSquaresY = function (availableSquareY, activePlayer
     return availableSquareY;
 };
 
+
 Game.prototype.movePlayerLeft = function (availableSquareX, activePlayer) {
 
     const locationPlayer = [];
@@ -342,6 +315,7 @@ Game.prototype.movePlayerLeft = function (availableSquareX, activePlayer) {
         return newLocation;
     }
 };
+
 
 Game.prototype.movePlayerUp = function (availableSquareY, activePlayer) {
     
@@ -360,8 +334,9 @@ Game.prototype.movePlayerUp = function (availableSquareY, activePlayer) {
     }
 };
 
+
 Game.prototype.movePlayerRight = function (availableSquareX, activePlayer) {
-    
+
     const locationPlayer = [];
     locationPlayer.push([activePlayer.location.x, activePlayer.location.y]);
     
@@ -376,6 +351,7 @@ Game.prototype.movePlayerRight = function (availableSquareX, activePlayer) {
         return newLocation;
     }
 };
+
 
 Game.prototype.movePlayerDown = function (availableSquareY, activePlayer) {
     
@@ -393,7 +369,6 @@ Game.prototype.movePlayerDown = function (availableSquareY, activePlayer) {
         return newLocation;
     }
 };
-
 
 
 Game.prototype.walkOnWeapon = function (activePlayer) {

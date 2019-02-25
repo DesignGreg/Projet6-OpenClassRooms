@@ -23,6 +23,7 @@ function Board (width, height) {
 
     this.chartBoard = this.game.getChartBoard();
 
+    let joueurNum = 1;
     for (let i = 0; i < this.chartBoard.length; i++) {
         for (let j = 0; j < this.chartBoard[i].length; j++) {
             const piece = this.chartBoard[i][j];
@@ -30,7 +31,6 @@ function Board (width, height) {
                 x: j,
                 y: i
             };
-//            let joueurNum = 0;
 
             if (piece instanceof Weapon) {
                 if (piece.name === "Dague") {
@@ -45,13 +45,14 @@ function Board (width, height) {
             } else if (piece instanceof Obstacle) {
                 this.loadObstaclesImages(location, '../assets/lave64.png');
             } else if (piece instanceof Player) {
-                if (piece.name === "Joueur 1") {
+               /* if (piece.name === "Joueur 1") {
                     this.loadWeaponsPlayersImages(location, '../assets/joueur1.png');
                 } else {
                     this.loadWeaponsPlayersImages(location, '../assets/joueur2.png');
-                }
-//                joueurNum++;
-//                this.loadWeaponsPlayersImages(location, `../assets/joueur${joueurNum}.png`);
+                } */
+                this.loadWeaponsPlayersImages(location, `../assets/joueur${joueurNum}.png`);
+                joueurNum++;
+                
             }
         }
     }
@@ -60,13 +61,14 @@ function Board (width, height) {
     this.displayCanvas();
     this.displayInfoPlayers(this.game.getPlayer1(), this.game.getPlayer2());
     this.drawBoard();
+    this.initEventListener();
 }
 
 
 // DESSIN DU TABLEAU
 Board.prototype.drawBoard = function () {
-    for (var i = 0; i < 10; i++) {
-        for (var j = 0; j < 10; j++) {
+    for (var i = 0; i < this.width; i++) {
+        for (var j = 0; j < this.height; j++) {
             ctx.strokeStyle = 'rgba(0, 0, 0, 0.7)';
             ctx.beginPath();
             ctx.strokeRect(j * 64, i * 64, 64, 64);
@@ -153,6 +155,34 @@ Board.prototype.addNewWeaponImage = function () {
     
 };
 
+Board.prototype.initEventListener = function () {
+
+    $(document).on('keypress', (e) => {
+        if (e.which == 13) {
+            this.game.switchTurn();
+            e.stopPropagation();
+        }
+    });
+    
+    $(document).on('keydown', function (e) {
+        if (e.which == 37) {
+            Game.prototype.movePlayerLeft(availableSquareX, activePlayer);
+            e.stopPropagation();
+        }
+        if (e.which == 38) {
+            Game.prototype.movePlayerUp(availableSquareY, activePlayer);
+            e.stopPropagation();
+        }
+        if (e.which == 39) {
+            Game.prototype.movePlayerRight(availableSquareX, activePlayer);
+            e.stopPropagation();
+        }
+        if (e.which == 40) {
+            Game.prototype.movePlayerDown(availableSquareY, activePlayer);
+            e.stopPropagation();
+        }
+    });
+};
 
 
-// ETAPE 2
+
