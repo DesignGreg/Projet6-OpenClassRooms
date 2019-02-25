@@ -222,19 +222,19 @@ $(document).on('keypress', function (e) {
 
 $(document).on('keydown', function (e) {
     if (e.which == 37) {
-        Game.prototype.movePlayerLeft(activePlayer);
+        Game.prototype.movePlayerLeft(availableSquareX, activePlayer);
         e.stopPropagation();
     }
     if (e.which == 38) {
-        Game.prototype.movePlayerUp(activePlayer);
+        Game.prototype.movePlayerUp(availableSquareY, activePlayer);
         e.stopPropagation();
     }
     if (e.which == 39) {
-        Game.prototype.movePlayerRight(activePlayer);
+        Game.prototype.movePlayerRight(availableSquareX, activePlayer);
         e.stopPropagation();
     }
     if (e.which == 40) {
-        Game.prototype.movePlayerDown(activePlayer);
+        Game.prototype.movePlayerDown(availableSquareY, activePlayer);
         e.stopPropagation();
     }
 });
@@ -242,6 +242,8 @@ $(document).on('keydown', function (e) {
 
 let turnNumber = 0;
 let activePlayer;
+let availableSquareX = [];
+let availableSquareY = [];
 
 
 
@@ -265,24 +267,23 @@ Game.prototype.switchTurn = function (turnNumber, player1, player2) {
     if (turnNumber % 2 === 0) {
         activePlayer = player1;
         console.log(activePlayer);
-        this.checkAvailableSquaresX(activePlayer);
-        this.checkAvailableSquaresY(activePlayer);
+        this.checkAvailableSquaresX(availableSquareX, activePlayer);
+        this.checkAvailableSquaresY(availableSquareY, activePlayer);
         return activePlayer;
         
     } else if (turnNumber % 2 === 1) {
         activePlayer = player2;
         console.log(activePlayer);
-        this.checkAvailableSquaresX(activePlayer);
-        this.checkAvailableSquaresY(activePlayer);
+        this.checkAvailableSquaresX(availableSquareX, activePlayer);
+        this.checkAvailableSquaresY(availableSquareY, activePlayer);
         return activePlayer;
     } 
 };
 
 
 
-Game.prototype.checkAvailableSquaresX = function (activePlayer) {
+Game.prototype.checkAvailableSquaresX = function (availableSquareX, activePlayer) {
 
-    let availableSquareX = [];
     const plusX3 = activePlayer.location.x + 3;
     const minusX3 = activePlayer.location.x - 3;
     
@@ -303,21 +304,20 @@ Game.prototype.checkAvailableSquaresX = function (activePlayer) {
     return availableSquareX;
 };
 
-Game.prototype.checkAvailableSquaresY = function (activePlayer) {
+Game.prototype.checkAvailableSquaresY = function (availableSquareY, activePlayer) {
 
-    let availableSquareY = [];
     const plusY3 = activePlayer.location.y + 3;
     const minusY3 = activePlayer.location.y - 3;
     
     for (let y = activePlayer.location.y; y >= minusY3; y--) {
         if (!(y instanceof Player || y instanceof Obstacle)) {
-            availableSquareY.unshift([y, activePlayer.location.x]);
+            availableSquareY.unshift([activePlayer.location.x, y]);
         }
     }
     
     for (let y = activePlayer.location.y; y <= plusY3; y++) {
         if (!(y instanceof Player || y instanceof Obstacle)) {
-            availableSquareY.push([y, activePlayer.location.x]);
+            availableSquareY.push([activePlayer.location.x, y]);
         }
     }
     
@@ -326,38 +326,72 @@ Game.prototype.checkAvailableSquaresY = function (activePlayer) {
     return availableSquareY;
 };
 
+Game.prototype.movePlayerLeft = function (availableSquareX, activePlayer) {
 
-Game.prototype.movePlayerLeft = function (activePlayer) {
-
-    const newLocation = activePlayer.location.x -= 1;
-    console.log(activePlayer.location);
-    return newLocation;
-
-    // déplace joueur au sein du tableau de coordonnées autorisées
+    const locationPlayer = [];
+    locationPlayer.push([activePlayer.location.x, activePlayer.location.y]);
+    
+    const limitBoard = availableSquareX[0];
+    console.log(limitBoard);
+    
+    let newLocation;
+    
+    if (locationPlayer > limitBoard) {
+        newLocation = activePlayer.location.x -= 1;
+        console.log(activePlayer.location);
+        return newLocation;
+    }
 };
 
-Game.prototype.movePlayerUp = function (activePlayer) {
+Game.prototype.movePlayerUp = function (availableSquareY, activePlayer) {
     
-    const newLocation = activePlayer.location.y -= 1;
-    return newLocation;
-
-    // déplace joueur au sein du tableau de coordonnées autorisées
+    const locationPlayer = [];
+    locationPlayer.push([activePlayer.location.x, activePlayer.location.y]);
+    
+    const limitBoard = availableSquareY[0];
+    console.log(limitBoard);
+    
+    let newLocation;
+    
+    if (locationPlayer > limitBoard) {
+        const newLocation = activePlayer.location.y -= 1;
+        console.log(activePlayer.location);
+        return newLocation;
+    }
 };
 
-Game.prototype.movePlayerRight = function (activePlayer) {
+Game.prototype.movePlayerRight = function (availableSquareX, activePlayer) {
     
-    const newLocation = activePlayer.location.x += 1;
-    return newLocation;
-
-    // déplace joueur au sein du tableau de coordonnées autorisées
+    const locationPlayer = [];
+    locationPlayer.push([activePlayer.location.x, activePlayer.location.y]);
+    
+    const limitBoard = availableSquareX[5];
+    console.log(limitBoard);
+    
+    let newLocation;
+    
+    if (locationPlayer < limitBoard) {
+        newLocation = activePlayer.location.x += 1;
+        console.log(activePlayer.location);
+        return newLocation;
+    }
 };
 
-Game.prototype.movePlayerDown = function (activePlayer) {
+Game.prototype.movePlayerDown = function (availableSquareY, activePlayer) {
     
-    const newLocation = activePlayer.location.y += 1;
-    return newLocation;
-
-    // déplace joueur au sein du tableau de coordonnées autorisées
+    const locationPlayer = [];
+    locationPlayer.push([activePlayer.location.x, activePlayer.location.y]);
+    
+    const limitBoard = availableSquareY[5];
+    console.log(limitBoard);
+    
+    let newLocation;
+    
+    if (locationPlayer < limitBoard) {
+        const newLocation = activePlayer.location.y += 1;
+        console.log(activePlayer.location);
+        return newLocation;
+    }
 };
 
 
