@@ -1,6 +1,5 @@
 const $ = require('jquery');
 const Board = require('./board.js');
-const Control = require('./control.js');
 
 $(document).ready(() => {
   $('#start').click(function () {

@@ -164,21 +164,21 @@ Board.prototype.initEventListener = function () {
         }
     });
     
-    $(document).on('keydown', function (e) {
+    $(document).on('keydown', (e) => {
         if (e.which == 37) {
-            Game.prototype.movePlayerLeft(availableSquareX, activePlayer);
+            this.game.movePlayerLeft();
             e.stopPropagation();
         }
         if (e.which == 38) {
-            Game.prototype.movePlayerUp(availableSquareY, activePlayer);
+            this.game.movePlayerUp();
             e.stopPropagation();
         }
         if (e.which == 39) {
-            Game.prototype.movePlayerRight(availableSquareX, activePlayer);
+            this.game.movePlayerRight();
             e.stopPropagation();
         }
         if (e.which == 40) {
-            Game.prototype.movePlayerDown(availableSquareY, activePlayer);
+            this.game.movePlayerDown();
             e.stopPropagation();
         }
     });
