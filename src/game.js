@@ -25,6 +25,7 @@ function Game(width, height) {
 
     this.generateGame();
     this.activePlayer = this.player1;
+    this.waitingPlayer = this.player2;
 }
 
 
@@ -214,7 +215,7 @@ Game.prototype.getPlayer2 = function () {
 
 
 // Peut-être inutile
-Game.prototype.doTurn = function (activePlayer) {
+Game.prototype.doTurn = function () {
 
     this.checkAvailableSquares(activePlayer);
 
@@ -225,6 +226,8 @@ Game.prototype.switchTurn = function () {
 
     if (this.turnNumber % 2 === 0) {
         this.activePlayer = this.player1;
+        this.waitingPlayer = this.player2;
+        console.log(this.waitingPlayer);
         console.log(this.activePlayer);
         this.checkAvailableSquaresX();
         this.checkAvailableSquaresY();
@@ -233,6 +236,8 @@ Game.prototype.switchTurn = function () {
 
     } else if (this.turnNumber % 2 === 1) {
         this.activePlayer = this.player2;
+        this.waitingPlayer = this.player1;
+        console.log(this.waitingPlayer);
         console.log(this.activePlayer);
         this.checkAvailableSquaresX(location);
         this.checkAvailableSquaresY();
@@ -253,6 +258,8 @@ Game.prototype.checkAvailableSquaresX = function () {
         if (minusX3 >= 0) {
             if (!(this.chartBoard[y][x] instanceof Player || this.chartBoard[y][x] instanceof Obstacle)) {
                 this.availableSquareX.unshift([x, this.activePlayer.location.y]);
+            } else if (this.chartBoard[y][x] === this.waitingPlayer || this.chartBoard[y][x] instanceof Obstacle) {
+                break;
             }
         } else if (minusX3 < 0) {
             if (!(x < 0 || x > 9)) {
@@ -260,12 +267,16 @@ Game.prototype.checkAvailableSquaresX = function () {
             }
         }
     }
+    
+    
 
     for (let x = this.activePlayer.location.x; x <= plusX3; x++) {
 
         if (plusX3 <= 9) {
             if (!(this.chartBoard[y][x] instanceof Player || this.chartBoard[y][x] instanceof Obstacle)) {
                 this.availableSquareX.push([x, this.activePlayer.location.y]);
+            } else if (this.chartBoard[y][x] === this.waitingPlayer || this.chartBoard[y][x] instanceof Obstacle) {
+                break;
             }
         } else if (plusX3 > 9) {
             if (!(x < 0 || x > 9)) {
@@ -291,6 +302,8 @@ Game.prototype.checkAvailableSquaresY = function () {
         if (minusY3 >= 0) {
             if (!(this.chartBoard[y][x] instanceof Player || this.chartBoard[y][x] instanceof Obstacle)) {
                 this.availableSquareY.unshift([this.activePlayer.location.x, y]);
+            } else if (this.chartBoard[y][x] === this.waitingPlayer || this.chartBoard[y][x] instanceof Obstacle) {
+                break;
             }
         } else if (minusY3 < 0) {
             if (!(y < 0 || y > 9)) {
@@ -304,6 +317,8 @@ Game.prototype.checkAvailableSquaresY = function () {
         if (plusY3 <= 9) {
             if (!(this.chartBoard[y][x] instanceof Player || this.chartBoard[y][x] instanceof Obstacle)) {
                 this.availableSquareY.push([this.activePlayer.location.x, y]);
+            } else if (this.chartBoard[y][x] === this.waitingPlayer || this.chartBoard[y][x] instanceof Obstacle) {
+                break;
             }
         } else if (plusY3 > 9) {
             if (!(y < 0 || y > 9)) {
