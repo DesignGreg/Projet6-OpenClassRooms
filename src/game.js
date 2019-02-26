@@ -16,8 +16,9 @@ function Game(width, height) {
 
     this.turnNumber = 0;
 
-    this.availableSquareX = [];
-    this.availableSquareY = [];
+    this.availableSquaresX = [];
+    this.availableSquaresY = [];
+    this.availableSquares = [];
 
     this.forbiddenPosition = [];
 
@@ -191,7 +192,7 @@ Game.prototype.isLocationCorrectForPlayer = function (location) {
     return true;
 };
 
-
+// Vérifie si position est dans le tableau (forbiddenPosition)
 Game.prototype.isPositionInArray = function (position, array) {
     return array.some((elem) => {
         return (elem.x === position.x && elem.y === position.y);
@@ -220,7 +221,6 @@ Game.prototype.doTurn = function () {
     this.checkAvailableSquares();
 
 };
-
 
 Game.prototype.switchTurn = function () {
 
@@ -252,10 +252,9 @@ Game.prototype.switchTurn = function () {
     }
 };
 
-
 Game.prototype.checkAvailableSquaresX = function () {
 
-    this.availableSquareX = [];
+    this.availableSquaresX = [];
     const plusX3 = this.activePlayer.location.x + 3;
     const minusX3 = this.activePlayer.location.x - 3;
     const y = this.activePlayer.location.y;
@@ -264,13 +263,13 @@ Game.prototype.checkAvailableSquaresX = function () {
 
         if (minusX3 >= 0) {
             if (!(this.chartBoard[y][x] instanceof Player || this.chartBoard[y][x] instanceof Obstacle)) {
-                this.availableSquareX.unshift([x, this.activePlayer.location.y]);
+                this.availableSquaresX.unshift([x, this.activePlayer.location.y]);
             } else if (this.chartBoard[y][x] === this.waitingPlayer || this.chartBoard[y][x] instanceof Obstacle) {
                 break;
             }
         } else if (minusX3 < 0) {
             if (!(x < 0 || x > 9)) {
-                this.availableSquareX.unshift([x, this.activePlayer.location.y]);
+                this.availableSquaresX.unshift([x, this.activePlayer.location.y]);
             }
         }
     }
@@ -281,26 +280,25 @@ Game.prototype.checkAvailableSquaresX = function () {
 
         if (plusX3 <= 9) {
             if (!(this.chartBoard[y][x] instanceof Player || this.chartBoard[y][x] instanceof Obstacle)) {
-                this.availableSquareX.push([x, this.activePlayer.location.y]);
+                this.availableSquaresX.push([x, this.activePlayer.location.y]);
             } else if (this.chartBoard[y][x] === this.waitingPlayer || this.chartBoard[y][x] instanceof Obstacle) {
                 break;
             }
         } else if (plusX3 > 9) {
             if (!(x < 0 || x > 9)) {
-                this.availableSquareX.push([x, this.activePlayer.location.y]);
+                this.availableSquaresX.push([x, this.activePlayer.location.y]);
             }
         }
     }
     
     //    this.availableSquareX.splice(3,2);
-    console.log(this.availableSquareX);
-    return this.availableSquareX;
+    console.log(this.availableSquaresX);
+    return this.availableSquaresX;
 };
-
 
 Game.prototype.checkAvailableSquaresY = function () {
 
-    this.availableSquareY = [];
+    this.availableSquaresY = [];
     const plusY3 = this.activePlayer.location.y + 3;
     const minusY3 = this.activePlayer.location.y - 3;
     const x = this.activePlayer.location.x;
@@ -309,13 +307,13 @@ Game.prototype.checkAvailableSquaresY = function () {
 
         if (minusY3 >= 0) {
             if (!(this.chartBoard[y][x] instanceof Player || this.chartBoard[y][x] instanceof Obstacle)) {
-                this.availableSquareY.unshift([this.activePlayer.location.x, y]);
+                this.availableSquaresY.unshift([this.activePlayer.location.x, y]);
             } else if (this.chartBoard[y][x] === this.waitingPlayer || this.chartBoard[y][x] instanceof Obstacle) {
                 break;
             }
         } else if (minusY3 < 0) {
             if (!(y < 0 || y > 9)) {
-                this.availableSquareY.unshift([this.activePlayer.location.x, y]);
+                this.availableSquaresY.unshift([this.activePlayer.location.x, y]);
             }
         }
     }
@@ -324,47 +322,64 @@ Game.prototype.checkAvailableSquaresY = function () {
 
         if (plusY3 <= 9) {
             if (!(this.chartBoard[y][x] instanceof Player || this.chartBoard[y][x] instanceof Obstacle)) {
-                this.availableSquareY.push([this.activePlayer.location.x, y]);
+                this.availableSquaresY.push([this.activePlayer.location.x, y]);
             } else if (this.chartBoard[y][x] === this.waitingPlayer || this.chartBoard[y][x] instanceof Obstacle) {
                 break;
             }
         } else if (plusY3 > 9) {
             if (!(y < 0 || y > 9)) {
-                this.availableSquareY.push([this.activePlayer.location.x, y]);
+                this.availableSquaresY.push([this.activePlayer.location.x, y]);
             }
         }
     }
     
 //    this.availableSquareY.splice(3, 2);
-    console.log(this.availableSquareY);
-    return this.availableSquareY;
+    console.log(this.availableSquaresY);
+    this.concatAvailableSquaresArrays();
+    return this.availableSquaresY;
 };
 
+Game.prototype.concatAvailableSquaresArrays = function () {
+    this.availableSquares = this.availableSquaresX.concat(this.availableSquaresY);
+    console.log(this.availableSquares);
+}
 
 Game.prototype.movePlayerLeft = function () {
-
+    
+    // si la coordonnées à gauche de chartboard est dans le tableau availableSquare, alors coordonnées activePlayer x-1
+    
     const locationPlayer = [];
     locationPlayer.push([this.activePlayer.location.x, this.activePlayer.location.y]);
-
-    const limitBoard = this.availableSquareX[0];
-    console.log(limitBoard);
-
-    let newLocation;
-
-    if (locationPlayer > limitBoard) {
-        newLocation = this.activePlayer.location.x -= 1;
-        console.log(this.activePlayer.location);
-        return newLocation;
+    
+    
+    if (!(locationPlayer < this.availableSquares[0] || locationPlayer > this.availableSquares.length)) {
+        this.activePlayer.location.x -= 1;
+        console.log(locationPlayer);
     }
-};
 
+    
+//
+//    const locationPlayer = [];
+//    locationPlayer.push([this.activePlayer.location.x, this.activePlayer.location.y]);
+//
+//    const limitBoard = this.availableSquares[0];
+//    console.log(limitBoard);
+//
+//    let newLocation;
+//
+//    if (locationPlayer > limitBoard) {
+//        newLocation = this.activePlayer.location.x -= 1;
+//        console.log(this.activePlayer.location);
+//        return newLocation;
+//    }
+};
 
 Game.prototype.movePlayerUp = function () {
 
     const locationPlayer = [];
     locationPlayer.push([this.activePlayer.location.x, this.activePlayer.location.y]);
 
-    const limitBoard = this.availableSquareY[0];
+    const limitBoard = this.availableSquares[0];
     console.log(limitBoard);
 
     let newLocation;
@@ -376,31 +391,39 @@ Game.prototype.movePlayerUp = function () {
     }
 };
 
-
 Game.prototype.movePlayerRight = function () {
-
+    
+    
     const locationPlayer = [];
     locationPlayer.push([this.activePlayer.location.x, this.activePlayer.location.y]);
-
-    const limitBoard = this.availableSquareX[5];
-    console.log(limitBoard);
-
-    let newLocation;
-
-    if (locationPlayer < limitBoard) {
-        newLocation = this.activePlayer.location.x += 1;
-        console.log(this.activePlayer.location);
-        return newLocation;
+    
+    
+    if (!(locationPlayer < this.availableSquares[0] || locationPlayer > this.availableSquares.length)) {
+        this.activePlayer.location.x += 1;
+        console.log(locationPlayer);
     }
-};
 
+//    const locationPlayer = [];
+//    locationPlayer.push([this.activePlayer.location.x, this.activePlayer.location.y]);
+//
+//    const limitBoard = this.availableSquares.length;
+//    console.log(limitBoard);
+//
+//    let newLocation;
+//
+//    if (locationPlayer < limitBoard) {
+//        newLocation = this.activePlayer.location.x += 1;
+//        console.log(this.activePlayer.location);
+//        return newLocation;
+//    }
+};
 
 Game.prototype.movePlayerDown = function () {
 
     const locationPlayer = [];
     locationPlayer.push([this.activePlayer.location.x, this.activePlayer.location.y]);
 
-    const limitBoard = this.availableSquareY[5];
+    const limitBoard = this.availableSquares.length;
     console.log(limitBoard);
 
     let newLocation;
@@ -411,7 +434,6 @@ Game.prototype.movePlayerDown = function () {
         return newLocation;
     }
 };
-
 
 Game.prototype.walkOnWeapon = function (activePlayer) {
     // Est-ce que objet player et weapon sur même case ?
