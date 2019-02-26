@@ -217,7 +217,7 @@ Game.prototype.getPlayer2 = function () {
 // Peut-être inutile
 Game.prototype.doTurn = function () {
 
-    this.checkAvailableSquares(activePlayer);
+    this.checkAvailableSquares();
 
 };
 
@@ -227,20 +227,26 @@ Game.prototype.switchTurn = function () {
     if (this.turnNumber % 2 === 0) {
         this.activePlayer = this.player1;
         this.waitingPlayer = this.player2;
+        
         console.log(this.waitingPlayer);
         console.log(this.activePlayer);
+        
         this.checkAvailableSquaresX();
         this.checkAvailableSquaresY();
+        
         this.turnNumber++;
         return this.activePlayer;
 
     } else if (this.turnNumber % 2 === 1) {
         this.activePlayer = this.player2;
         this.waitingPlayer = this.player1;
+        
         console.log(this.waitingPlayer);
         console.log(this.activePlayer);
+        
         this.checkAvailableSquaresX(location);
         this.checkAvailableSquaresY();
+        
         this.turnNumber++;
         return this.activePlayer;
     }
@@ -249,6 +255,7 @@ Game.prototype.switchTurn = function () {
 
 Game.prototype.checkAvailableSquaresX = function () {
 
+    this.availableSquareX = [];
     const plusX3 = this.activePlayer.location.x + 3;
     const minusX3 = this.activePlayer.location.x - 3;
     const y = this.activePlayer.location.y;
@@ -293,6 +300,7 @@ Game.prototype.checkAvailableSquaresX = function () {
 
 Game.prototype.checkAvailableSquaresY = function () {
 
+    this.availableSquareY = [];
     const plusY3 = this.activePlayer.location.y + 3;
     const minusY3 = this.activePlayer.location.y - 3;
     const x = this.activePlayer.location.x;
