@@ -217,11 +217,11 @@ Game.prototype.getPlayer2 = function () {
 
 
 // Peut-être inutile
-Game.prototype.doTurn = function () {
-
-    this.checkAvailableSquares();
-
-};
+//Game.prototype.doTurn = function () {
+//
+//    this.checkAvailableSquares();
+//
+//};
 
 Game.prototype.switchTurn = function () {
 
@@ -329,7 +329,7 @@ Game.prototype.checkAvailableSquaresY = function () {
         }
     }
     
-    this.setTurnMovesValue(10);
+    this.setTurnMovesValue(3);
     
     this.addPlayerLocationToArray(this.availableSquaresY);
     
@@ -370,11 +370,15 @@ Game.prototype.movePlayerLeft = function () {
     locationPlayer.push([this.activePlayer.location.x, this.activePlayer.location.y]);
     const result = this.compareLocationPlayerToArray(this.availableSquaresX);
     
+    const x = this.activePlayer.location.x;
+    const y = this.activePlayer.location.y;
+    
     console.log(locationPlayer);
 
-    if (result) {
+    if (result && this.moves > 0) {
         if (locationPlayer >= this.availableSquaresX[1]) {
             this.activePlayer.location.x -= 1;
+            this.chartBoard[y][x] = this.activePlayer;
             this.moves--;
             console.log(result);
         }
@@ -387,11 +391,16 @@ Game.prototype.movePlayerUp = function () {
     locationPlayer.push([this.activePlayer.location.x, this.activePlayer.location.y]);
     const result = this.compareLocationPlayerToArray(this.availableSquaresY);
     
+    const x = this.activePlayer.location.x;
+    const y = this.activePlayer.location.y;
+    
     console.log(locationPlayer);
 
-    if (result) {
+    if (result && this.moves > 0) {
         if (locationPlayer >= this.availableSquaresX[0]) {
             this.activePlayer.location.y -= 1;
+            this.chartBoard[y][x] = this.activePlayer;
+            console.log(this.chartBoard);
             this.moves--;
             console.log(result);
         }
@@ -404,12 +413,17 @@ Game.prototype.movePlayerRight = function () {
     locationPlayer.push([this.activePlayer.location.x, this.activePlayer.location.y]);
     const result = this.compareLocationPlayerToArray(this.availableSquaresX);
     
+    const x = this.activePlayer.location.x;
+    const y = this.activePlayer.location.y;
+    
     console.log(locationPlayer);
 
-    if (result) {
+    if (result && this.moves > 0) {
             this.activePlayer.location.x += 1;
+            this.chartBoard[y][x] = this.activePlayer;
             this.moves--;
             console.log(result);
+            console.log(this.chartBoard);
     }
 };
 
@@ -419,10 +433,14 @@ Game.prototype.movePlayerDown = function () {
     locationPlayer.push([this.activePlayer.location.x, this.activePlayer.location.y]);
     const result = this.compareLocationPlayerToArray(this.availableSquaresY);
     
+    const x = this.activePlayer.location.x;
+    const y = this.activePlayer.location.y;
+    
     console.log(locationPlayer);
 
-    if (result) {
+    if (result && this.moves > 0) {
             this.activePlayer.location.y += 1;
+            this.chartBoard[y][x] = this.activePlayer;
             this.moves--;
             console.log(result);
     }

@@ -23,6 +23,29 @@ function Board (width, height) {
 
     this.chartBoard = this.game.getChartBoard();
 
+    this.scanBoardToSetImages();
+    this.hideStartButton();
+    this.hideRules();
+    this.displayCanvas();
+    this.displayInfoPlayers(this.game.getPlayer1(), this.game.getPlayer2());
+    this.drawBoard();
+    this.initEventListener();
+}
+
+
+// DESSIN DU TABLEAU
+Board.prototype.drawBoard = function () {
+    for (var i = 0; i < this.width; i++) {
+        for (var j = 0; j < this.height; j++) {
+            ctx.strokeStyle = 'rgba(0, 0, 0, 0.7)';
+            ctx.beginPath();
+            ctx.strokeRect(j * 64, i * 64, 64, 64);
+            ctx.closePath();
+        }
+    }
+};
+
+Board.prototype.scanBoardToSetImages = function () {
     let joueurNum = 1;
     for (let i = 0; i < this.chartBoard.length; i++) {
         for (let j = 0; j < this.chartBoard[i].length; j++) {
@@ -45,34 +68,10 @@ function Board (width, height) {
             } else if (piece instanceof Obstacle) {
                 this.loadObstaclesImages(location, '../assets/lave64.png');
             } else if (piece instanceof Player) {
-               /* if (piece.name === "Joueur 1") {
-                    this.loadWeaponsPlayersImages(location, '../assets/joueur1.png');
-                } else {
-                    this.loadWeaponsPlayersImages(location, '../assets/joueur2.png');
-                } */
                 this.loadWeaponsPlayersImages(location, `../assets/joueur${joueurNum}.png`);
                 joueurNum++;
                 
             }
-        }
-    }
-    this.hideStartButton();
-    this.hideRules();
-    this.displayCanvas();
-    this.displayInfoPlayers(this.game.getPlayer1(), this.game.getPlayer2());
-    this.drawBoard();
-    this.initEventListener();
-}
-
-
-// DESSIN DU TABLEAU
-Board.prototype.drawBoard = function () {
-    for (var i = 0; i < this.width; i++) {
-        for (var j = 0; j < this.height; j++) {
-            ctx.strokeStyle = 'rgba(0, 0, 0, 0.7)';
-            ctx.beginPath();
-            ctx.strokeRect(j * 64, i * 64, 64, 64);
-            ctx.closePath();
         }
     }
 };
@@ -148,7 +147,7 @@ Board.prototype.clearPreviousImage = function () {
 };
 
 Board.prototype.addMovedPlayerImage = function () {
-    
+
 };
 
 Board.prototype.addNewWeaponImage = function () {
