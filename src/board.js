@@ -28,7 +28,6 @@ function Board (width, height) {
     this.hideRules();
     this.displayCanvas();
     this.displayInfoPlayers(this.game.getPlayer1(), this.game.getPlayer2());
-    this.drawBoard();
     this.initEventListener();
 }
 
@@ -46,6 +45,9 @@ Board.prototype.drawBoard = function () {
 };
 
 Board.prototype.scanBoardToSetImages = function () {
+    ctx.clearRect(0, 0, 640, 640);
+    this.drawBoard();
+    
     let joueurNum = 1;
     for (let i = 0; i < this.chartBoard.length; i++) {
         for (let j = 0; j < this.chartBoard[i].length; j++) {
@@ -166,6 +168,7 @@ Board.prototype.initEventListener = function () {
     $(document).on('keydown', (e) => {
         if (e.which == 37) {
             this.game.movePlayerLeft();
+            this.scanBoardToSetImages();
             e.stopPropagation();
         }
         if (e.which == 38) {
