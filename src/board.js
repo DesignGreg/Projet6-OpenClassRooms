@@ -34,8 +34,8 @@ function Board (width, height) {
 
 // DESSIN DU TABLEAU
 Board.prototype.drawBoard = function () {
-    for (var i = 0; i < this.width; i++) {
-        for (var j = 0; j < this.height; j++) {
+    for (let i = 0; i < this.width; i++) {
+        for (let j = 0; j < this.height; j++) {
             ctx.strokeStyle = 'rgba(0, 0, 0, 0.7)';
             ctx.beginPath();
             ctx.strokeRect(j * 64, i * 64, 64, 64);
@@ -138,8 +138,15 @@ Board.prototype.showStartButton = function () {
 
     // ETAPE 2
 
-Board.prototype.showMovement = function (activePlayer) {
-    // checkAvailableSquares et surbrillance cases visibles
+Board.prototype.showMovement = function () {
+    for (let i = 0; i < this.width; i++) {
+        for (let j = 0; j < this.height; j++) {
+            ctx.strokeStyle = 'red';
+            ctx.beginPath();
+            ctx.strokeRect(j * 64, i * 64, 64, 64);
+            ctx.closePath();
+        }
+    }
 };
 
 // Canvas, cleartRect(), les images sont des pixels, pas de déplacement possible. Il faut effacer et redessiner.
@@ -161,6 +168,7 @@ Board.prototype.initEventListener = function () {
     $(document).on('keypress', (e) => {
         if (e.which == 13) {
             this.game.switchTurn();
+            this.showMovement();
             e.stopPropagation();
         }
     });
@@ -173,17 +181,26 @@ Board.prototype.initEventListener = function () {
         }
         if (e.which == 38) {
             this.game.movePlayerUp();
+            this.scanBoardToSetImages();
             e.stopPropagation();
         }
         if (e.which == 39) {
             this.game.movePlayerRight();
+            this.scanBoardToSetImages();
             e.stopPropagation();
         }
         if (e.which == 40) {
             this.game.movePlayerDown();
+            this.scanBoardToSetImages();
             e.stopPropagation();
         }
     });
+    
+    // ETAPE 3
+    
+    // Touche A pour attaquer
+    
+    // Touche D pour se défendre
 };
 
 

@@ -446,16 +446,55 @@ Game.prototype.movePlayerDown = function () {
     }
 };
 
-Game.prototype.walkOnWeapon = function (activePlayer) {
-    // Est-ce que objet player et weapon sur même case ?
+Game.prototype.walkOnWeapon = function () {
+    
+    const x = this.activePlayer.location.x;
+    const y = this.activePlayer.location.y;
+    this.chartBoard[y][x] = this.activePlayer;
+    
+    // Le joueur laisse son arme actuelle sur la case, et prend celle qui était sur la case
+    if (this.chartBoard[y][x] instanceof Weapon) {
+        
+    }
 
-    // Si instanceOf Player (pendant tour activePlayer) sur même case instanceOf Weapon ?
 };
 
-Game.prototype.switchWeapon = function (activePlayer) {
+Game.prototype.switchWeapon = function () {
     // walkOnWeapon
     // Changer l'arme du joueur (mise à jour de l'instance)
 
     // Remplacer le this.weapon de l'instance par la nouvelle arme
 
 };
+
+
+// ETAPE 3
+
+Game.prototype.checkIfPlayersAdjacent = function () {
+    // Fonction appelée à chaque mouvement, si true, appelle fonction fight()
+};
+
+Game.prototype.fight = function () {
+    // Supprimer la possibilité de se déplacer, et aussi l'affichage des cases disponibles
+    
+    // Appelée par attack() et defend() pour appliquer les résultats (perte PV ou bonus %)
+    
+    // Appel endGame à la fin pour vérifier si un joueur a PV.
+};
+
+Game.prototype.attack = function () {
+    // dégâts en fonction de l'arme
+};
+
+Game.prototype.defend = function () {
+    // renvoie un true, si true, joueur encaisse 50% de dégâts en moins
+}
+
+Game.prototype.endGame = function () {
+    // Si un joueur = 0PV, fin de partie.
+    
+    // Les valeurs affichées à l'écran du joueur perdant disparaissent, et celles du joueur gagnant clignote quelques secondes, avant que le DOM redémarre
+    
+    // Appeler une fonction de Board pour mettre à jour le DOM, afficher à nouveau le bouton Start et les règles du jeu, pour permettre de relancer une partie
+    
+}
