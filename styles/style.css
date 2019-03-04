@@ -23,7 +23,7 @@ body{
     overflow-x: hidden;
     overflow-y: hidden;
     
-    background-image: url(../assets/fallenangel.jpg);
+    background: linear-gradient(rgba(0,0,0,0.8), rgba(0, 0, 0, 0.3)), url(../assets/fallenangel.jpg);
     background-position: center;
     background-size: cover;
     background-attachment: fixed;
@@ -47,7 +47,7 @@ body{
 
 .title-container--text {
     color: white;
-    text-shadow: 1px 2px 2px rgba(0, 0, 0, 0.7);
+    font-weight: bold;
     padding-top: 10px;
 }
 
@@ -61,7 +61,7 @@ body{
     margin-top: 80px;
     color: white;
     text-align: center;
-    text-shadow: 1px 1px 1px black;
+    font-weight: 500;
 }
 
 .canvas-text--title {
@@ -78,19 +78,30 @@ text-decoration: underline;
     text-align: center;
 }
 
-.canvas-side__left {
+.canvas-side--left {
     visibility: hidden;
 }
 
-.canvas-side__right {
+.canvas-side--right {
     visibility: hidden;
 }
 
+.canvas-side--left__title {
+    margin-top: 50px;
+    color: white;
+    font-weight: 500;
+}
+
+.canvas-side--right__title {
+    margin-top: 50px;
+    color: white;
+    font-weight: 500;
+}
 
 .canvas-side--title {
     margin-top: 50px;
     color: white;
-    text-shadow: 1px 2px 2px rgba(0, 0, 0, 0.7);
+    font-weight: 500;
 }
 
 .canvas-side--health {

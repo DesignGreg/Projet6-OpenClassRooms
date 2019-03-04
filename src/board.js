@@ -115,14 +115,14 @@ Board.prototype.displayCanvas = function () {
 };
 
 Board.prototype.displayInfoPlayers = function (player1, player2) {
-    $('.canvas-side__left').css('visibility', 'visible');
-    $('.canvas-side__right').css('visibility', 'visible');
-    $('.canvas-side__left').addClass('animated slideInLeft');
-    $('.canvas-side__right').addClass('animated slideInRight');
+    $('.canvas-side--left').css('visibility', 'visible');
+    $('.canvas-side--right').css('visibility', 'visible');
+    $('.canvas-side--left').addClass('animated slideInLeft');
+    $('.canvas-side--right').addClass('animated slideInRight');
     
-    $(".canvas-side__left").html("<h2 class='canvas-side--title'>" + player1.name + "</h2><p class='canvas-side--health'>" + player1.health + "</p><p class='canvas-side--health'>" + player1.weapon.name + "</p>");
+    $(".canvas-side--left").html("<h2 class='canvas-side--left__title'>" + player1.name + "</h2><p class='canvas-side--health'>" + 'Santé' + ' (' + player1.health + ')' + "</p><p class='canvas-side--weapon'>" + player1.weapon.name + ' (' + player1.weapon.damage + ')' + "</p>");
 
-    $(".canvas-side__right").html("<h2 class='canvas-side--title'>" + player2.name + "</h2><p class='canvas-side--health'>" + player2.health + "</p><p class='canvas-side--health'>" + player2.weapon.name + "</p>");
+    $(".canvas-side--right").html("<h2 class='canvas-side--right__title'>" + player2.name + "</h2><p class='canvas-side--health'>" + 'Santé' + ' (' + player2.health + ')' + "</p><p class='canvas-side--weapon'>" + player2.weapon.name + ' (' + player2.weapon.damage + ')' + "</p>");
 };
 
 Board.prototype.hideStartButton = function () {
@@ -147,21 +147,21 @@ Board.prototype.showMovement = function () {
             ctx.closePath();
         }
     }
+    this.showActivePlayer();
 };
 
-// Canvas, cleartRect(), les images sont des pixels, pas de déplacement possible. Il faut effacer et redessiner.
-
-Board.prototype.clearPreviousImage = function () {
+Board.prototype.showActivePlayer = function () {
     
+    if (this.game.turnNumber % 2 === 0) {
+        $('.canvas-side--left__title').css('color', 'red');
+        $('.canvas-side--right__title').css('color', 'white');
+
+    } else if (this.game.turnNumber % 2 === 1) {
+        $('.canvas-side--right__title').css('color', 'red');
+        $('.canvas-side--left__title').css('color', 'white');
+    }
 };
 
-Board.prototype.addMovedPlayerImage = function () {
-
-};
-
-Board.prototype.addNewWeaponImage = function () {
-    
-};
 
 Board.prototype.initEventListener = function () {
 

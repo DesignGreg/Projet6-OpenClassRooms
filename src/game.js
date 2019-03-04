@@ -73,8 +73,8 @@ Game.prototype.generateGame = function () {
     let pieceToSetArray = obstacleArray.concat(randomWeapons);
 
     // GENERER INSTANCES
-    this.player1 = new Player("Joueur 1", 100, dagger);
-    this.player2 = new Player("Joueur 2", 100, dagger);
+    this.player1 = new Player("Lucifer", 100, dagger);
+    this.player2 = new Player("Michael", 100, dagger);
     const playerArray = [this.player1, this.player2];
 
 
@@ -379,6 +379,7 @@ Game.prototype.movePlayerLeft = function () {
         if (locationPlayer >= this.availableSquaresX[1]) {
             this.activePlayer.location.x -= 1;
             this.chartBoard[y][x] = this.activePlayer;
+            this.walkOnWeapon();
             this.moves--;
             console.log(result);
         }
@@ -400,7 +401,7 @@ Game.prototype.movePlayerUp = function () {
         if (locationPlayer >= this.availableSquaresX[0]) {
             this.activePlayer.location.y -= 1;
             this.chartBoard[y][x] = this.activePlayer;
-            console.log(this.chartBoard);
+            this.walkOnWeapon();
             this.moves--;
             console.log(result);
         }
@@ -421,6 +422,7 @@ Game.prototype.movePlayerRight = function () {
     if (result && this.moves > 0) {
             this.activePlayer.location.x += 1;
             this.chartBoard[y][x] = this.activePlayer;
+            this.walkOnWeapon();
             this.moves--;
             console.log(result);
             console.log(this.chartBoard);
@@ -441,6 +443,7 @@ Game.prototype.movePlayerDown = function () {
     if (result && this.moves > 0) {
             this.activePlayer.location.y += 1;
             this.chartBoard[y][x] = this.activePlayer;
+            this.walkOnWeapon();
             this.moves--;
             console.log(result);
     }
@@ -454,18 +457,12 @@ Game.prototype.walkOnWeapon = function () {
     
     // Le joueur laisse son arme actuelle sur la case, et prend celle qui était sur la case
     if (this.chartBoard[y][x] instanceof Weapon) {
-        
+        // Arme sur la case devient arme du joueur
+        // Arme du joueur devient disponible sur la case
     }
 
 };
 
-Game.prototype.switchWeapon = function () {
-    // walkOnWeapon
-    // Changer l'arme du joueur (mise à jour de l'instance)
-
-    // Remplacer le this.weapon de l'instance par la nouvelle arme
-
-};
 
 
 // ETAPE 3

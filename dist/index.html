@@ -21,48 +21,52 @@
 </head>
 
 <body>
-    <div class="container-fluid">
-        <div class="row">
-            <div class="title col-12">
-                <div class="title-container">
-                    <h1 class="title-container--text text-center">ANGELS WARRIORS</h1>
+
+        <div class="container-fluid">
+            <div class="row">
+                <div class="title col-12">
+                    <div class="title-container">
+                        <h1 class="title-container--text text-center">ANGELS WARRIORS</h1>
+                    </div>
+                    <div class="title-container--button">
+                        <button type="button" id="start" class="button--start btn btn-dark btn-lg">Start New Game</button>
+                    </div>
                 </div>
-                <div class="title-container--button">
-                    <button type="button" id="start" class="button--start btn btn-dark btn-lg">Start New Game</button>
+            </div>
+
+            <div class="row">
+                <div class="canvas-side canvas-side--left col-sm-2 col-md-3 col-lg-3 col-xl-3"></div>
+
+                <div class="canvas col-sm-8 col-md-6 col-lg-6 col-xl-6">
+
+                    <div class="canvas-text">
+                        <h3 class="canvas-text--title">La guerre ne fait que commencer</h3>
+                        <p class="canvas-text--info">Les anges loyaux et déchus se sont déclarés la guerre une nouvelle fois.<br>
+                            Êtes-vous loyal ou déchu ? Quel camp allez-vous soutenir ?<br>
+                            Préparez-vous à un duel sans pitié !</p>
+                    </div>
+                    <div class="canvas-text">
+                        <h3 class="canvas-text--title">Règles du jeu</h3>
+                        <p class="canvas-text--info">Ce jeu se déroule au tour par tour.<br>
+                           Pour vous déplacer, utilisez les touches fléchées.<br>
+                            A chaque tour, vous pourrez vous déplacer <br> 
+                            jusqu'à 3 cases horizontalement ou verticalement.<br>
+                            En passant sur une arme, vous en changez.<br>
+                            Pour mettre fin à un tour, appuyez sur la touche Entrée.<br>
+                            Si vous croisez votre adversaire, une lutte à mort s'engage !
+                        </p>
+                    </div>
+
+                    <canvas id="board" width="640" height="640"></canvas>
                 </div>
+
+                <div class="canvas-side canvas-side--right col-sm-2 col-md-3 col-lg-3 col-xl-3"></div>
             </div>
         </div>
 
-        <div class="row">
-            <div class="canvas-side canvas-side__left col-sm-2 col-md-3 col-lg-3 col-xl-3"></div>
-
-            <div class="canvas col-sm-8 col-md-6 col-lg-6 col-xl-6">
-
-                <div class="canvas-text">
-                    <h3 class="canvas-text--title">La guerre ne fait que commencer</h3>
-                    <p class="canvas-text--info">Les anges loyaux et déchus se sont déclarés la guerre une nouvelle fois.<br>
-                    Êtes-vous loyal ou déchu ? Quel camp allez-vous soutenir ?<br>
-                    Préparez-vous à un duel sans pitié !</p>
-                </div>
-                <div class="canvas-text">
-                    <h3 class="canvas-text--title">Règles du jeu</h3>
-                    <p class="canvas-text--info">Ce jeu se déroule au tour par tour.<br>
-                    A chaque tour, vous pourrez vous déplacer jusqu'à 3 cases dans une seule direction.<br>
-                    Pour vous déplacer, utilisez les touches fléchées.<br>
-                    En passant sur une arme, vous en changez.<br>
-                    Pour mettre fin à un tour, appuyez sur la touche Entrée.<br>
-                    Si vous croisez votre adversaire, une lutte à mort s'engage !
-                    </p>
-                </div>
-
-                <canvas id="board" width="640" height="640"></canvas>
-            </div>
-
-            <div class="canvas-side canvas-side__right col-sm-2 col-md-3 col-lg-3 col-xl-3"></div>
-        </div>
-    </div>
     <script src="../node_modules/bootstrap/dist/js/bootstrap.js"></script>
     <script src="./bundle.js"></script>
+
 </body>
 
 </html>
