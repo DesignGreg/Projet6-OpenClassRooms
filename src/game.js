@@ -223,6 +223,15 @@ Game.prototype.getPlayer2 = function () {
 //
 //};
 
+Game.prototype.incrementTurn = function () {
+    this.turnNumber++;
+    console.log(this.turnNumber);
+};
+
+Game.prototype.setTurnMovesValue = function (value) {
+    this.moves = value;
+};
+
 Game.prototype.switchTurn = function () {
 
     if (this.turnNumber % 2 === 0) {
@@ -234,9 +243,6 @@ Game.prototype.switchTurn = function () {
         this.checkAvailableSquaresX();
         this.checkAvailableSquaresY();
         
-        this.turnNumber++;
-        return this.activePlayer;
-
     } else if (this.turnNumber % 2 === 1) {
         this.activePlayer = this.player2;
         this.waitingPlayer = this.player1;
@@ -246,9 +252,8 @@ Game.prototype.switchTurn = function () {
         this.checkAvailableSquaresX(location);
         this.checkAvailableSquaresY();
         
-        this.turnNumber++;
-        return this.activePlayer;
     }
+    return this.activePlayer;
 };
 
 Game.prototype.checkAvailableSquaresX = function () {
@@ -337,14 +342,11 @@ Game.prototype.checkAvailableSquaresY = function () {
     return this.availableSquaresY;
 };
 
-Game.prototype.setTurnMovesValue = function (value) {
-    this.moves = value;
-};
-
 Game.prototype.addPlayerLocationToArray = function (array) {
     const locationPlayer = [];
     locationPlayer.push([this.activePlayer.location.x, this.activePlayer.location.y]);
     
+    // Pour intégrer l'emplacement du joueur si pas déjà dans le tableau de cases disponibles. Donc parfois des doublons
     if (!(array.some(a => a.toString() === locationPlayer.toString()))) {
         array.push([this.activePlayer.location.x, this.activePlayer.location.y]);
     };
@@ -356,8 +358,8 @@ Game.prototype.concatAvailableSquaresArrays = function () {
     console.log(this.availableSquares);
 };
 
+// Pour comparer l'emplacement du joueur aux cases disponibles, qu'il ne se déplace que parmi ces cases
 Game.prototype.compareLocationPlayerToArray = function (array) {
-    
     const locationPlayer = [];
     locationPlayer.push([this.activePlayer.location.x, this.activePlayer.location.y]);
     
@@ -376,13 +378,11 @@ Game.prototype.movePlayerLeft = function () {
     console.log(locationPlayer);
 
     if (result && this.moves > 0) {
-        if (locationPlayer >= this.availableSquaresX[1]) {
             this.activePlayer.location.x -= 1;
             this.chartBoard[y][x] = this.activePlayer;
             this.walkOnWeapon();
             this.moves--;
             console.log(result);
-        }
     }
 };
 
@@ -398,13 +398,11 @@ Game.prototype.movePlayerUp = function () {
     console.log(locationPlayer);
 
     if (result && this.moves > 0) {
-        if (locationPlayer >= this.availableSquaresX[0]) {
             this.activePlayer.location.y -= 1;
             this.chartBoard[y][x] = this.activePlayer;
             this.walkOnWeapon();
             this.moves--;
             console.log(result);
-        }
     }
 };
 

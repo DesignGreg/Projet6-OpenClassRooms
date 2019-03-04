@@ -29,6 +29,11 @@ function Board (width, height) {
     this.displayCanvas();
     this.displayInfoPlayers(this.game.getPlayer1(), this.game.getPlayer2());
     this.initEventListener();
+    
+    // Premier tour, avant d'appuyer sur Entrée
+    this.game.switchTurn();
+    this.showMovement();
+    this.showActivePlayer();
 }
 
 
@@ -48,7 +53,7 @@ Board.prototype.scanBoardToSetImages = function () {
     ctx.clearRect(0, 0, 640, 640);
     this.drawBoard();
     
-    let joueurNum = 1;
+//    let joueurNum = 1;
     for (let i = 0; i < this.chartBoard.length; i++) {
         for (let j = 0; j < this.chartBoard[i].length; j++) {
             const piece = this.chartBoard[i][j];
@@ -70,8 +75,13 @@ Board.prototype.scanBoardToSetImages = function () {
             } else if (piece instanceof Obstacle) {
                 this.loadObstaclesImages(location, '../assets/lave64.png');
             } else if (piece instanceof Player) {
-                this.loadWeaponsPlayersImages(location, `../assets/joueur${joueurNum}.png`);
-                joueurNum++;
+//                this.loadWeaponsPlayersImages(location, `../assets/joueur${joueurNum}.png`);
+//                joueurNum++;
+                if (piece.name === "Lucifer") {
+                    this.loadWeaponsPlayersImages(location, '../assets/joueur1.png');
+                } else {
+                    this.loadWeaponsPlayersImages(location, '../assets/joueur2.png');
+                }
                 
             }
         }
@@ -168,6 +178,7 @@ Board.prototype.initEventListener = function () {
     $(document).on('keypress', (e) => {
         if (e.which == 13) {
             this.game.switchTurn();
+            this.game.incrementTurn();
             this.showMovement();
             e.stopPropagation();
         }
