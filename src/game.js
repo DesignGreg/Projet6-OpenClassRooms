@@ -322,7 +322,11 @@ Game.prototype.checkAvailableSquaresY = function () {
             }
         } else if (minusY3 < 0) {
             if (!(y < 0 || y > 9)) {
+                if (!(this.chartBoard[y][x] instanceof Player || this.chartBoard[y][x] instanceof Obstacle)) {
                 this.availableSquaresY.unshift([this.activePlayer.location.x, y]);
+            } else if (this.chartBoard[y][x] === this.waitingPlayer || this.chartBoard[y][x] instanceof Obstacle) {
+                break;
+            }
             }
         }
     }
@@ -337,7 +341,11 @@ Game.prototype.checkAvailableSquaresY = function () {
             }
         } else if (plusY3 > 9) {
             if (!(y < 0 || y > 9)) {
-                this.availableSquaresY.push([this.activePlayer.location.x, y]);
+                if (!(this.chartBoard[y][x] instanceof Player || this.chartBoard[y][x] instanceof Obstacle)) {
+                this.availableSquaresY.unshift([this.activePlayer.location.x, y]);
+            } else if (this.chartBoard[y][x] === this.waitingPlayer || this.chartBoard[y][x] instanceof Obstacle) {
+                break;
+            }
             }
         }
     }
