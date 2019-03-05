@@ -17,8 +17,10 @@ function Game(width, height) {
     this.turnNumber = 0;
     this.moves = 0;
 
+    // 2 tableaux pour simplifier la gestion du mouvement sur les deux axes
     this.availableSquaresX = [];
     this.availableSquaresY = [];
+    // Un tableau joint pour simplifier la gestion de l'affichage des cases disponibles
     this.availableSquares = [];
 
     this.forbiddenPosition = [];
@@ -352,7 +354,7 @@ Game.prototype.addPlayerLocationToArray = function (array) {
     };
 };
 
-// Utilisé pour afficher les cases disponibles au mouvement, pas pour gérer le mouvement directement
+// Utilisée pour afficher les cases disponibles au mouvement, pas pour gérer le mouvement directement
 Game.prototype.concatAvailableSquaresArrays = function () {
     this.availableSquares = this.availableSquaresX.concat(this.availableSquaresY);
     console.log(this.availableSquares);
@@ -378,8 +380,12 @@ Game.prototype.movePlayerLeft = function () {
     console.log(locationPlayer);
 
     if (result && this.moves > 0) {
+            // Retirer position initiale
+            this.chartBoard[y][x] = {};
+            // Déplacer le joueur
             this.activePlayer.location.x -= 1;
-            this.chartBoard[y][x] = this.activePlayer;
+            this.chartBoard[y][x-1] = this.activePlayer;
+        
             this.walkOnWeapon();
             this.moves--;
             console.log(result);
@@ -398,8 +404,9 @@ Game.prototype.movePlayerUp = function () {
     console.log(locationPlayer);
 
     if (result && this.moves > 0) {
+            this.chartBoard[y][x] = {};
             this.activePlayer.location.y -= 1;
-            this.chartBoard[y][x] = this.activePlayer;
+            this.chartBoard[y-1][x] = this.activePlayer;
             this.walkOnWeapon();
             this.moves--;
             console.log(result);
@@ -418,8 +425,9 @@ Game.prototype.movePlayerRight = function () {
     console.log(locationPlayer);
 
     if (result && this.moves > 0) {
+            this.chartBoard[y][x] = {};
             this.activePlayer.location.x += 1;
-            this.chartBoard[y][x] = this.activePlayer;
+            this.chartBoard[y][x+1] = this.activePlayer;
             this.walkOnWeapon();
             this.moves--;
             console.log(result);
@@ -439,8 +447,9 @@ Game.prototype.movePlayerDown = function () {
     console.log(locationPlayer);
 
     if (result && this.moves > 0) {
+            this.chartBoard[y][x] = {};
             this.activePlayer.location.y += 1;
-            this.chartBoard[y][x] = this.activePlayer;
+            this.chartBoard[y+1][x] = this.activePlayer;
             this.walkOnWeapon();
             this.moves--;
             console.log(result);
