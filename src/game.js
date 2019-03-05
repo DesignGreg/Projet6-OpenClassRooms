@@ -323,10 +323,10 @@ Game.prototype.checkAvailableSquaresY = function () {
         } else if (minusY3 < 0) {
             if (!(y < 0 || y > 9)) {
                 if (!(this.chartBoard[y][x] instanceof Player || this.chartBoard[y][x] instanceof Obstacle)) {
-                this.availableSquaresY.unshift([this.activePlayer.location.x, y]);
-            } else if (this.chartBoard[y][x] === this.waitingPlayer || this.chartBoard[y][x] instanceof Obstacle) {
-                break;
-            }
+                    this.availableSquaresY.unshift([this.activePlayer.location.x, y]);
+                } else if (this.chartBoard[y][x] === this.waitingPlayer || this.chartBoard[y][x] instanceof Obstacle) {
+                    break;
+                }
             }
         }
     }
@@ -342,10 +342,10 @@ Game.prototype.checkAvailableSquaresY = function () {
         } else if (plusY3 > 9) {
             if (!(y < 0 || y > 9)) {
                 if (!(this.chartBoard[y][x] instanceof Player || this.chartBoard[y][x] instanceof Obstacle)) {
-                this.availableSquaresY.unshift([this.activePlayer.location.x, y]);
-            } else if (this.chartBoard[y][x] === this.waitingPlayer || this.chartBoard[y][x] instanceof Obstacle) {
-                break;
-            }
+                    this.availableSquaresY.unshift([this.activePlayer.location.x, y]);
+                } else if (this.chartBoard[y][x] === this.waitingPlayer || this.chartBoard[y][x] instanceof Obstacle) {
+                    break;
+                }
             }
         }
     }
@@ -378,22 +378,20 @@ Game.prototype.concatAvailableSquaresArrays = function () {
 Game.prototype.compareLocationPlayerToArray = function (array) {
     const locationPlayer = [];
     locationPlayer.push([this.activePlayer.location.x, this.activePlayer.location.y]);
+    
+    console.log(locationPlayer);
 
     return array.some(a => a.toString() === locationPlayer.toString());
 }
 
 Game.prototype.movePlayerLeft = function () {
 
-    const locationPlayer = [];
-    locationPlayer.push([this.activePlayer.location.x, this.activePlayer.location.y]);
     const result = this.compareLocationPlayerToArray(this.availableSquaresX);
 
     const x = this.activePlayer.location.x;
     const y = this.activePlayer.location.y;
-
-    console.log(locationPlayer);
-
-    if (result && this.moves > 0) {
+    
+    if (result && this.moves > 0 && (!(this.chartBoard[y][x - 1] instanceof Obstacle)) && this.activePlayer.location.x !== 0) {
         // Retirer position initiale
         this.chartBoard[y][x] = {};
         // Déplacer le joueur
@@ -408,16 +406,12 @@ Game.prototype.movePlayerLeft = function () {
 
 Game.prototype.movePlayerUp = function () {
 
-    const locationPlayer = [];
-    locationPlayer.push([this.activePlayer.location.x, this.activePlayer.location.y]);
     const result = this.compareLocationPlayerToArray(this.availableSquaresY);
 
     const x = this.activePlayer.location.x;
     const y = this.activePlayer.location.y;
 
-    console.log(locationPlayer);
-
-    if (result && this.moves > 0) {
+    if (result && this.moves > 0 && (!(this.chartBoard[y - 1][x] instanceof Obstacle)) && this.activePlayer.location.y !== 0) {
         this.chartBoard[y][x] = {};
         this.activePlayer.location.y -= 1;
         this.chartBoard[y - 1][x] = this.activePlayer;
@@ -429,16 +423,12 @@ Game.prototype.movePlayerUp = function () {
 
 Game.prototype.movePlayerRight = function () {
 
-    const locationPlayer = [];
-    locationPlayer.push([this.activePlayer.location.x, this.activePlayer.location.y]);
     const result = this.compareLocationPlayerToArray(this.availableSquaresX);
 
     const x = this.activePlayer.location.x;
     const y = this.activePlayer.location.y;
 
-    console.log(locationPlayer);
-
-    if (result && this.moves > 0) {
+    if (result && this.moves > 0 && (!(this.chartBoard[y][x + 1] instanceof Obstacle)) && this.activePlayer.location.x !== 9) {
         this.chartBoard[y][x] = {};
         this.activePlayer.location.x += 1;
         this.chartBoard[y][x + 1] = this.activePlayer;
@@ -451,16 +441,12 @@ Game.prototype.movePlayerRight = function () {
 
 Game.prototype.movePlayerDown = function () {
 
-    const locationPlayer = [];
-    locationPlayer.push([this.activePlayer.location.x, this.activePlayer.location.y]);
     const result = this.compareLocationPlayerToArray(this.availableSquaresY);
 
     const x = this.activePlayer.location.x;
     const y = this.activePlayer.location.y;
 
-    console.log(locationPlayer);
-
-    if (result && this.moves > 0) {
+    if (result && this.moves > 0 && (!(this.chartBoard[y + 1][x] instanceof Obstacle)) && this.activePlayer.location.y !== 9) {
         this.chartBoard[y][x] = {};
         this.activePlayer.location.y += 1;
         this.chartBoard[y + 1][x] = this.activePlayer;
