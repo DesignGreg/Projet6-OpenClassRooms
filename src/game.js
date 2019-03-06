@@ -270,12 +270,35 @@ Game.prototype.checkAvailableSquaresX = function () {
     const plusX3 = this.activePlayer.location.x + 3;
     const minusX3 = this.activePlayer.location.x - 3;
     const y = this.activePlayer.location.y;
+    
+    
+//    for (let x = minusX3; x <= plusX3; x++) {
+//
+//        if (minusX3 >= 0 && plusX3 <= 9) {
+//            // Regarde si la case jusqu'à -3, est une instance de l'objet Player ou Obstacle
+//            if (!(this.chartBoard[y][x] instanceof Player || this.chartBoard[y][x] instanceof Obstacle)) {
+//                this.availableSquaresX.unshift([x, this.activePlayer.location.y]);
+//                // Arrête la boucle la case est une l'autre joueur ou une instance d'Obstacle
+//            } else if (this.chartBoard[y][x] === this.waitingPlayer || this.chartBoard[y][x] instanceof Obstacle) {
+//                break;
+//            }
+//        } else if (minusX3 < 0 || plusX3 > 9) {
+//            if (!(x < 0 || x > 9)) {
+//                if (!(this.chartBoard[y][x] instanceof Player || this.chartBoard[y][x] instanceof Obstacle)) {
+//                    this.availableSquaresX.unshift([x, this.activePlayer.location.y]);
+//                } else if (this.chartBoard[y][x] === this.waitingPlayer || this.chartBoard[y][x] instanceof Obstacle) {
+//                    break;
+//                }
+//            }
+//        }
+//    }
 
+    
     for (let x = this.activePlayer.location.x; x >= minusX3; x--) {
 
         if (minusX3 >= 0) {
             // Regarde si la case jusqu'à -3, est une instance de l'objet Player ou Obstacle
-            if (!(this.chartBoard[y][x] instanceof Player || this.chartBoard[y][x] instanceof Obstacle)) {
+            if (!(this.chartBoard[y][x] instanceof Obstacle)) {
                 this.availableSquaresX.unshift([x, this.activePlayer.location.y]);
                 // Arrête la boucle la case est une l'autre joueur ou une instance d'Obstacle
             } else if (this.chartBoard[y][x] === this.waitingPlayer || this.chartBoard[y][x] instanceof Obstacle) {
@@ -295,7 +318,7 @@ Game.prototype.checkAvailableSquaresX = function () {
     for (let x = this.activePlayer.location.x; x <= plusX3; x++) {
 
         if (plusX3 <= 9) {
-            if (!(this.chartBoard[y][x] instanceof Player || this.chartBoard[y][x] instanceof Obstacle)) {
+            if (!(this.chartBoard[y][x] instanceof Obstacle)) {
                 this.availableSquaresX.push([x, this.activePlayer.location.y]);
             } else if (this.chartBoard[y][x] === this.waitingPlayer || this.chartBoard[y][x] instanceof Obstacle) {
                 break;
@@ -311,7 +334,6 @@ Game.prototype.checkAvailableSquaresX = function () {
         }
     }
 
-    this.addPlayerLocationToArray(this.availableSquaresX);
     return this.availableSquaresX;
 };
 
@@ -321,11 +343,31 @@ Game.prototype.checkAvailableSquaresY = function () {
     const plusY3 = this.activePlayer.location.y + 3;
     const minusY3 = this.activePlayer.location.y - 3;
     const x = this.activePlayer.location.x;
+    
+    
+//    for (let y = minusY3; y <= plusY3; y++) {
+//
+//        if (minusY3 >= 0 && plusY3 <= 9) {
+//            if (!(this.chartBoard[y][x] instanceof Player || this.chartBoard[y][x] instanceof Obstacle)) {
+//                this.availableSquaresY.unshift([this.activePlayer.location.x, y]);
+//            } else if (this.chartBoard[y][x] === this.waitingPlayer || this.chartBoard[y][x] instanceof Obstacle) {
+//                break;
+//            }
+//        } else if (minusY3 < 0 || plusY3 > 0) {
+//            if (!(y < 0 || y > 9)) {
+//                if (!(this.chartBoard[y][x] instanceof Player || this.chartBoard[y][x] instanceof Obstacle)) {
+//                    this.availableSquaresY.unshift([this.activePlayer.location.x, y]);
+//                } else if (this.chartBoard[y][x] === this.waitingPlayer || this.chartBoard[y][x] instanceof Obstacle) {
+//                    break;
+//                }
+//            }
+//        }
+//    }
 
     for (let y = this.activePlayer.location.y; y >= minusY3; y--) {
 
         if (minusY3 >= 0) {
-            if (!(this.chartBoard[y][x] instanceof Player || this.chartBoard[y][x] instanceof Obstacle)) {
+            if (!(this.chartBoard[y][x] instanceof Obstacle)) {
                 this.availableSquaresY.unshift([this.activePlayer.location.x, y]);
             } else if (this.chartBoard[y][x] === this.waitingPlayer || this.chartBoard[y][x] instanceof Obstacle) {
                 break;
@@ -344,7 +386,7 @@ Game.prototype.checkAvailableSquaresY = function () {
     for (let y = this.activePlayer.location.y; y <= plusY3; y++) {
 
         if (plusY3 <= 9) {
-            if (!(this.chartBoard[y][x] instanceof Player || this.chartBoard[y][x] instanceof Obstacle)) {
+            if (!(this.chartBoard[y][x] instanceof Obstacle)) {
                 this.availableSquaresY.push([this.activePlayer.location.x, y]);
             } else if (this.chartBoard[y][x] === this.waitingPlayer || this.chartBoard[y][x] instanceof Obstacle) {
                 break;
@@ -362,30 +404,31 @@ Game.prototype.checkAvailableSquaresY = function () {
 
     this.setTurnMovesValue(3);
 
-    this.addPlayerLocationToArray(this.availableSquaresY);
-
     this.concatAvailableSquaresArrays();
     return this.availableSquaresY;
 };
 
-Game.prototype.addPlayerLocationToArray = function (array) {
-    const locationPlayer = [];
-    locationPlayer.push([this.activePlayer.location.x, this.activePlayer.location.y]);
-
-    // Pour intégrer l'emplacement du joueur si pas déjà dans le tableau de cases disponibles. Donc parfois des doublons
-    if (!(array.some(a => a.toString() === locationPlayer.toString()))) {
-        array.push([this.activePlayer.location.x, this.activePlayer.location.y]);
-    };
-};
+// Pour pusher la position de activePlayer dans le tableau de cases disponibles. Plus utilisée.
+//Game.prototype.addPlayerLocationToArray = function (array) {
+//    const locationPlayer = [];
+//    locationPlayer.push([this.activePlayer.location.x, this.activePlayer.location.y]);
+//
+//    // Pour intégrer l'emplacement du joueur si pas déjà dans le tableau de cases disponibles. Donc parfois des doublons
+//    if (!(array.some(a => a.toString() === locationPlayer.toString()))) {
+//        array.push([this.activePlayer.location.x, this.activePlayer.location.y]);
+//    };
+//};
 
 // Utilisée pour afficher les cases disponibles au mouvement, pas pour gérer le mouvement directement
 Game.prototype.concatAvailableSquaresArrays = function () {
     this.availableSquares = this.availableSquaresX.concat(this.availableSquaresY);
+    console.log(this.availableSquaresX);
+    console.log(this.availableSquaresY);
     console.log(this.availableSquares);
 };
 
 // Pour comparer l'emplacement du joueur aux cases disponibles, qu'il ne se déplace que parmi ces cases
-Game.prototype.compareLocationPlayerToArray = function (array) {
+Game.prototype.isCompareLocationPlayerToArray = function (array) {
     const locationPlayer = [];
     locationPlayer.push([this.activePlayer.location.x, this.activePlayer.location.y]);
     
@@ -393,6 +436,41 @@ Game.prototype.compareLocationPlayerToArray = function (array) {
 
     return array.some(a => a.toString() === locationPlayer.toString());
 }
+
+//Game.prototype.movePlayer = function (chartboard, playerLocation, limitValueLocation, changeLocationValue) {
+//    
+//    const isPlayerOnAvailableSquares = this.isCompareLocationPlayerToArray(this.availableSquaresY);
+//
+//    const x = this.activePlayer.location.x;
+//    const y = this.activePlayer.location.y;
+//
+//    if (isPlayerOnAvailableSquares && this.moves > 0 && (!(chartboard instanceof Obstacle)) && playerLocation !== limitValueLocation && this.chartBoard[y][x] !== this.waitingPlayer) {
+//        this.chartBoard[y][x] = {};
+//        playerLocation = changeLocationValue;
+//        chartboard = this.activePlayer;
+//        this.walkOnWeapon();
+//        this.moves--;
+//        console.log(result);
+//    }
+//};
+
+// Argument Not Defined
+
+//Game.prototype.movePlayerLeft = function () {
+//    this.movePlayer (this.chartBoard[y][x - 1], this.activePlayer.location.x, 0, -1);
+//};
+//
+//Game.prototype.movePlayerUp = function () {
+//    this.movePlayer (this.chartBoard[y - 1][x], this.activePlayer.location.y, 0, -1);
+//};
+//
+//Game.prototype.movePlayerRight = function () {
+//    this.movePlayer (this.chartBoard[y][x + 1], this.activePlayer.location.x, 9, +1);
+//};
+//
+//Game.prototype.movePlayerDown = function () {
+//    this.movePlayer (this.chartBoard[y + 1][x1], this.activePlayer.location.y, 9, +1);
+//};
 
 Game.prototype.movePlayerLeft = function () {
     
@@ -403,94 +481,101 @@ Game.prototype.movePlayerLeft = function () {
     // Si instanceof Weapon sur l'une des cases entre la location d'origine et la nouvelle, cette arme remplace la prédédente
     // L'ancienne arme devient secondaryWeapon (pas utilisée en combat) qui sera déposée une fois un nouveau déplacement effectuée
 
-    const result = this.compareLocationPlayerToArray(this.availableSquaresX);
+    const isPlayerOnAvailableSquares = this.isCompareLocationPlayerToArray(this.availableSquaresX);
 
     const x = this.activePlayer.location.x;
     const y = this.activePlayer.location.y;
     
-    if (result && this.moves > 0 && (!(this.chartBoard[y][x - 1] instanceof Obstacle)) && this.activePlayer.location.x !== 0) {
-        // Retirer position initiale
-        this.chartBoard[y][x] = {};
-        // Déplacer le joueur
+    if (isPlayerOnAvailableSquares && this.moves > 0 && (!(this.chartBoard[y][x - 1] instanceof Obstacle)) && this.activePlayer.location.x !== 0 && this.chartBoard[y][x - 1] !== this.waitingPlayer) {
+        this.dropWeapon();
         this.activePlayer.location.x -= 1;
-        this.chartBoard[y][x - 1] = this.activePlayer;
-
         this.walkOnWeapon();
+        this.chartBoard[y][x - 1] = this.activePlayer;
         this.moves--;
-        console.log(result);
     }
 };
 
 Game.prototype.movePlayerUp = function () {
 
-    const result = this.compareLocationPlayerToArray(this.availableSquaresY);
+    const isPlayerOnAvailableSquares = this.isCompareLocationPlayerToArray(this.availableSquaresY);
 
     const x = this.activePlayer.location.x;
     const y = this.activePlayer.location.y;
 
-    if (result && this.moves > 0 && (!(this.chartBoard[y - 1][x] instanceof Obstacle)) && this.activePlayer.location.y !== 0) {
-        this.chartBoard[y][x] = {};
+    if (isPlayerOnAvailableSquares && this.moves > 0 && (!(this.chartBoard[y - 1][x] instanceof Obstacle)) && this.activePlayer.location.y !== 0 && this.chartBoard[y - 1][x] !== this.waitingPlayer) {
+        this.dropWeapon();
         this.activePlayer.location.y -= 1;
-        this.chartBoard[y - 1][x] = this.activePlayer;
         this.walkOnWeapon();
+        this.chartBoard[y - 1][x] = this.activePlayer;
         this.moves--;
-        console.log(result);
     }
 };
 
 Game.prototype.movePlayerRight = function () {
 
-    const result = this.compareLocationPlayerToArray(this.availableSquaresX);
+    const isPlayerOnAvailableSquares = this.isCompareLocationPlayerToArray(this.availableSquaresX);
 
     const x = this.activePlayer.location.x;
     const y = this.activePlayer.location.y;
 
-    if (result && this.moves > 0 && (!(this.chartBoard[y][x + 1] instanceof Obstacle)) && this.activePlayer.location.x !== 9) {
-        this.chartBoard[y][x] = {};
+    if (isPlayerOnAvailableSquares && this.moves > 0 && (!(this.chartBoard[y][x + 1] instanceof Obstacle)) && this.activePlayer.location.x !== 9 && this.chartBoard[y][x + 1] !== this.waitingPlayer) {
+        this.dropWeapon();
         this.activePlayer.location.x += 1;
-        this.chartBoard[y][x + 1] = this.activePlayer;
         this.walkOnWeapon();
+        this.chartBoard[y][x + 1] = this.activePlayer;
         this.moves--;
-        console.log(result);
-        console.log(this.chartBoard);
     }
 };
 
 Game.prototype.movePlayerDown = function () {
 
-    const result = this.compareLocationPlayerToArray(this.availableSquaresY);
+    const isPlayerOnAvailableSquares = this.isCompareLocationPlayerToArray(this.availableSquaresY);
 
     const x = this.activePlayer.location.x;
     const y = this.activePlayer.location.y;
 
-    if (result && this.moves > 0 && (!(this.chartBoard[y + 1][x] instanceof Obstacle)) && this.activePlayer.location.y !== 9) {
-        this.chartBoard[y][x] = {};
+    if (isPlayerOnAvailableSquares && this.moves > 0 && (!(this.chartBoard[y + 1][x] instanceof Obstacle)) && this.activePlayer.location.y !== 9 && this.chartBoard[y + 1][x] !== this.waitingPlayer) {
+        this.dropWeapon();
         this.activePlayer.location.y += 1;
-        this.chartBoard[y + 1][x] = this.activePlayer;
         this.walkOnWeapon();
+        this.chartBoard[y + 1][x] = this.activePlayer;
         this.moves--;
-        console.log(result);
     }
 };
 
+// Vérifier si une arme est présente sur la case d'arrivée du joueur
 Game.prototype.walkOnWeapon = function () {
 
     const x = this.activePlayer.location.x;
     const y = this.activePlayer.location.y;
-    this.chartBoard[y][x] = this.activePlayer;
-
-    // Le joueur laisse son arme actuelle sur la case, et prend celle qui était sur la case
+    
     if (this.chartBoard[y][x] instanceof Weapon) {
-        // Arme sur la case devient arme du joueur
-        // Arme du joueur devient disponible sur la case
+        this.activePlayer.secondaryWeapon = this.activePlayer.weapon;
+        this.activePlayer.weapon = this.chartBoard[y][x];
+        
     }
 };
+
+// Lâcher l'arme secondaire s'il y en a une, et à défaut remettre vide la case de départ du joueur
+Game.prototype.dropWeapon = function () {
+    
+    const x = this.activePlayer.location.x;
+    const y = this.activePlayer.location.y;
+    
+    if (this.activePlayer.secondaryWeapon instanceof Weapon) {
+        this.chartBoard[y][x] = this.activePlayer.secondaryWeapon;
+        this.activePlayer.secondaryWeapon = {};
+    } else {
+        // Remet à l'état vide la case de départ du joueur
+        this.chartBoard[y][x] = {};
+    }
+}
 
 
 
 // ETAPE 3
 
-Game.prototype.checkIfPlayersAdjacent = function () {
+Game.prototype.checkIfPlayerAdjacent = function () {
     // Fonction appelée à chaque mouvement, si true, appelle fonction fight()
 };
 

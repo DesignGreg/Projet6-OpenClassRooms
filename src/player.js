@@ -1,13 +1,14 @@
 module.exports = Player;
 
 function Player(name, health, weapon) {
-  this.name = name;
-  this.health = health;
+    this.name = name;
+    this.health = health;
 
-  this.weapon = weapon;
-  this.location = {};
+    this.weapon = weapon;
+    this.secondaryWeapon = {};
+    this.location = {};
 }
 
 Player.prototype.setLocation = function (location) {
-  this.location = location;
+    this.location = location;
 };

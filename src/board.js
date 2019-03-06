@@ -31,7 +31,7 @@ function Board (width, height) {
     this.hideStartButton();
     this.hideRules();
     this.displayCanvas();
-    this.displayInfoPlayers(this.game.getPlayer1(), this.game.getPlayer2());
+    this.moveInfoPlayers();
     this.initEventListener();
     
     // Premier tour, avant d'appuyer sur Entrée
@@ -86,7 +86,6 @@ Board.prototype.scanBoardToSetImages = function () {
                 } else {
                     this.loadWeaponsPlayersImages(location, '../assets/joueur2.png');
                 }
-                
             }
         }
     }
@@ -128,12 +127,16 @@ Board.prototype.displayCanvas = function () {
     $('#board').addClass('animated slideInUp');
 };
 
-Board.prototype.displayInfoPlayers = function (player1, player2) {
+Board.prototype.moveInfoPlayers = function () {
     $('.canvas-side--left').css('visibility', 'visible');
     $('.canvas-side--right').css('visibility', 'visible');
     $('.canvas-side--left').addClass('animated slideInLeft');
     $('.canvas-side--right').addClass('animated slideInRight');
     
+    this.displayInfoPlayers(this.game.getPlayer1(), this.game.getPlayer2());
+};
+
+Board.prototype.displayInfoPlayers = function (player1, player2) {
     $(".canvas-side--left").html("<h2 class='canvas-side--left__title'>" + player1.name + "</h2><p class='canvas-side--health'>" + 'Santé' + ' (' + player1.health + ')' + "</p><p class='canvas-side--weapon'>" + player1.weapon.name + ' (' + player1.weapon.damage + ')' + "</p>");
 
     $(".canvas-side--right").html("<h2 class='canvas-side--right__title'>" + player2.name + "</h2><p class='canvas-side--health'>" + 'Santé' + ' (' + player2.health + ')' + "</p><p class='canvas-side--weapon'>" + player2.weapon.name + ' (' + player2.weapon.damage + ')' + "</p>");
@@ -202,24 +205,28 @@ Board.prototype.initEventListener = function () {
             this.game.movePlayerLeft();
             this.scanBoardToSetImages();
             this.showAvailableMovement(this.game.getAvailableSquares());
+            this.displayInfoPlayers(this.game.getPlayer1(), this.game.getPlayer2());
             e.stopPropagation();
         }
         if (e.which == 38) {
             this.game.movePlayerUp();
             this.scanBoardToSetImages();
             this.showAvailableMovement(this.game.getAvailableSquares());
+            this.displayInfoPlayers(this.game.getPlayer1(), this.game.getPlayer2());
             e.stopPropagation();
         }
         if (e.which == 39) {
             this.game.movePlayerRight();
             this.scanBoardToSetImages();
             this.showAvailableMovement(this.game.getAvailableSquares());
+            this.displayInfoPlayers(this.game.getPlayer1(), this.game.getPlayer2());
             e.stopPropagation();
         }
         if (e.which == 40) {
             this.game.movePlayerDown();
             this.scanBoardToSetImages();
             this.showAvailableMovement(this.game.getAvailableSquares());
+            this.displayInfoPlayers(this.game.getPlayer1(), this.game.getPlayer2());
             e.stopPropagation();
         }
     });
