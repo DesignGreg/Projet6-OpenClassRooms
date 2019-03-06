@@ -130,13 +130,16 @@ Game.prototype.setPiece = function (piece, location) {
         throw new Error('Pièce hors limite');
     } else {
         if (piece instanceof Player) {
+//            if (destination instanceof Weapon) {
+//                piece.takeWeapon(destination);
+//            }
+            // Possible de laisser l'arme précédente, deuxième attribut objet Player
             piece.setLocation(location);
         }
         this.chartBoard[location.y][location.x] = piece;
         this.forbiddenPosition.push(location);
     }
 };
-
 
 // PLACER OBSTACLES ET ARMES
 Game.prototype.setObstaclesWeapons = function (piecesToSetArray) {
@@ -214,6 +217,13 @@ Game.prototype.getPlayer2 = function () {
     return this.player2;
 };
 
+Game.prototype.getAvailableSquares = function () {
+    return this.availableSquares;
+};
+
+Game.prototype.getActivePlayer = function () {
+    return this.activePlayer;
+};
 
 
 // ETAPE 2
@@ -385,6 +395,13 @@ Game.prototype.compareLocationPlayerToArray = function (array) {
 }
 
 Game.prototype.movePlayerLeft = function () {
+    
+    // essayer de finir comme ça
+    // movePlayerLeft = seulement la location
+    // chaque déplacement de location push dans un array (activeSquare) qui est get par une fonction d'affichage pour la représenter
+    // quand déplacement effectif (touche entrée), alors les valeurs de la location passent en chartBoard, et le déplacement devient effectif
+    // Si instanceof Weapon sur l'une des cases entre la location d'origine et la nouvelle, cette arme remplace la prédédente
+    // L'ancienne arme devient secondaryWeapon (pas utilisée en combat) qui sera déposée une fois un nouveau déplacement effectuée
 
     const result = this.compareLocationPlayerToArray(this.availableSquaresX);
 
@@ -467,7 +484,6 @@ Game.prototype.walkOnWeapon = function () {
         // Arme sur la case devient arme du joueur
         // Arme du joueur devient disponible sur la case
     }
-
 };
 
 

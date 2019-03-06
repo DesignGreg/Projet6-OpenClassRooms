@@ -22,6 +22,10 @@ function Board (width, height) {
     this.game = new Game(this.width, this.height);
 
     this.chartBoard = this.game.getChartBoard();
+    
+    this.availableSquares = this.game.getAvailableSquares();
+    
+    this.activePlayer = this.game.getActivePlayer();
 
     this.scanBoardToSetImages();
     this.hideStartButton();
@@ -32,8 +36,7 @@ function Board (width, height) {
     
     // Premier tour, avant d'appuyer sur Entrée
     this.game.switchTurn();
-    this.showAvailableMovement();
-    this.showActivePlayer();
+    this.showAvailableMovement(this.game.getAvailableSquares());
 }
 
 
@@ -149,16 +152,21 @@ Board.prototype.showStartButton = function () {
 
     // ETAPE 2
 
-Board.prototype.showAvailableMovement = function () {
-    for (let i = 0; i < this.width; i++) {
-        for (let j = 0; j < this.height; j++) {
+
+Board.prototype.showAvailableMovement = function (array) {   
+    
+    for (let i = 0; i < array.length; i++) {
+        for (let j = 0; j < array[i].length; j++) {
+            
+        let x = array[i][0];
+        let y = array[i][1];
+            
             ctx.strokeStyle = 'red';
             ctx.beginPath();
-            ctx.strokeRect(j * 64, i * 64, 64, 64);
+            ctx.strokeRect(x * 64, y * 64, 64, 64);
             ctx.closePath();
         }
     }
-    this.showActivePlayer();
     console.log(this.chartBoard);
 };
 
@@ -179,9 +187,12 @@ Board.prototype.initEventListener = function () {
 
     $(document).on('keypress', (e) => {
         if (e.which == 13) {
+            // Valider déplacement setPiece(), affichage déjà bon avec scanBoardToSetImages
             this.game.incrementTurn();
             this.game.switchTurn();
-            this.showAvailableMovement();
+            this.scanBoardToSetImages();
+            this.showAvailableMovement(this.game.getAvailableSquares());
+            this.showActivePlayer();
             e.stopPropagation();
         }
     });
@@ -190,21 +201,25 @@ Board.prototype.initEventListener = function () {
         if (e.which == 37) {
             this.game.movePlayerLeft();
             this.scanBoardToSetImages();
+            this.showAvailableMovement(this.game.getAvailableSquares());
             e.stopPropagation();
         }
         if (e.which == 38) {
             this.game.movePlayerUp();
             this.scanBoardToSetImages();
+            this.showAvailableMovement(this.game.getAvailableSquares());
             e.stopPropagation();
         }
         if (e.which == 39) {
             this.game.movePlayerRight();
             this.scanBoardToSetImages();
+            this.showAvailableMovement(this.game.getAvailableSquares());
             e.stopPropagation();
         }
         if (e.which == 40) {
             this.game.movePlayerDown();
             this.scanBoardToSetImages();
+            this.showAvailableMovement(this.game.getAvailableSquares());
             e.stopPropagation();
         }
     });
