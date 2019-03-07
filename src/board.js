@@ -36,6 +36,7 @@ function Board (width, height) {
     
     // Premier tour, avant d'appuyer sur Entrée
     this.game.switchTurn();
+    this.showActivePlayer(this.game.getActivePlayer());
     this.showAvailableMovement(this.game.getAvailableSquares(), this.game.getActivePlayer());
 }
 
@@ -90,6 +91,7 @@ Board.prototype.scanBoardToSetImages = function () {
             }
         }
     }
+    this.showActivePlayer(this.game.getActivePlayer());
 };
 
 Board.prototype.loadObstaclesImages = function (location, path) {
@@ -185,13 +187,13 @@ Board.prototype.showAvailableMovement = function (array, player) {
     console.log(this.chartBoard);
 };
 
-Board.prototype.showActivePlayer = function () {
+Board.prototype.showActivePlayer = function (player) {
     
-    if (this.game.turnNumber % 2 === 0) {
+    if (player == this.game.player1) {
         $('.canvas-side--left__title').css('color', 'red');
         $('.canvas-side--right__title').css('color', 'white');
 
-    } else if (this.game.turnNumber % 2 === 1) {
+    } else {
         $('.canvas-side--right__title').css('color', 'red');
         $('.canvas-side--left__title').css('color', 'white');
     }
@@ -207,7 +209,6 @@ Board.prototype.initEventListener = function () {
             this.game.switchTurn();
             this.scanBoardToSetImages();
             this.showAvailableMovement(this.game.getAvailableSquares(), this.game.getActivePlayer());
-            this.showActivePlayer();
             e.stopPropagation();
         }
     });
