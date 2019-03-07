@@ -6,6 +6,9 @@ function Player(name, health, weapon) {
 
     this.weapon = weapon;
     this.secondaryWeapon = {};
+    this.attack = false;
+    this.defend = false;
+    this.order = 'Posture';
     this.location = {};
 }
 

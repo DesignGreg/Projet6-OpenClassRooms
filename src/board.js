@@ -140,9 +140,9 @@ Board.prototype.moveInfoPlayers = function () {
 };
 
 Board.prototype.displayInfoPlayers = function (player1, player2) {
-    $(".canvas-side--left").html("<h2 class='canvas-side--left__title'>" + player1.name + "<img class='canvas-side--left__image' src='../assets/joueur1.png'>" + "</h2><p class='canvas-side--health'>" + 'Santé' + ' (' + player1.health + ')' + "</p><p class='canvas-side--weapon'>" + player1.weapon.name + ' (' + player1.weapon.damage + ')' + "</p>");
+    $(".canvas-side--left").html("<h2 class='canvas-side--left__title'>" + player1.name + "<img class='canvas-side--left__image' src='../assets/joueur1.png'>" + "</h2><p class='canvas-side--health'>" + 'Santé' + ' (' + player1.health + ')' + "</p><p class='canvas-side--weapon'>" + player1.weapon.name + ' (' + player1.weapon.damage + ')' + "</p><p class='canvas-side--order'>" + player1.order  + "</p>");
 
-    $(".canvas-side--right").html("<h2 class='canvas-side--right__title'>" + player2.name + "<img class='canvas-side--right__image' src='../assets/joueur2.png'>" + "</h2><p class='canvas-side--health'>" + 'Santé' + ' (' + player2.health + ')' + "</p><p class='canvas-side--weapon'>" + player2.weapon.name + ' (' + player2.weapon.damage + ')' + "</p>");
+    $(".canvas-side--right").html("<h2 class='canvas-side--right__title'>" + player2.name + "<img class='canvas-side--right__image' src='../assets/joueur2.png'>" + "</h2><p class='canvas-side--health'>" + 'Santé' + ' (' + player2.health + ')' + "</p><p class='canvas-side--weapon'>" + player2.weapon.name + ' (' + player2.weapon.damage + ')' + "</p><p class='canvas-side--order'>" + player2.order  + "</p>");
 };
 
 Board.prototype.hideStartButton = function () {
@@ -203,39 +203,44 @@ Board.prototype.showActivePlayer = function (player) {
 Board.prototype.initEventListener = function () {
 
     $(document).on('keypress', (e) => {
-        if (e.which == 13) {
+        if (e.which == 13 && this.game.isFighting === false) {
             // Valider déplacement setPiece(), affichage déjà bon avec scanBoardToSetImages
             this.game.incrementTurn();
             this.game.switchTurn();
             this.scanBoardToSetImages();
             this.showAvailableMovement(this.game.getAvailableSquares(), this.game.getActivePlayer());
             e.stopPropagation();
+        } else if (e.which == 13 && this.game.isFighting === true) {
+            this.scanBoardToSetImages();
+            this.game.incrementTurn();
+            this.game.switchTurn();
+            this.game.fight();
         }
     });
     
     $(document).on('keydown', (e) => {
-        if (e.which == 37) {
+        if (e.which == 37 && this.game.isFighting === false) {
             this.game.movePlayerLeft();
             this.scanBoardToSetImages();
             this.showAvailableMovement(this.game.getAvailableSquares(), this.game.getActivePlayer());
             this.displayInfoPlayers(this.game.getPlayer1(), this.game.getPlayer2());
             e.stopPropagation();
         }
-        if (e.which == 38) {
+        if (e.which == 38 && this.game.isFighting === false) {
             this.game.movePlayerUp();
             this.scanBoardToSetImages();
             this.showAvailableMovement(this.game.getAvailableSquares(), this.game.getActivePlayer());
             this.displayInfoPlayers(this.game.getPlayer1(), this.game.getPlayer2());
             e.stopPropagation();
         }
-        if (e.which == 39) {
+        if (e.which == 39 && this.game.isFighting === false) {
             this.game.movePlayerRight();
             this.scanBoardToSetImages();
             this.showAvailableMovement(this.game.getAvailableSquares(), this.game.getActivePlayer());
             this.displayInfoPlayers(this.game.getPlayer1(), this.game.getPlayer2());
             e.stopPropagation();
         }
-        if (e.which == 40) {
+        if (e.which == 40 && this.game.isFighting === false) {
             this.game.movePlayerDown();
             this.scanBoardToSetImages();
             this.showAvailableMovement(this.game.getAvailableSquares(), this.game.getActivePlayer());
@@ -244,11 +249,25 @@ Board.prototype.initEventListener = function () {
         }
     });
     
+    
+    
     // ETAPE 3
     
-    // Touche A pour attaquer
+    $(document).on('keydown', (e) => {
+        if (e.which == 65 && this.game.moves >= 1 && this.game.isFighting === true) {
+            this.game.attack();
+            this.displayInfoPlayers(this.game.getPlayer1(), this.game.getPlayer2());
+            e.stopPropagation();
+        }
+    });
     
-    // Touche D pour se défendre
+    $(document).on('keydown', (e) => {
+        if (e.which == 68 && this.game.moves >= 1 && this.game.isFighting === true) {
+            this.game.defend();
+            this.displayInfoPlayers(this.game.getPlayer1(), this.game.getPlayer2());
+            e.stopPropagation();
+        }
+    });
 };
 
 
