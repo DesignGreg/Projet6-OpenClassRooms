@@ -64,19 +64,19 @@ Game.prototype.generateGame = function () {
     const lava9 = new Obstacle("Lave9");
     const obstacleArray = [lava, lava1, lava2, lava3, lava4, lava5, lava6, lava7, lava8, lava9];
 
-    const dagger = new Weapon("Dague", 5);
-    const sword = new Weapon("Epée", 10);
-    const axe = new Weapon("Hache", 15);
-    const flail = new Weapon("Fléau", 20);
-    const weaponArray = [dagger, sword, axe, flail];
+    const spear = new Weapon("Lance", 10);
+    const scepter = new Weapon("Sceptre", 20);
+    const sword = new Weapon("Epée", 30);
+    const axe = new Weapon("Hache", 40);
+    const weaponArray = [spear, sword, scepter, axe];
 
     let randomWeapons = this.getRandomWeapons(4, weaponArray);
 
     let pieceToSetArray = obstacleArray.concat(randomWeapons);
 
     // GENERER INSTANCES
-    this.player1 = new Player("Lucifer", 100, dagger);
-    this.player2 = new Player("Michael", 100, dagger);
+    this.player1 = new Player("Lucifer", 100, spear);
+    this.player2 = new Player("Michael", 100, spear);
     const playerArray = [this.player1, this.player2];
 
 

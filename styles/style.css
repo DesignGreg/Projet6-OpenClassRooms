@@ -98,6 +98,18 @@ text-decoration: underline;
     font-weight: 500;
 }
 
+.canvas-side--left__image {
+    display: block;
+    margin: 0 auto;
+    margin-top: 20px;
+}
+
+.canvas-side--right__image {
+    display: block;
+    margin: 0 auto;
+    margin-top: 20px;
+}
+
 .canvas-side--title {
     margin-top: 50px;
     color: white;
@@ -105,7 +117,7 @@ text-decoration: underline;
 }
 
 .canvas-side--health {
-    margin-top: 60px;
+    margin-top: 30px;
     color: white;
     font-size: 20px;
 }

@@ -36,7 +36,7 @@ function Board (width, height) {
     
     // Premier tour, avant d'appuyer sur Entrée
     this.game.switchTurn();
-    this.showAvailableMovement(this.game.getAvailableSquares());
+    this.showAvailableMovement(this.game.getAvailableSquares(), this.game.getActivePlayer());
 }
 
 
@@ -46,6 +46,7 @@ Board.prototype.drawBoard = function () {
         for (let j = 0; j < this.height; j++) {
             ctx.strokeStyle = 'rgba(0, 0, 0, 0.7)';
             ctx.beginPath();
+            ctx.lineWidth = 1;
             ctx.strokeRect(j * 64, i * 64, 64, 64);
             ctx.closePath();
         }
@@ -66,17 +67,17 @@ Board.prototype.scanBoardToSetImages = function () {
             };
 
             if (piece instanceof Weapon) {
-                if (piece.name === "Dague") {
-                    this.loadWeaponsPlayersImages(location, '../assets/dague.png');
+                if (piece.name === "Lance") {
+                    this.loadWeaponsPlayersImages(location, '../assets/spear.png');
                 } else if (piece.name === "Epée") {
-                    this.loadWeaponsPlayersImages(location, '../assets/epee.png');
+                    this.loadWeaponsPlayersImages(location, '../assets/sword.png');
+                } else if (piece.name === "Sceptre") {
+                    this.loadWeaponsPlayersImages(location, '../assets/scepter.png');
                 } else if (piece.name === "Hache") {
-                    this.loadWeaponsPlayersImages(location, '../assets/hache.png');
-                } else if (piece.name === "Fléau") {
-                    this.loadWeaponsPlayersImages(location, '../assets/fleau.png');
+                    this.loadWeaponsPlayersImages(location, '../assets/axe.png');
                 }
             } else if (piece instanceof Obstacle) {
-                this.loadObstaclesImages(location, '../assets/lave64.png');
+                this.loadObstaclesImages(location, '../assets/cloud64.jpg');
             } else if (piece instanceof Player) {
 //                Si utilisée, cherche player3, puis 4... 
 //                this.loadWeaponsPlayersImages(location, `../assets/joueur${joueurNum}.png`);
@@ -137,9 +138,9 @@ Board.prototype.moveInfoPlayers = function () {
 };
 
 Board.prototype.displayInfoPlayers = function (player1, player2) {
-    $(".canvas-side--left").html("<h2 class='canvas-side--left__title'>" + player1.name + "</h2><p class='canvas-side--health'>" + 'Santé' + ' (' + player1.health + ')' + "</p><p class='canvas-side--weapon'>" + player1.weapon.name + ' (' + player1.weapon.damage + ')' + "</p>");
+    $(".canvas-side--left").html("<h2 class='canvas-side--left__title'>" + player1.name + "<img class='canvas-side--left__image' src='../assets/joueur1.png'>" + "</h2><p class='canvas-side--health'>" + 'Santé' + ' (' + player1.health + ')' + "</p><p class='canvas-side--weapon'>" + player1.weapon.name + ' (' + player1.weapon.damage + ')' + "</p>");
 
-    $(".canvas-side--right").html("<h2 class='canvas-side--right__title'>" + player2.name + "</h2><p class='canvas-side--health'>" + 'Santé' + ' (' + player2.health + ')' + "</p><p class='canvas-side--weapon'>" + player2.weapon.name + ' (' + player2.weapon.damage + ')' + "</p>");
+    $(".canvas-side--right").html("<h2 class='canvas-side--right__title'>" + player2.name + "<img class='canvas-side--right__image' src='../assets/joueur2.png'>" + "</h2><p class='canvas-side--health'>" + 'Santé' + ' (' + player2.health + ')' + "</p><p class='canvas-side--weapon'>" + player2.weapon.name + ' (' + player2.weapon.damage + ')' + "</p>");
 };
 
 Board.prototype.hideStartButton = function () {
@@ -156,18 +157,29 @@ Board.prototype.showStartButton = function () {
     // ETAPE 2
 
 
-Board.prototype.showAvailableMovement = function (array) {   
+Board.prototype.showAvailableMovement = function (array, player) {   
     
     for (let i = 0; i < array.length; i++) {
         for (let j = 0; j < array[i].length; j++) {
             
-        let x = array[i][0];
-        let y = array[i][1];
+            let x = array[i][0];
+            let y = array[i][1];
             
-            ctx.strokeStyle = 'red';
-            ctx.beginPath();
-            ctx.strokeRect(x * 64, y * 64, 64, 64);
-            ctx.closePath();
+            if (player == this.game.player1) {
+                ctx.strokeStyle = 'darkred';
+                ctx.beginPath();
+                ctx.lineWidth = 2.5;
+                ctx.strokeRect(x * 64, y * 64, 64, 64);
+                ctx.closePath();
+            } else {
+                ctx.strokeStyle = 'navy';
+                ctx.beginPath();
+                ctx.lineWidth = 2.5;
+                ctx.strokeRect(x * 64, y * 64, 64, 64);
+                ctx.closePath();
+            }
+            
+            
         }
     }
     console.log(this.chartBoard);
@@ -194,7 +206,7 @@ Board.prototype.initEventListener = function () {
             this.game.incrementTurn();
             this.game.switchTurn();
             this.scanBoardToSetImages();
-            this.showAvailableMovement(this.game.getAvailableSquares());
+            this.showAvailableMovement(this.game.getAvailableSquares(), this.game.getActivePlayer());
             this.showActivePlayer();
             e.stopPropagation();
         }
@@ -204,28 +216,28 @@ Board.prototype.initEventListener = function () {
         if (e.which == 37) {
             this.game.movePlayerLeft();
             this.scanBoardToSetImages();
-            this.showAvailableMovement(this.game.getAvailableSquares());
+            this.showAvailableMovement(this.game.getAvailableSquares(), this.game.getActivePlayer());
             this.displayInfoPlayers(this.game.getPlayer1(), this.game.getPlayer2());
             e.stopPropagation();
         }
         if (e.which == 38) {
             this.game.movePlayerUp();
             this.scanBoardToSetImages();
-            this.showAvailableMovement(this.game.getAvailableSquares());
+            this.showAvailableMovement(this.game.getAvailableSquares(), this.game.getActivePlayer());
             this.displayInfoPlayers(this.game.getPlayer1(), this.game.getPlayer2());
             e.stopPropagation();
         }
         if (e.which == 39) {
             this.game.movePlayerRight();
             this.scanBoardToSetImages();
-            this.showAvailableMovement(this.game.getAvailableSquares());
+            this.showAvailableMovement(this.game.getAvailableSquares(), this.game.getActivePlayer());
             this.displayInfoPlayers(this.game.getPlayer1(), this.game.getPlayer2());
             e.stopPropagation();
         }
         if (e.which == 40) {
             this.game.movePlayerDown();
             this.scanBoardToSetImages();
-            this.showAvailableMovement(this.game.getAvailableSquares());
+            this.showAvailableMovement(this.game.getAvailableSquares(), this.game.getActivePlayer());
             this.displayInfoPlayers(this.game.getPlayer1(), this.game.getPlayer2());
             e.stopPropagation();
         }
