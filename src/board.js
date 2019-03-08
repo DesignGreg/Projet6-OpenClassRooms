@@ -122,11 +122,12 @@ Board.prototype.loadWeaponsPlayersImages = function (location, path) {
 };
 
 Board.prototype.hideRules = function () {
+    $('.card').css('display', 'none');
     $('.canvas-text').css('display', 'none');
 };
 
 Board.prototype.displayCanvas = function () {
-    $('#board').css('visibility', 'visible');
+    $('#board').css('display', 'block');
     $('#board').addClass('animated slideInUp');
 };
 
@@ -140,9 +141,9 @@ Board.prototype.moveInfoPlayers = function () {
 };
 
 Board.prototype.displayInfoPlayers = function (player1, player2) {
-    $(".canvas-side--left").html("<h2 class='canvas-side--left__title'>" + player1.name + "<img class='canvas-side--left__image' src='../assets/joueur1.png'>" + "</h2><p class='canvas-side--health'>" + 'Santé' + ' (' + player1.health + ')' + "</p><p class='canvas-side--weapon'>" + player1.weapon.name + ' (' + player1.weapon.damage + ')' + "</p><p class='canvas-side--order'>" + player1.order  + "</p>");
+    $(".canvas-side--left").html("<h2 class='canvas-side--title canvas-side--left__title'>" + player1.name + "<img class='canvas-side--left__image' src='../assets/joueur1.png'>" + "</h2><p class='canvas-side--health'>" + 'Santé' + ' (' + player1.health + ')' + "</p><p class='canvas-side--weapon'>" + player1.weapon.name + ' (' + player1.weapon.damage + ')' + "</p><p class='canvas-side--order'>" + player1.order  + "</p>");
 
-    $(".canvas-side--right").html("<h2 class='canvas-side--right__title'>" + player2.name + "<img class='canvas-side--right__image' src='../assets/joueur2.png'>" + "</h2><p class='canvas-side--health'>" + 'Santé' + ' (' + player2.health + ')' + "</p><p class='canvas-side--weapon'>" + player2.weapon.name + ' (' + player2.weapon.damage + ')' + "</p><p class='canvas-side--order'>" + player2.order  + "</p>");
+    $(".canvas-side--right").html("<h2 class='canvas-side--title canvas-side--right__title'>" + player2.name + "<img class='canvas-side--right__image' src='../assets/joueur2.png'>" + "</h2><p class='canvas-side--health'>" + 'Santé' + ' (' + player2.health + ')' + "</p><p class='canvas-side--weapon'>" + player2.weapon.name + ' (' + player2.weapon.damage + ')' + "</p><p class='canvas-side--order'>" + player2.order  + "</p>");
 };
 
 Board.prototype.hideStartButton = function () {

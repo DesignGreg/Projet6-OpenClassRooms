@@ -22,49 +22,57 @@
 
 <body>
 
-        <div class="container-fluid">
-            <div class="row">
-                <div class="title col-12">
-                    <div class="title-container">
-                        <h1 class="title-container--text text-center">ARCHANGELS WAR</h1>
-                    </div>
-                    <div class="title-container--button">
-                        <button type="button" id="start" class="button--start btn btn-dark btn-lg">Nouveau Duel</button>
-                    </div>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="title col-12">
+                <div class="title-container">
+                    <h1 class="title-container--text text-center">ARCHANGELS WAR</h1>
                 </div>
-            </div>
-
-            <div class="row">
-                <div class="canvas-side canvas-side--left col-sm-2 col-md-3 col-lg-3 col-xl-3"></div>
-
-                <div class="canvas col-sm-8 col-md-6 col-lg-6 col-xl-6">
-
-                    <div class="canvas-text">
-                        <h3 class="canvas-text--title">La guerre ne fait que commencer</h3>
-                        <p class="canvas-text--info">Les anges loyaux et déchus se sont déclarés la guerre une nouvelle fois.<br>
-                            Êtes-vous loyal ou déchu ? Quel camp allez-vous soutenir ?<br>
-                            Préparez-vous à un duel sans pitié !</p>
-                    </div>
-                    <div class="canvas-text">
-                        <h3 class="canvas-text--title">Règles du jeu</h3>
-                        <p class="canvas-text--info">Ce jeu se déroule au tour par tour.<br>
-                            Pour vous déplacer, utilisez les touches fléchées.<br>
-                            A chaque tour, vous pourrez vous déplacer <br> 
-                            jusqu'à 3 cases horizontalement ou verticalement.<br>
-                            En passant sur une arme, vous en changez.<br>
-                            Pour mettre fin à un tour ou valider un ordre, appuyez sur la touche Entrée.<br>
-                            Si vous croisez votre adversaire, une lutte à mort s'engage !<br>
-                            S'il vous reste au moins une case de déplacement, vous pourrez alors attaquer ou défendre.<br>
-                            Sinon, vous laissez la main à votre adversaire, un choix risqué !
-                        </p>
-                    </div>
-
-                    <canvas id="board" width="640" height="640"></canvas>
+                <div class="title-container--button">
+                    <button type="button" id="start" class="button--start btn btn-danger btn-lg">Nouveau Duel</button>
                 </div>
-
-                <div class="canvas-side canvas-side--right col-sm-2 col-md-3 col-lg-3 col-xl-3"></div>
             </div>
         </div>
+
+        <div class="row">
+            <div class="canvas-side canvas-side--left col-6 col-sm-6 col-md-3 col-lg-3 col-xl-3"></div>
+            <div class="canvas-center col-12 col-sm-12 col-md-6 col-lg-6 col-xl-6">
+                <div class="row">
+                    <div class="col-sm-12 col-md-12 col-lg-6 col-xl-6">
+                        <div class="card text-white bg-dark border-light mx-auto">
+                            <div class="canvas-text card-body">
+                                <h3 class="canvas-text--title card-title">La guerre ne fait que commencer</h3>
+                                <p class="canvas-text--info card-text">Les anges loyaux et déchus se sont déclarés la guerre une nouvelle fois.<br>
+                                    Êtes-vous loyal ou déchu ? Quel camp allez-vous soutenir ?<br>
+                                    Préparez-vous à un duel sans pitié !</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-12 order-2 col-md-12 col-lg-6 col-xl-6">
+                        <div class="card text-white bg-dark border-light mx-auto">
+                            <div class="canvas-text card-body">
+                                <h3 class="canvas-text--title card-title">Règles du jeu</h3>
+                                <p class="canvas-text--info card-text">Ce jeu se déroule au tour par tour.<br>
+                                    Pour vous déplacer, utilisez les touches fléchées.<br>
+                                    A chaque tour, vous pourrez vous déplacer <br>
+                                    jusqu'à 3 cases horizontalement ou verticalement.<br>
+                                    En passant sur une arme, vous en changez.<br>
+                                    Pour mettre fin à un tour ou valider un ordre, appuyez sur la touche Entrée.<br>
+                                    Si vous croisez votre adversaire, une lutte à mort s'engage !<br>
+                                    S'il vous reste au moins une case de déplacement, vous pourrez alors attaquer ou défendre.<br>
+                                    Sinon, vous laissez la main à votre adversaire, un choix risqué !
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <canvas id="board" width="640" height="640"></canvas>
+            </div>
+
+            <div class="canvas-side canvas-side--right col-6 col-sm-6 col-md-3 col-lg-3 col-xl-3"></div>
+        </div>
+    </div>
 
     <script src="../node_modules/bootstrap/dist/js/bootstrap.js"></script>
     <script src="./bundle.js"></script>
