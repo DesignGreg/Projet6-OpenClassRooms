@@ -158,3 +158,11 @@ body{
     color: white;
     font-size: 20px;
 }
+
+.end-game-Lucifer {
+    display: none;
+}
+
+.end-game-Michael {
+    display: none;
+}
