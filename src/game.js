@@ -16,6 +16,7 @@ function Game(width, height) {
 
     this.turnNumber = 0;
     this.moves = 0;
+    this.combatMoves = 0;
 
     // 2 tableaux pour simplifier la gestion du mouvement sur les deux axes
     this.availableSquaresX = [];
@@ -30,7 +31,7 @@ function Game(width, height) {
     this.generateGame();
     this.activePlayer = this.player1;
     this.waitingPlayer = this.player2;
-    
+
     this.isFighting = false;
 }
 
@@ -132,9 +133,9 @@ Game.prototype.setPiece = function (piece, location) {
         throw new Error('Pièce hors limite');
     } else {
         if (piece instanceof Player) {
-//            if (destination instanceof Weapon) {
-//                piece.takeWeapon(destination);
-//            }
+            //            if (destination instanceof Weapon) {
+            //                piece.takeWeapon(destination);
+            //            }
             // Possible de laisser l'arme précédente, deuxième attribut objet Player
             piece.setLocation(location);
         }
@@ -238,7 +239,6 @@ Game.prototype.getActivePlayer = function () {
 // Incrémentation du tour de jeu
 Game.prototype.incrementTurn = function () {
     this.turnNumber++;
-    console.log(this.turnNumber);
 };
 
 // Valeur du nombre de déplacement possibles
@@ -268,6 +268,8 @@ Game.prototype.switchTurn = function () {
 
     }
     this.setTurnMovesValue(3);
+    this.setCombatMovesValue(1);
+    this.setCombatStance();
     return this.activePlayer;
 };
 
@@ -277,30 +279,30 @@ Game.prototype.checkAvailableSquaresX = function () {
     const plusX3 = this.activePlayer.location.x + 3;
     const minusX3 = this.activePlayer.location.x - 3;
     const y = this.activePlayer.location.y;
-    
-    
-//    for (let x = minusX3; x <= plusX3; x++) {
-//
-//        if (minusX3 >= 0 && plusX3 <= 9) {
-//            // Regarde si la case jusqu'à -3, est une instance de l'objet Player ou Obstacle
-//            if (!(this.chartBoard[y][x] instanceof Player || this.chartBoard[y][x] instanceof Obstacle)) {
-//                this.availableSquaresX.unshift([x, this.activePlayer.location.y]);
-//                // Arrête la boucle la case est une l'autre joueur ou une instance d'Obstacle
-//            } else if (this.chartBoard[y][x] === this.waitingPlayer || this.chartBoard[y][x] instanceof Obstacle) {
-//                break;
-//            }
-//        } else if (minusX3 < 0 || plusX3 > 9) {
-//            if (!(x < 0 || x > 9)) {
-//                if (!(this.chartBoard[y][x] instanceof Player || this.chartBoard[y][x] instanceof Obstacle)) {
-//                    this.availableSquaresX.unshift([x, this.activePlayer.location.y]);
-//                } else if (this.chartBoard[y][x] === this.waitingPlayer || this.chartBoard[y][x] instanceof Obstacle) {
-//                    break;
-//                }
-//            }
-//        }
-//    }
 
-    
+
+    //    for (let x = minusX3; x <= plusX3; x++) {
+    //
+    //        if (minusX3 >= 0 && plusX3 <= 9) {
+    //            // Regarde si la case jusqu'à -3, est une instance de l'objet Player ou Obstacle
+    //            if (!(this.chartBoard[y][x] instanceof Player || this.chartBoard[y][x] instanceof Obstacle)) {
+    //                this.availableSquaresX.unshift([x, this.activePlayer.location.y]);
+    //                // Arrête la boucle la case est une l'autre joueur ou une instance d'Obstacle
+    //            } else if (this.chartBoard[y][x] === this.waitingPlayer || this.chartBoard[y][x] instanceof Obstacle) {
+    //                break;
+    //            }
+    //        } else if (minusX3 < 0 || plusX3 > 9) {
+    //            if (!(x < 0 || x > 9)) {
+    //                if (!(this.chartBoard[y][x] instanceof Player || this.chartBoard[y][x] instanceof Obstacle)) {
+    //                    this.availableSquaresX.unshift([x, this.activePlayer.location.y]);
+    //                } else if (this.chartBoard[y][x] === this.waitingPlayer || this.chartBoard[y][x] instanceof Obstacle) {
+    //                    break;
+    //                }
+    //            }
+    //        }
+    //    }
+
+
     for (let x = this.activePlayer.location.x; x >= minusX3; x--) {
 
         if (minusX3 >= 0) {
@@ -350,26 +352,26 @@ Game.prototype.checkAvailableSquaresY = function () {
     const plusY3 = this.activePlayer.location.y + 3;
     const minusY3 = this.activePlayer.location.y - 3;
     const x = this.activePlayer.location.x;
-    
-    
-//    for (let y = minusY3; y <= plusY3; y++) {
-//
-//        if (minusY3 >= 0 && plusY3 <= 9) {
-//            if (!(this.chartBoard[y][x] instanceof Player || this.chartBoard[y][x] instanceof Obstacle)) {
-//                this.availableSquaresY.unshift([this.activePlayer.location.x, y]);
-//            } else if (this.chartBoard[y][x] === this.waitingPlayer || this.chartBoard[y][x] instanceof Obstacle) {
-//                break;
-//            }
-//        } else if (minusY3 < 0 || plusY3 > 0) {
-//            if (!(y < 0 || y > 9)) {
-//                if (!(this.chartBoard[y][x] instanceof Player || this.chartBoard[y][x] instanceof Obstacle)) {
-//                    this.availableSquaresY.unshift([this.activePlayer.location.x, y]);
-//                } else if (this.chartBoard[y][x] === this.waitingPlayer || this.chartBoard[y][x] instanceof Obstacle) {
-//                    break;
-//                }
-//            }
-//        }
-//    }
+
+
+    //    for (let y = minusY3; y <= plusY3; y++) {
+    //
+    //        if (minusY3 >= 0 && plusY3 <= 9) {
+    //            if (!(this.chartBoard[y][x] instanceof Player || this.chartBoard[y][x] instanceof Obstacle)) {
+    //                this.availableSquaresY.unshift([this.activePlayer.location.x, y]);
+    //            } else if (this.chartBoard[y][x] === this.waitingPlayer || this.chartBoard[y][x] instanceof Obstacle) {
+    //                break;
+    //            }
+    //        } else if (minusY3 < 0 || plusY3 > 0) {
+    //            if (!(y < 0 || y > 9)) {
+    //                if (!(this.chartBoard[y][x] instanceof Player || this.chartBoard[y][x] instanceof Obstacle)) {
+    //                    this.availableSquaresY.unshift([this.activePlayer.location.x, y]);
+    //                } else if (this.chartBoard[y][x] === this.waitingPlayer || this.chartBoard[y][x] instanceof Obstacle) {
+    //                    break;
+    //                }
+    //            }
+    //        }
+    //    }
 
     for (let y = this.activePlayer.location.y; y >= minusY3; y--) {
 
@@ -436,7 +438,7 @@ Game.prototype.concatAvailableSquaresArrays = function () {
 Game.prototype.isCompareLocationPlayerToArray = function (array) {
     const locationPlayer = [];
     locationPlayer.push([this.activePlayer.location.x, this.activePlayer.location.y]);
-    
+
     console.log(locationPlayer);
 
     return array.some(a => a.toString() === locationPlayer.toString());
@@ -491,7 +493,7 @@ Game.prototype.isCompareLocationPlayerToArray = function (array) {
 //};
 
 Game.prototype.movePlayerLeft = function () {
-    
+
     // essayer de finir comme ça
     // movePlayerLeft = seulement la location
     // chaque déplacement de location push dans un array (activeSquare) qui est get par une fonction d'affichage pour la représenter
@@ -503,7 +505,7 @@ Game.prototype.movePlayerLeft = function () {
 
     const x = this.activePlayer.location.x;
     const y = this.activePlayer.location.y;
-    
+
     if (isPlayerOnAvailableSquares && this.moves > 0 && (!(this.chartBoard[y][x - 1] instanceof Obstacle)) && this.activePlayer.location.x !== 0 && this.chartBoard[y][x - 1] !== this.waitingPlayer) {
         this.dropWeapon();
         this.activePlayer.location.x -= 1;
@@ -570,20 +572,20 @@ Game.prototype.walkOnWeapon = function () {
 
     const x = this.activePlayer.location.x;
     const y = this.activePlayer.location.y;
-    
+
     if (this.chartBoard[y][x] instanceof Weapon) {
         this.activePlayer.secondaryWeapon = this.activePlayer.weapon;
         this.activePlayer.weapon = this.chartBoard[y][x];
-        
+
     }
 };
 
 // Lâcher l'arme secondaire s'il y en a une, et à défaut remettre vide la case de départ du joueur
 Game.prototype.dropWeapon = function () {
-    
+
     const x = this.activePlayer.location.x;
     const y = this.activePlayer.location.y;
-    
+
     if (this.activePlayer.secondaryWeapon instanceof Weapon) {
         this.chartBoard[y][x] = this.activePlayer.secondaryWeapon;
         this.activePlayer.secondaryWeapon = {};
@@ -598,10 +600,10 @@ Game.prototype.dropWeapon = function () {
 // ETAPE 3
 
 Game.prototype.checkIfPlayerAdjacent = function () {
-    
+
     const x = this.activePlayer.location.x;
     const y = this.activePlayer.location.y;
-    
+
     if (this.activePlayer.location.x === 0) {
         if (this.chartBoard[y - 1][x] === this.waitingPlayer || this.chartBoard[y][x + 1] === this.waitingPlayer || this.chartBoard[y + 1][x] === this.waitingPlayer) {
             this.isFighting = true;
@@ -620,31 +622,62 @@ Game.prototype.checkIfPlayerAdjacent = function () {
         }
     } else {
         if (this.chartBoard[y][x - 1] === this.waitingPlayer || this.chartBoard[y - 1][x] === this.waitingPlayer || this.chartBoard[y][x + 1] === this.waitingPlayer || this.chartBoard[y + 1][x] === this.waitingPlayer) {
-        this.isFighting = true;
+            this.isFighting = true;
         }
     }
 };
 
+Game.prototype.setCombatMovesValue = function (value) {
+    this.combatMoves = value;
+};
+
+Game.prototype.setCombatStance = function () {
+    
+    if (this.waitingPlayer.order === "Attaque") {
+        this.activePlayer.order = 'Posture';
+        this.waitingPlayer.order = 'Posture';
+    }
+}
+
 Game.prototype.fight = function () {
-
-
     // Appelée par attack() et defend() pour appliquer les résultats (perte PV ou bonus %)
-
-    // Appel endGame à la fin pour vérifier si un joueur a PV.
+    if (this.activePlayer.order === 'Attaque' && this.waitingPlayer.health >= 0) {
+        if (this.waitingPlayer.order === 'Attaque' || this.waitingPlayer.order === 'Posture') {
+            this.waitingPlayer.health -= this.activePlayer.weapon.damage;
+            if (this.waitingPlayer.health < 0) {
+                this.waitingPlayer.health = 0;
+            }
+        } else if (this.waitingPlayer.order === 'Défense') {
+            this.waitingPlayer.health -= this.activePlayer.weapon.damage / 2
+            if (this.waitingPlayer.health < 0) {
+                this.waitingPlayer.health = 0;
+            }
+        }
+    }
 };
 
 Game.prototype.attack = function () {
     // dégâts en fonction de l'arme
-    this.activePlayer.order = 'Attaque';
+    if (this.combatMoves >= 1) {
+        this.activePlayer.order = 'Attaque';
+        this.combatMoves--;
+        this.fight();
+    }
 };
 
 Game.prototype.defend = function () {
     // renvoie un true, si true, joueur encaisse 50% de dégâts en moins
-    this.activePlayer.order = 'Défense';
+    if (this.combatMoves >= 1) {
+        this.activePlayer.order = 'Défense';
+        this.combatMoves--;
+    }
 }
 
 Game.prototype.endGame = function () {
     // Si un joueur = 0PV, fin de partie.
+    if (this.waitingPlayer.health <= 0) {
+        
+    }
 
     // Les valeurs affichées à l'écran du joueur perdant disparaissent, et celles du joueur gagnant clignote quelques secondes, avant que le DOM redémarre
 

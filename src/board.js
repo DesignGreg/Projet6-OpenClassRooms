@@ -212,10 +212,12 @@ Board.prototype.initEventListener = function () {
             this.showAvailableMovement(this.game.getAvailableSquares(), this.game.getActivePlayer());
             e.stopPropagation();
         } else if (e.which == 13 && this.game.isFighting === true) {
-            this.scanBoardToSetImages();
             this.game.incrementTurn();
             this.game.switchTurn();
-            this.game.fight();
+            this.scanBoardToSetImages();
+        } else if (e.which == 13 && this.game.isFighting === true && this.waitingPlayer.health <= 0) {
+            this.game.endGame();
+            this.showEndGame();
         }
     });
     
@@ -225,6 +227,7 @@ Board.prototype.initEventListener = function () {
             this.scanBoardToSetImages();
             this.showAvailableMovement(this.game.getAvailableSquares(), this.game.getActivePlayer());
             this.displayInfoPlayers(this.game.getPlayer1(), this.game.getPlayer2());
+            this.showActivePlayer(this.game.getActivePlayer());
             e.stopPropagation();
         }
         if (e.which == 38 && this.game.isFighting === false) {
@@ -232,6 +235,7 @@ Board.prototype.initEventListener = function () {
             this.scanBoardToSetImages();
             this.showAvailableMovement(this.game.getAvailableSquares(), this.game.getActivePlayer());
             this.displayInfoPlayers(this.game.getPlayer1(), this.game.getPlayer2());
+            this.showActivePlayer(this.game.getActivePlayer());
             e.stopPropagation();
         }
         if (e.which == 39 && this.game.isFighting === false) {
@@ -239,6 +243,7 @@ Board.prototype.initEventListener = function () {
             this.scanBoardToSetImages();
             this.showAvailableMovement(this.game.getAvailableSquares(), this.game.getActivePlayer());
             this.displayInfoPlayers(this.game.getPlayer1(), this.game.getPlayer2());
+            this.showActivePlayer(this.game.getActivePlayer());
             e.stopPropagation();
         }
         if (e.which == 40 && this.game.isFighting === false) {
@@ -246,6 +251,7 @@ Board.prototype.initEventListener = function () {
             this.scanBoardToSetImages();
             this.showAvailableMovement(this.game.getAvailableSquares(), this.game.getActivePlayer());
             this.displayInfoPlayers(this.game.getPlayer1(), this.game.getPlayer2());
+            this.showActivePlayer(this.game.getActivePlayer());
             e.stopPropagation();
         }
     });
@@ -258,6 +264,7 @@ Board.prototype.initEventListener = function () {
         if (e.which == 65 && this.game.moves >= 1 && this.game.isFighting === true) {
             this.game.attack();
             this.displayInfoPlayers(this.game.getPlayer1(), this.game.getPlayer2());
+            this.showActivePlayer(this.game.getActivePlayer());
             e.stopPropagation();
         }
     });
@@ -266,9 +273,14 @@ Board.prototype.initEventListener = function () {
         if (e.which == 68 && this.game.moves >= 1 && this.game.isFighting === true) {
             this.game.defend();
             this.displayInfoPlayers(this.game.getPlayer1(), this.game.getPlayer2());
+            this.showActivePlayer(this.game.getActivePlayer());
             e.stopPropagation();
         }
     });
+};
+
+Board.prototype.showEndGame = function () {
+    
 };
 
 
