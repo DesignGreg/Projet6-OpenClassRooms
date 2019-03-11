@@ -510,19 +510,19 @@ Game.prototype.movePlayerLeft = function () {
     if (this.activePlayer.location.x > 0) {
         if (isPlayerOnAvailableSquares && this.moves > 0 && (!(this.chartBoard[y][x - 1] instanceof Obstacle)) && this.activePlayer.location.x !== 0 && this.chartBoard[y][x - 1] !== this.waitingPlayer) {
             this.dropWeapon();
-            this.checkIfPlayerAdjacent();
             this.activePlayer.location.x -= 1;
             this.walkOnWeapon();
             this.chartBoard[y][x - 1] = this.activePlayer;
+            this.checkIfPlayerAdjacent();
             this.moves--;
         }
     } else {
         if (isPlayerOnAvailableSquares && this.moves > 0 && this.activePlayer.location.x !== 0) {
             this.dropWeapon();
-            this.checkIfPlayerAdjacent();
             this.activePlayer.location.x -= 1;
             this.walkOnWeapon();
             this.chartBoard[y][x - 1] = this.activePlayer;
+            this.checkIfPlayerAdjacent();
             this.moves--;
         }
     }
@@ -538,19 +538,19 @@ Game.prototype.movePlayerUp = function () {
     if (this.activePlayer.location.y > 0) {
         if (isPlayerOnAvailableSquares && this.moves > 0 && (!(this.chartBoard[y - 1][x] instanceof Obstacle)) && this.activePlayer.location.y !== 0 && this.chartBoard[y - 1][x] !== this.waitingPlayer) {
             this.dropWeapon();
-            this.checkIfPlayerAdjacent();
             this.activePlayer.location.y -= 1;
             this.walkOnWeapon();
             this.chartBoard[y - 1][x] = this.activePlayer;
+            this.checkIfPlayerAdjacent();
             this.moves--;
         }
     } else {
         if (isPlayerOnAvailableSquares && this.moves > 0 && this.activePlayer.location.y !== 0) {
             this.dropWeapon();
-            this.checkIfPlayerAdjacent();
             this.activePlayer.location.y -= 1;
             this.walkOnWeapon();
             this.chartBoard[y - 1][x] = this.activePlayer;
+            this.checkIfPlayerAdjacent();
             this.moves--;
         }
     }
@@ -566,19 +566,19 @@ Game.prototype.movePlayerRight = function () {
     if (this.activePlayer.location.x < 9) {
         if (isPlayerOnAvailableSquares && this.moves > 0 && (!(this.chartBoard[y][x + 1] instanceof Obstacle)) && this.activePlayer.location.x !== 9 && this.chartBoard[y][x + 1] !== this.waitingPlayer) {
             this.dropWeapon();
-            this.checkIfPlayerAdjacent();
             this.activePlayer.location.x += 1;
             this.walkOnWeapon();
             this.chartBoard[y][x + 1] = this.activePlayer;
+            this.checkIfPlayerAdjacent();
             this.moves--;
         }
     } else {
         if (isPlayerOnAvailableSquares && this.moves > 0 && this.activePlayer.location.x !== 9) {
             this.dropWeapon();
-            this.checkIfPlayerAdjacent();
             this.activePlayer.location.x += 1;
             this.walkOnWeapon();
             this.chartBoard[y][x + 1] = this.activePlayer;
+            this.checkIfPlayerAdjacent();
             this.moves--;
         }
     }
@@ -594,19 +594,19 @@ Game.prototype.movePlayerDown = function () {
     if (this.activePlayer.location.y < 9) {
         if (isPlayerOnAvailableSquares && this.moves > 0 && (!(this.chartBoard[y + 1][x] instanceof Obstacle)) && this.activePlayer.location.y !== 9 && this.chartBoard[y + 1][x] !== this.waitingPlayer) {
             this.dropWeapon();
-            this.checkIfPlayerAdjacent();
             this.activePlayer.location.y += 1;
             this.walkOnWeapon();
             this.chartBoard[y + 1][x] = this.activePlayer;
+            this.checkIfPlayerAdjacent();
             this.moves--;
         }
     } else {
         if (isPlayerOnAvailableSquares && this.moves > 0 && this.activePlayer.location.y !== 9) {
             this.dropWeapon();
-            this.checkIfPlayerAdjacent();
             this.activePlayer.location.y += 1;
             this.walkOnWeapon();
             this.chartBoard[y + 1][x] = this.activePlayer;
+            this.checkIfPlayerAdjacent();
             this.moves--;
         }
     }
@@ -649,39 +649,63 @@ Game.prototype.checkIfPlayerAdjacent = function () {
     const x = this.activePlayer.location.x;
     const y = this.activePlayer.location.y;
 
-    if (this.activePlayer.location.x === 0 && this.activePlayer.location.y === 1) {
-        if (this.chartBoard[y - 1][x] === this.waitingPlayer || this.chartBoard[y][x + 1] === this.waitingPlayer || this.chartBoard[y + 1][x] === this.waitingPlayer) {
-            this.isFighting = true;
+    if (this.activePlayer.location.x === 0) {
+        if (this.activePlayer.location.y === 0) {
+            if (this.chartBoard[y][x + 1] === this.waitingPlayer || this.chartBoard[y + 1][x] === this.waitingPlayer) {
+                this.isFighting = true;
+            }
+        } else if (this.activePlayer.location.y === 9) {
+            if (this.chartBoard[y][x + 1] === this.waitingPlayer || this.chartBoard[y - 1][x] === this.waitingPlayer) {
+                this.isFighting = true;
+            }
+        } else {
+            if (this.chartBoard[y][x + 1] === this.waitingPlayer || this.chartBoard[y - 1][x] === this.waitingPlayer || this.chartBoard[y + 1][x] === this.waitingPlayer) {
+                this.isFighting = true;
+            }
         }
-    } else if (this.activePlayer.location.x === 9 && this.activePlayer.location.y === 8) {
-        if (this.chartBoard[y][x - 1] === this.waitingPlayer || this.chartBoard[y - 1][x] === this.waitingPlayer || this.chartBoard[y + 1][x] === this.waitingPlayer) {
-            this.isFighting = true;
+    } else if (this.activePlayer.location.x === 9) {
+        if (this.activePlayer.location.y === 0) {
+            if (this.chartBoard[y][x - 1] === this.waitingPlayer || this.chartBoard[y + 1][x] === this.waitingPlayer) {
+                this.isFighting = true;
+            }
+        } else if (this.activePlayer.location.y === 9) {
+             if (this.chartBoard[y][x - 1] === this.waitingPlayer || this.chartBoard[y - 1][x] === this.waitingPlayer) {
+                this.isFighting = true;
+            }      
+        } else {
+            if (this.chartBoard[y][x - 1] === this.waitingPlayer || this.chartBoard[y - 1][x] === this.waitingPlayer || this.chartBoard[y + 1][x] === this.waitingPlayer) {
+                this.isFighting = true;
+            }
         }
-    } else if (this.activePlayer.location.y === 0 && this.activePlayer.location.x === 8) {
-        if (this.chartBoard[y][x - 1] === this.waitingPlayer || this.chartBoard[y][x + 1] === this.waitingPlayer || this.chartBoard[y + 1][x] === this.waitingPlayer) {
-            this.isFighting = true;
+    } else if (this.activePlayer.location.y === 0) {
+        if (this.activePlayer.location.x === 0) {
+            if (this.chartBoard[y][x + 1] === this.waitingPlayer || this.chartBoard[y + 1][x] === this.waitingPlayer) {
+                this.isFighting = true;
+            }
+        } else if (this.activePlayer.location.x === 9) {
+           if (this.chartBoard[y][x - 1] === this.waitingPlayer || this.chartBoard[y + 1][x] === this.waitingPlayer) {
+                this.isFighting = true;
+            } 
+        } else {
+            if (this.chartBoard[y][x - 1] === this.waitingPlayer || this.chartBoard[y][x + 1] === this.waitingPlayer || this.chartBoard[y + 1][x] === this.waitingPlayer) {
+                this.isFighting = true;
+            }
         }
-    } else if (this.activePlayer.location.y === 9 && this.activePlayer.location.x === 1) {
-        if (this.chartBoard[y][x - 1] === this.waitingPlayer || this.chartBoard[y - 1][x] === this.waitingPlayer || this.chartBoard[y][x + 1] === this.waitingPlayer) {
-            this.isFighting = true;
+    } else if (this.activePlayer.location.y === 9) {
+        if (this.activePlayer.location.x === 0) {
+           if (this.chartBoard[y - 1][x] === this.waitingPlayer || this.chartBoard[y][x + 1] === this.waitingPlayer) {
+                this.isFighting = true;
+            } 
+        } else if (this.activePlayer.location.x === 9) {
+            if (this.chartBoard[y][x - 1] === this.waitingPlayer || this.chartBoard[y - 1][x] === this.waitingPlayer) {
+                this.isFighting = true;
+            } 
+        } else {
+            if (this.chartBoard[y][x - 1] === this.waitingPlayer || this.chartBoard[y - 1][x] === this.waitingPlayer || this.chartBoard[y][x + 1] === this.waitingPlayer) {
+                this.isFighting = true;
+            } 
         }
-    } else if (this.activePlayer.location.x === 0 && this.activePlayer.location.y === 0) {
-        if (this.chartBoard[y][x + 1] === this.waitingPlayer || this.chartBoard[y + 1][x] === this.waitingPlayer) {
-            this.isFighting = true;
-        }
-    } else if (this.activePlayer.location.x === 0 && this.activePlayer.location.y === 9) {
-        if (this.chartBoard[y - 1][x] === this.waitingPlayer || this.chartBoard[y][x + 1] === this.waitingPlayer) {
-            this.isFighting = true;
-        }
-    } else if (this.activePlayer.location.x === 9 && this.activePlayer.location.y === 0) {
-        if (this.chartBoard[y][x - 1] === this.waitingPlayer || this.chartBoard[y + 1][x] === this.waitingPlayer) {
-            this.isFighting = true;
-        }
-    } else if (this.activePlayer.location.x === 9 && this.activePlayer.location.y === 9) {
-        if (this.chartBoard[y][x - 1] === this.waitingPlayer || this.chartBoard[y - 1][x] === this.waitingPlayer) {
-            this.isFighting = true;
-        }
-    } else {
+    } else if (this.activePlayer.location.x !== 0 && this.activePlayer.location.x !== 9 && this.activePlayer.location.y !== 0 && this.activePlayer.location.y !== 9) {
         if (this.chartBoard[y][x - 1] === this.waitingPlayer || this.chartBoard[y - 1][x] === this.waitingPlayer || this.chartBoard[y][x + 1] === this.waitingPlayer || this.chartBoard[y + 1][x] === this.waitingPlayer) {
             this.isFighting = true;
         }
