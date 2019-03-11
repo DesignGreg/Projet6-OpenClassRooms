@@ -295,6 +295,7 @@ Board.prototype.showEndGame = function (player1) {
             $(this).css('visibility', 'hidden');
         });
         
+        $('.end-game-Michael').addClass('animated rollIn');
         $('.end-game-Michael').css('display', 'block');
         
 //        $('.canvas-side--right').removeClass('col-6 col-sm-6 col-md-3 col-lg-3 col-xl-3');
@@ -307,6 +308,7 @@ Board.prototype.showEndGame = function (player1) {
             $(this).css('visibility', 'hidden');
         });
         
+        $('.end-game-Lucifer').addClass('animated rollIn');
         $('.end-game-Lucifer').css('display', 'block');
         
 //        $('.canvas-side--left').removeClass('col-6 col-sm-6 col-md-3 col-lg-3 col-xl-3');

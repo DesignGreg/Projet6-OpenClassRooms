@@ -59,6 +59,14 @@ html {
 /*    overflow-y: hidden;*/
 }
 
+html {
+    -ms-overflow-style: none;
+    overflow: -moz-scrollbars-none;
+}
+html::-webkit-scrollbar { 
+    display: none;
+}
+
 body{
     
     background: linear-gradient(rgba(0,0,0,0.8), rgba(0, 0, 0, 0.3)), url(../assets/fallenangel.jpg);
