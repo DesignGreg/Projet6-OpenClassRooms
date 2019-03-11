@@ -765,9 +765,4 @@ Game.prototype.endGame = function () {
     if (this.waitingPlayer.health <= 0) {
         this.end = true;
     }
-
-    // Les valeurs affichées à l'écran du joueur perdant disparaissent, et celles du joueur gagnant clignote quelques secondes, avant que le DOM redémarre
-
-    // Appeler une fonction de Board pour mettre à jour le DOM, afficher à nouveau le bouton Start et les règles du jeu, pour permettre de relancer une partie
-
 }

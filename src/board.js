@@ -38,6 +38,8 @@ function Board(width, height) {
     this.game.switchTurn();
     this.showActivePlayer(this.game.getActivePlayer());
     this.showAvailableMovement(this.game.getAvailableSquares(), this.game.getActivePlayer());
+
+    console.log(this.game.end);
 }
 
 
@@ -151,8 +153,9 @@ Board.prototype.hideStartButton = function () {
 };
 
 // A LA FIN DE LA PARTIE
-Board.prototype.showStartButton = function () {
-    $('#start').css('visibility', 'visible');
+Board.prototype.showReloadButton = function () {
+    $('#start').css('display', 'none');
+    $('#reload').css('display', 'inline-block');
 };
 
 
@@ -215,9 +218,11 @@ Board.prototype.initEventListener = function () {
             this.game.incrementTurn();
             this.game.switchTurn();
             this.scanBoardToSetImages();
+            e.stopPropagation();
         } else if (e.which == 13 && this.game.isFighting === true && this.game.waitingPlayer.health <= 0 && this.game.end === true) {
             this.game.endGame();
             this.showEndGame(this.game.getPlayer1());
+            e.stopPropagation();
         }
     });
 
@@ -277,6 +282,12 @@ Board.prototype.initEventListener = function () {
             e.stopPropagation();
         }
     });
+
+    $(document).ready(() => {
+        $('#reload').click(function () {
+            location.reload();
+        });
+    });
 };
 
 Board.prototype.showEndGame = function (player1) {
@@ -294,11 +305,11 @@ Board.prototype.showEndGame = function (player1) {
         $('.canvas-side--left').on('animationend', function () {
             $(this).css('visibility', 'hidden');
         });
-        
+
+        this.showReloadButton();
+
         $('.end-game-Michael').addClass('animated rollIn');
         $('.end-game-Michael').css('display', 'block');
-        
-//        $('.canvas-side--right').removeClass('col-6 col-sm-6 col-md-3 col-lg-3 col-xl-3');
 
     } else {
         $('.canvas-side--right').removeClass('animated slideInRight');
@@ -307,12 +318,37 @@ Board.prototype.showEndGame = function (player1) {
         $('.canvas-side--right').on('animationend', function () {
             $(this).css('visibility', 'hidden');
         });
-        
+
+        this.showReloadButton();
+
         $('.end-game-Lucifer').addClass('animated rollIn');
         $('.end-game-Lucifer').css('display', 'block');
-        
-//        $('.canvas-side--left').removeClass('col-6 col-sm-6 col-md-3 col-lg-3 col-xl-3');
     }
-//    $('.end-game-container').removeClass('row');
-//    $('.end-game-container').css('margin', '0 auto');
 };
+
+Board.prototype.reloadGame = function () {
+
+};
+
+
+// Utile si redémarrer une partie sans Refresh
+
+//Board.prototype.hideEndGame = function () {   
+//    $('#board').removeClass('animated rollOut');
+//    $('#board').on('animationend', function () {
+//        $(this).css('display', 'block');
+//    });
+//    
+//    $('.canvas-side--left').removeClass('animated zoomOutLeft');
+//    $('.canvas-side--left').on('animationend', function () {
+//            $(this).css('visibility', 'visible');
+//        });
+//    
+//    $('.canvas-side--right').removeClass('animated zoomOutRight');
+//    $('.canvas-side--right').on('animationend', function () {
+//            $(this).css('visibility', 'visible');
+//        });
+//    
+//    $('.end-game-Michael').css('display', 'none');
+//    $('.end-game-Lucifer').css('display', 'none');
+//};

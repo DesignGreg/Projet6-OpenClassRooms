@@ -174,3 +174,7 @@ body{
 .end-game-Michael {
     display: none;
 }
+
+#reload {
+    display: none;
+}
