@@ -143,9 +143,9 @@ Board.prototype.moveInfoPlayers = function () {
 };
 
 Board.prototype.displayInfoPlayers = function (player1, player2) {
-    $(".canvas-side--left").html("<h2 class='canvas-side--title canvas-side--left__title'>" + player1.name + "<img class='canvas-side--left__image' src='../assets/joueur1.png'>" + "</h2><p class='canvas-side--health'>" + 'Santé' + ' (' + player1.health + ')' + "</p><p class='canvas-side--weapon'>" + player1.weapon.name + ' (' + player1.weapon.damage + ')' + "</p><p class='canvas-side--order'>" + player1.order + "</p>");
+    $(".canvas-side--left").html("<h2 class='canvas-side--title canvas-side--left__title'>" + player1.name + "<img class='canvas-side--left__image' src='../assets/joueur1.png'>" + "</h2><p class='canvas-side--health'>" + 'Santé' + ' (' + player1.health + ')' + "</p><p class='canvas-side--weapon'>" + player1.weapon.name + ' (' + player1.weapon.damage + ')' + "</p><p class='canvas-side--order'>" + player1.order + "</p><p class='canvas-side--text'>Entrée = Passer un tour</p><p class='canvas-side--text'>Touches fléchées = déplacement</p><p class='canvas-side--text'>A = attaquer</p><p class='canvas-side--text'>D = se défendre</p>");
 
-    $(".canvas-side--right").html("<h2 class='canvas-side--title canvas-side--right__title'>" + player2.name + "<img class='canvas-side--right__image' src='../assets/joueur2.png'>" + "</h2><p class='canvas-side--health'>" + 'Santé' + ' (' + player2.health + ')' + "</p><p class='canvas-side--weapon'>" + player2.weapon.name + ' (' + player2.weapon.damage + ')' + "</p><p class='canvas-side--order'>" + player2.order + "</p>");
+    $(".canvas-side--right").html("<h2 class='canvas-side--title canvas-side--right__title'>" + player2.name + "<img class='canvas-side--right__image' src='../assets/joueur2.png'>" + "</h2><p class='canvas-side--health'>" + 'Santé' + ' (' + player2.health + ')' + "</p><p class='canvas-side--weapon'>" + player2.weapon.name + ' (' + player2.weapon.damage + ')' + "</p><p class='canvas-side--order'>" + player2.order + "</p><p class='canvas-side--text'>Entrée = Passer un tour</p><p class='canvas-side--text'>Touches fléchées = déplacement</p><p class='canvas-side--text'>A = attaquer</p><p class='canvas-side--text'>D = se défendre</p>");
 };
 
 Board.prototype.hideStartButton = function () {
@@ -227,7 +227,7 @@ Board.prototype.initEventListener = function () {
     });
 
     $(document).on('keydown', (e) => {
-        if (e.which == 37 && this.game.isFighting === false && this.game.end === false) {
+        if (e.which == 37 && this.game.isFighting === false && this.game.end === false && this.game.moveLeft) {
             this.game.movePlayerLeft();
             this.scanBoardToSetImages();
             this.showAvailableMovement(this.game.getAvailableSquares(), this.game.getActivePlayer());
@@ -235,7 +235,7 @@ Board.prototype.initEventListener = function () {
             this.showActivePlayer(this.game.getActivePlayer());
             e.stopPropagation();
         }
-        if (e.which == 38 && this.game.isFighting === false && this.game.end === false) {
+        if (e.which == 38 && this.game.isFighting === false && this.game.end === false && this.game.moveUp) {
             this.game.movePlayerUp();
             this.scanBoardToSetImages();
             this.showAvailableMovement(this.game.getAvailableSquares(), this.game.getActivePlayer());
@@ -243,7 +243,7 @@ Board.prototype.initEventListener = function () {
             this.showActivePlayer(this.game.getActivePlayer());
             e.stopPropagation();
         }
-        if (e.which == 39 && this.game.isFighting === false && this.game.end === false) {
+        if (e.which == 39 && this.game.isFighting === false && this.game.end === false && this.game.moveRight) {
             this.game.movePlayerRight();
             this.scanBoardToSetImages();
             this.showAvailableMovement(this.game.getAvailableSquares(), this.game.getActivePlayer());
@@ -251,7 +251,7 @@ Board.prototype.initEventListener = function () {
             this.showActivePlayer(this.game.getActivePlayer());
             e.stopPropagation();
         }
-        if (e.which == 40 && this.game.isFighting === false && this.game.end === false) {
+        if (e.which == 40 && this.game.isFighting === false && this.game.end === false && this.game.moveDown) {
             this.game.movePlayerDown();
             this.scanBoardToSetImages();
             this.showAvailableMovement(this.game.getAvailableSquares(), this.game.getActivePlayer());

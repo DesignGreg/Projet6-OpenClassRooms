@@ -165,6 +165,12 @@ body{
 .canvas-side--order {
     color: white;
     font-size: 20px;
+    padding-bottom: 20px;
+}
+
+.canvas-side--text {
+    color: white;
+    font-size: 16px;
 }
 
 .end-game-Lucifer {

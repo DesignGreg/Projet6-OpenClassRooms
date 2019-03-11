@@ -23,6 +23,11 @@ function Game(width, height) {
     this.availableSquaresY = [];
     // Un tableau joint pour simplifier la gestion de l'affichage des cases disponibles
     this.availableSquares = [];
+    // Pour empêcher retour arrière
+    this.moveLeft = true;
+    this.moveUp = true;
+    this.moveRight = true;
+    this.moveDown = true;
 
     this.forbiddenPosition = [];
 
@@ -247,6 +252,13 @@ Game.prototype.setTurnMovesValue = function (value) {
     this.moves = value;
 };
 
+Game.prototype.resetMovement = function () {
+    this.moveLeft = true;
+    this.moveUp = true;
+    this.moveRight = true;
+    this.moveDown = true;
+};
+
 Game.prototype.switchTurn = function () {
 
     if (this.turnNumber % 2 === 0) {
@@ -257,6 +269,7 @@ Game.prototype.switchTurn = function () {
 
         this.checkAvailableSquaresX();
         this.checkAvailableSquaresY();
+        this.resetMovement();
 
     } else if (this.turnNumber % 2 === 1) {
         this.activePlayer = this.player2;
@@ -266,8 +279,9 @@ Game.prototype.switchTurn = function () {
 
         this.checkAvailableSquaresX(location);
         this.checkAvailableSquaresY();
-
+        this.resetMovement();
     }
+    
     this.setTurnMovesValue(3);
     this.setCombatMovesValue(1);
     this.setCombatStance();
@@ -308,7 +322,7 @@ Game.prototype.checkAvailableSquaresX = function () {
 
         if (minusX3 >= 0) {
             // Regarde si la case jusqu'à -3, est une instance de l'objet Player ou Obstacle
-            if (!(this.chartBoard[y][x] instanceof Obstacle)) {
+            if (!(this.chartBoard[y][x] instanceof Player || this.chartBoard[y][x] instanceof Obstacle)) {
                 this.availableSquaresX.unshift([x, this.activePlayer.location.y]);
                 // Arrête la boucle la case est une l'autre joueur ou une instance d'Obstacle
             } else if (this.chartBoard[y][x] === this.waitingPlayer || this.chartBoard[y][x] instanceof Obstacle) {
@@ -328,7 +342,7 @@ Game.prototype.checkAvailableSquaresX = function () {
     for (let x = this.activePlayer.location.x; x <= plusX3; x++) {
 
         if (plusX3 <= 9) {
-            if (!(this.chartBoard[y][x] instanceof Obstacle)) {
+            if (!(this.chartBoard[y][x] instanceof Player || this.chartBoard[y][x] instanceof Obstacle)) {
                 this.availableSquaresX.push([x, this.activePlayer.location.y]);
             } else if (this.chartBoard[y][x] === this.waitingPlayer || this.chartBoard[y][x] instanceof Obstacle) {
                 break;
@@ -343,7 +357,8 @@ Game.prototype.checkAvailableSquaresX = function () {
             }
         }
     }
-
+    
+    this.addPlayerLocationToArray(this.availableSquaresX);
     return this.availableSquaresX;
 };
 
@@ -377,7 +392,7 @@ Game.prototype.checkAvailableSquaresY = function () {
     for (let y = this.activePlayer.location.y; y >= minusY3; y--) {
 
         if (minusY3 >= 0) {
-            if (!(this.chartBoard[y][x] instanceof Obstacle)) {
+            if (!(this.chartBoard[y][x] instanceof Player || this.chartBoard[y][x] instanceof Obstacle)) {
                 this.availableSquaresY.unshift([this.activePlayer.location.x, y]);
             } else if (this.chartBoard[y][x] === this.waitingPlayer || this.chartBoard[y][x] instanceof Obstacle) {
                 break;
@@ -396,7 +411,7 @@ Game.prototype.checkAvailableSquaresY = function () {
     for (let y = this.activePlayer.location.y; y <= plusY3; y++) {
 
         if (plusY3 <= 9) {
-            if (!(this.chartBoard[y][x] instanceof Obstacle)) {
+            if (!(this.chartBoard[y][x] instanceof Player || this.chartBoard[y][x] instanceof Obstacle)) {
                 this.availableSquaresY.push([this.activePlayer.location.x, y]);
             } else if (this.chartBoard[y][x] === this.waitingPlayer || this.chartBoard[y][x] instanceof Obstacle) {
                 break;
@@ -412,35 +427,35 @@ Game.prototype.checkAvailableSquaresY = function () {
         }
     }
 
+    this.addPlayerLocationToArray(this.availableSquaresY);
     this.concatAvailableSquaresArrays();
+    
     return this.availableSquaresY;
 };
 
+
 // Pour pusher la position de activePlayer dans le tableau de cases disponibles. Plus utilisée.
-//Game.prototype.addPlayerLocationToArray = function (array) {
-//    const locationPlayer = [];
-//    locationPlayer.push([this.activePlayer.location.x, this.activePlayer.location.y]);
-//
-//    // Pour intégrer l'emplacement du joueur si pas déjà dans le tableau de cases disponibles. Donc parfois des doublons
-//    if (!(array.some(a => a.toString() === locationPlayer.toString()))) {
-//        array.push([this.activePlayer.location.x, this.activePlayer.location.y]);
-//    };
-//};
+Game.prototype.addPlayerLocationToArray = function (array) {
+    const locationPlayer = [];
+    locationPlayer.push([this.activePlayer.location.x, this.activePlayer.location.y]);
+
+    // Pour intégrer l'emplacement du joueur si pas déjà dans le tableau de cases disponibles. Donc parfois des doublons
+    if (!(array.some(a => a.toString() === locationPlayer.toString()))) {
+        array.push([this.activePlayer.location.x, this.activePlayer.location.y]);
+    };
+};
 
 // Utilisée pour afficher les cases disponibles au mouvement, pas pour gérer le mouvement directement
 Game.prototype.concatAvailableSquaresArrays = function () {
     this.availableSquares = this.availableSquaresX.concat(this.availableSquaresY);
     console.log(this.availableSquaresX);
     console.log(this.availableSquaresY);
-    console.log(this.availableSquares);
 };
 
 // Pour comparer l'emplacement du joueur aux cases disponibles, qu'il ne se déplace que parmi ces cases
 Game.prototype.isCompareLocationPlayerToArray = function (array) {
     const locationPlayer = [];
     locationPlayer.push([this.activePlayer.location.x, this.activePlayer.location.y]);
-
-    console.log(locationPlayer);
 
     return array.some(a => a.toString() === locationPlayer.toString());
 }
@@ -515,8 +530,12 @@ Game.prototype.movePlayerLeft = function () {
             this.chartBoard[y][x - 1] = this.activePlayer;
             this.checkIfPlayerAdjacent();
             this.moves--;
+            this.moveUp = false;
+            this.moveRight = false;
+            this.moveDown = false;
         }
     } else {
+        // Si le joueur est sur 0 et pour l'empêcher de sortir du plateau
         if (isPlayerOnAvailableSquares && this.moves > 0 && this.activePlayer.location.x !== 0) {
             this.dropWeapon();
             this.activePlayer.location.x -= 1;
@@ -524,6 +543,9 @@ Game.prototype.movePlayerLeft = function () {
             this.chartBoard[y][x - 1] = this.activePlayer;
             this.checkIfPlayerAdjacent();
             this.moves--;
+            this.moveUp = false;
+            this.moveRight = false;
+            this.moveDown = false;
         }
     }
 };
@@ -543,6 +565,9 @@ Game.prototype.movePlayerUp = function () {
             this.chartBoard[y - 1][x] = this.activePlayer;
             this.checkIfPlayerAdjacent();
             this.moves--;
+            this.moveLeft = false;
+            this.moveRight = false;
+            this.moveDown = false;
         }
     } else {
         if (isPlayerOnAvailableSquares && this.moves > 0 && this.activePlayer.location.y !== 0) {
@@ -552,6 +577,9 @@ Game.prototype.movePlayerUp = function () {
             this.chartBoard[y - 1][x] = this.activePlayer;
             this.checkIfPlayerAdjacent();
             this.moves--;
+            this.moveLeft = false;
+            this.moveRight = false;
+            this.moveDown = false;
         }
     }
 };
@@ -571,6 +599,9 @@ Game.prototype.movePlayerRight = function () {
             this.chartBoard[y][x + 1] = this.activePlayer;
             this.checkIfPlayerAdjacent();
             this.moves--;
+            this.moveLeft = false;
+            this.moveUp = false;
+            this.moveDown = false;
         }
     } else {
         if (isPlayerOnAvailableSquares && this.moves > 0 && this.activePlayer.location.x !== 9) {
@@ -580,6 +611,9 @@ Game.prototype.movePlayerRight = function () {
             this.chartBoard[y][x + 1] = this.activePlayer;
             this.checkIfPlayerAdjacent();
             this.moves--;
+            this.moveLeft = false;
+            this.moveUp = false;
+            this.moveDown = false;
         }
     }
 };
@@ -599,6 +633,9 @@ Game.prototype.movePlayerDown = function () {
             this.chartBoard[y + 1][x] = this.activePlayer;
             this.checkIfPlayerAdjacent();
             this.moves--;
+            this.moveLeft = false;
+            this.moveUp = false;
+            this.moveRight = false;
         }
     } else {
         if (isPlayerOnAvailableSquares && this.moves > 0 && this.activePlayer.location.y !== 9) {
@@ -608,6 +645,9 @@ Game.prototype.movePlayerDown = function () {
             this.chartBoard[y + 1][x] = this.activePlayer;
             this.checkIfPlayerAdjacent();
             this.moves--;
+            this.moveLeft = false;
+            this.moveUp = false;
+            this.moveRight = false;
         }
     }
 };
