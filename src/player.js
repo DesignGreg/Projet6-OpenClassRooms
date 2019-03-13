@@ -5,6 +5,7 @@ function Player(name, health, weapon) {
     this.health = health;
 
     this.weapon = weapon;
+    // Pour stocker l'arme en trop qui sera replacer sur la case au prochain tour
     this.secondaryWeapon = {};
     this.attack = false;
     this.defend = false;

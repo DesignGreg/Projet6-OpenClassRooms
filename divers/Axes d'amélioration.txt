@@ -1,0 +1,9 @@
+- Ne pas avoir besoin de pusher l'emplacement du joueur pour gérer les déplacements.
+Ou ajouter un deuxième tableau (initialLocation) qui est aussi vérifié lors du déplacement, et ainsi éviter les doublons.
+
+- Utiliser un seul tableau de cases disponibles pour la gestion des déplacements. Donc ne pas avoir deux tableaux pour X et Y.
+
+- Factoriser les quatre fonctions de déplacement afin de respecter le principe DRY.
+
+- Ne pas avoir besoin de rafraîchir la page quand on relance le jeu.
+Pouvoir purger le DOM à la place.
